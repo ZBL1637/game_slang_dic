@@ -34,9 +34,9 @@ function createGameSentimentCharts() {
     `;
     
     const sentimentColors = {
-        '中性': '#752AEE',    // 主紫色
-        '正面': '#A78BFA',    // 浅紫色
-        '负面': '#5B21B6'     // 深紫色
+        '中性': '#7F0056',    // 清华紫主色调
+        '正面': '#A6006B',    // 浅紫色
+        '负面': '#5A003D'     // 深紫色
     };
     
     Object.entries(sentimentColors).forEach(([label, color]) => {

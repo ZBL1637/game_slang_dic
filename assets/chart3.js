@@ -119,9 +119,9 @@ function createTermSentimentRadarChart() {
         },
         legend: {
             data: [
-                {name: '中性', itemStyle: {color: '#752AEE'}},
-                {name: '正面', itemStyle: {color: '#A78BFA'}},
-                {name: '负面', itemStyle: {color: '#5B21B6'}}
+                {name: '中性', itemStyle: {color: '#7F0056'}},
+                {name: '正面', itemStyle: {color: '#A6006B'}},
+                {name: '负面', itemStyle: {color: '#5A003D'}}
             ],
             top: 60,
             left: 'center',
@@ -170,14 +170,14 @@ function createTermSentimentRadarChart() {
                 value: neutralData,
                 name: '中性',
                 itemStyle: {
-                    color: '#752AEE'
+                    color: '#7F0056'
                 },
                 lineStyle: {
-                    color: '#752AEE',
+                    color: '#7F0056',
                     width: 4
                 },
                 areaStyle: {
-                    color: 'rgba(117, 42, 238, 0.25)'
+                    color: 'rgba(127, 0, 86, 0.25)'
                 }
             }],
             symbol: 'circle',
@@ -189,14 +189,14 @@ function createTermSentimentRadarChart() {
                 value: positiveData,
                 name: '正面',
                 itemStyle: {
-                    color: '#A78BFA'
+                    color: '#A6006B'
                 },
                 lineStyle: {
-                    color: '#A78BFA',
+                    color: '#A6006B',
                     width: 4
                 },
                 areaStyle: {
-                    color: 'rgba(167, 139, 250, 0.25)'
+                    color: 'rgba(166, 0, 107, 0.25)'
                 }
             }],
             symbol: 'diamond',
@@ -208,14 +208,14 @@ function createTermSentimentRadarChart() {
                 value: negativeData,
                 name: '负面',
                 itemStyle: {
-                    color: '#5B21B6'
+                    color: '#5A003D'
                 },
                 lineStyle: {
-                    color: '#5B21B6',
+                    color: '#5A003D',
                     width: 4
                 },
                 areaStyle: {
-                    color: 'rgba(91, 33, 182, 0.25)'
+                    color: 'rgba(90, 0, 61, 0.25)'
                 }
             }],
             symbol: 'triangle',
