@@ -111,6 +111,64 @@
             color: var(--primary-purple);
         }
 
+        /* Lang Toggle - themed pill switch */
+        .lang-toggle {
+            appearance: none;
+            border: 1px solid rgba(127, 0, 86, 0.35);
+            background: rgba(127, 0, 86, 0.12);
+            color: var(--white);
+            padding: 8px 18px 8px 34px; /* 留出图标空间 */
+            border-radius: 999px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            position: relative;
+            cursor: pointer;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.08s ease;
+            backdrop-filter: saturate(140%) blur(6px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255,255,255,0.06);
+        }
+
+        .lang-toggle::after {
+            content: '🌐';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .lang-toggle::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: calc(50% - 6px);
+            height: calc(100% - 6px);
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(127,0,86,0.35), rgba(166,0,107,0.35));
+            box-shadow: 0 0 0 1px rgba(127,0,86,0.35) inset, 0 8px 16px rgba(127,0,86,0.18);
+            transition: left 0.25s ease, background 0.25s ease;
+        }
+
+        html[lang="en"] .lang-toggle::before {
+            left: calc(50% + 3px);
+        }
+
+        .lang-toggle:hover {
+            border-color: var(--primary-purple);
+            box-shadow: 0 0 0 3px rgba(127,0,86,0.22), 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .lang-toggle:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(127,0,86,0.28);
+        }
+
+        .lang-toggle:active {
+            transform: translateY(1px);
+        }
+
         /* Hero Section */
         .hero {
             height: 100vh;
