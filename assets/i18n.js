@@ -40,6 +40,7 @@
     stats: {
       slangs: { zh: '黑话词汇', en: 'Slang Terms' },
       gamers: { zh: '游戏玩家', en: 'Gamers' },
+      gamersValue: { zh: '6亿+', en: '600M+' },
       years: { zh: '年演变', en: 'Years of Evolution' }
     },
     sections: {
@@ -93,7 +94,12 @@
         '行为类': { zh: '行为类', en: 'Behavior' },
         '跨游戏通用语': { zh: '跨游戏通用语', en: 'Cross-game Common Terms' },
         // chart4 使用的简化“物品类”标签
-        '物品类': { zh: '物品类', en: 'Items' }
+        '物品类': { zh: '物品类', en: 'Items' },
+        // 游戏类型分类（用于选择器与标签）
+        '大逃杀': { zh: '大逃杀', en: 'Battle Royale' },
+        '动作游戏': { zh: '动作游戏', en: 'Action' },
+        '沙盒游戏': { zh: '沙盒游戏', en: 'Sandbox' },
+        '策略游戏': { zh: '策略游戏', en: 'Strategy' }
       },
       games: {
         '英雄联盟': { zh: '英雄联盟', en: 'League of Legends' },

@@ -2236,7 +2236,7 @@
                 <span class="stat-label" data-i18n="stats.slangs">黑话词汇</span>
             </div>
             <div class="stat">
-                <span class="stat-number">6亿+</span>
+                <span class="stat-number" data-i18n="stats.gamersValue">6亿+</span>
                 <span class="stat-label" data-i18n="stats.gamers">游戏玩家</span>
             </div>
             <div class="stat">
@@ -3229,7 +3229,8 @@
             // 添加分组选项
             Object.keys(gamesByCategory).forEach(categoryKey => {
                 const categoryConfig = gameCategories[categoryKey];
-                const categoryName = categoryConfig ? categoryConfig.name : categoryKey;
+                const categoryNameRaw = categoryConfig ? categoryConfig.name : categoryKey;
+                const categoryName = (window.i18n && i18n.tCategory) ? i18n.tCategory(categoryNameRaw) : categoryNameRaw;
 
                 // 创建分组标题
                 const optgroup = document.createElement('optgroup');
@@ -3308,7 +3309,8 @@
                 card.style.borderColor = item.color || GAME_CONFIG.COLORS.primary;
                 // 获取游戏类型信息
                 const gameConfig = gameDataConfig[item.game];
-                const categoryName = gameConfig && gameConfig.category ? gameCategories[gameConfig.category]?.name || gameConfig.category : '未知类型';
+                const categoryNameRaw = gameConfig && gameConfig.category ? gameCategories[gameConfig.category]?.name || gameConfig.category : '未知类型';
+                const categoryName = (window.i18n && i18n.tCategory) ? i18n.tCategory(categoryNameRaw) : categoryNameRaw;
                 const categoryColor = gameConfig && gameConfig.category ? gameCategories[gameConfig.category]?.color || item.color : GAME_CONFIG.COLORS.primary;
 
                 card.innerHTML = `
@@ -3835,7 +3837,8 @@
                 popularGrid.innerHTML = popularSlangs.map(item => {
                     const gameLabel = item.game ? (() => {
                         const gameConfig = gameDataConfig[item.game];
-                        return gameConfig && gameConfig.category ? (gameCategories[gameConfig.category]?.name || gameConfig.category) : item.game;
+                        const labelRaw = gameConfig && gameConfig.category ? (gameCategories[gameConfig.category]?.name || gameConfig.category) : item.game;
+                        return (window.i18n && i18n.tCategory) ? i18n.tCategory(labelRaw) : labelRaw;
                     })() : (isEnglish ? 'General' : '综合');
 
                     const safeTerm = String(item.term).replace(/'/g, "\\'");
