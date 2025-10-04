@@ -280,7 +280,8 @@
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
       const text = t(key);
-      if (text) el.textContent = text;
+      // 仅当找到有效翻译时才覆盖，避免显示键名
+      if (text && text !== key) el.textContent = text;
     });
     // handle attributes: data-i18n-attr="attr:key"
     document.querySelectorAll('[data-i18n-attr]').forEach(el => {
