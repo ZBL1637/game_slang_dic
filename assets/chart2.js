@@ -20,7 +20,7 @@ function createGameSentimentCharts() {
         margin-bottom: 20px;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     `;
-    mainTitle.textContent = '游戏情感分布';
+    mainTitle.textContent = (window.i18n ? (i18n.getLang() === 'zh' ? '游戏情感分布' : 'Sentiment Distribution by Game') : '游戏情感分布');
     chartDom.appendChild(mainTitle);
     
     // 创建图例
@@ -61,7 +61,8 @@ function createGameSentimentCharts() {
             font-size: 14px;
             font-weight: 500;
         `;
-        labelText.textContent = label;
+        const displayLabel = window.i18n ? (label === '中性' ? i18n.t('charts.sentiment.neutral') : label === '正面' ? i18n.t('charts.sentiment.positive') : i18n.t('charts.sentiment.negative')) : label;
+        labelText.textContent = displayLabel;
         
         legendItem.appendChild(colorBox);
         legendItem.appendChild(labelText);
@@ -129,15 +130,15 @@ function createGameSentimentCharts() {
         
         // 准备饼图数据
         const pieData = [
-            { name: '中性', value: gameData.中性, itemStyle: { color: sentimentColors['中性'] } },
-            { name: '正面', value: gameData.正面, itemStyle: { color: sentimentColors['正面'] } },
-            { name: '负面', value: gameData.负面, itemStyle: { color: sentimentColors['负面'] } }
+            { name: (window.i18n ? i18n.t('charts.sentiment.neutral') : '中性'), value: gameData.中性, itemStyle: { color: sentimentColors['中性'] } },
+            { name: (window.i18n ? i18n.t('charts.sentiment.positive') : '正面'), value: gameData.正面, itemStyle: { color: sentimentColors['正面'] } },
+            { name: (window.i18n ? i18n.t('charts.sentiment.negative') : '负面'), value: gameData.负面, itemStyle: { color: sentimentColors['负面'] } }
         ];
         
         // 配置饼图选项
         const pieOption = {
             title: {
-                text: gameData.game,
+                text: (window.i18n ? i18n.tGame(gameData.game) : gameData.game),
                 left: 'center',
                 top: 'bottom',
                 textStyle: {
@@ -152,7 +153,7 @@ function createGameSentimentCharts() {
                 formatter: '{a} <br/>{b}: {c} ({d}%)'
             },
             series: [{
-                name: '情感分布',
+                name: (window.i18n ? (i18n.getLang() === 'zh' ? '情感分布' : 'Sentiment Distribution') : '情感分布'),
                 type: 'pie',
                 radius: ['25%', '55%'],
                 center: ['50%', '45%'],
@@ -233,5 +234,10 @@ function createGameSentimentCharts() {
         setTimeout(adjustContainerHeight, 100);
     });
 }
+
+// 语言切换时重新渲染
+window.addEventListener('languagechange', function(){
+  try { createGameSentimentCharts(); } catch(e){}
+});
 
 // 图表创建函数，需要手动调用

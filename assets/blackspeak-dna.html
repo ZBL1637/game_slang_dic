@@ -497,6 +497,23 @@
         </div>
     </div>
 
+    <script src="i18n.js"></script>
+    <script>
+      // 同步父页面语言（通过 localStorage storage 事件）
+      document.addEventListener('DOMContentLoaded', function(){
+        try {
+          const cached = localStorage.getItem('site_lang');
+          if (cached && window.i18n) {
+            i18n.setLang(cached);
+          }
+        } catch (e) {}
+        window.addEventListener('storage', function(e){
+          if (e.key === 'site_lang' && window.i18n){
+            i18n.setLang(e.newValue);
+          }
+        });
+      });
+    </script>
     <script src="blackspeak-dna.js"></script>
 </body>
 </html>

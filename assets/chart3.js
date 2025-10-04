@@ -6,6 +6,7 @@ function createTermSentimentRadarChart() {
         console.error('找不到chart3容器');
         return;
     }
+    chartDom.innerHTML = '';
     const myChart = echarts.init(chartDom);
     
     // 直接嵌入JSON数据
@@ -77,7 +78,7 @@ function createTermSentimentRadarChart() {
 
     // 提取类别名称作为雷达图指标
     const indicators = sentimentData.map(item => ({
-        name: item['术语类别'],
+        name: (window.i18n ? i18n.tCategory(item['术语类别']) : item['术语类别']),
         max: 1.0,
         axisLabel: {
             color: '#ffffff',
@@ -108,7 +109,7 @@ function createTermSentimentRadarChart() {
             }
         },
         title: {
-            text: '术语类别情感分布',
+            text: (window.i18n ? (i18n.getLang() === 'zh' ? '术语类别情感分布' : 'Sentiment by Category') : '术语类别情感分布'),
             left: 'center',
             top: 10,
             textStyle: {
@@ -119,9 +120,9 @@ function createTermSentimentRadarChart() {
         },
         legend: {
             data: [
-                {name: '中性', itemStyle: {color: '#7F0056'}},
-                {name: '正面', itemStyle: {color: '#A6006B'}},
-                {name: '负面', itemStyle: {color: '#5A003D'}}
+                {name: (window.i18n ? i18n.t('charts.sentiment.neutral') : '中性'), itemStyle: {color: '#7F0056'}},
+                {name: (window.i18n ? i18n.t('charts.sentiment.positive') : '正面'), itemStyle: {color: '#A6006B'}},
+                {name: (window.i18n ? i18n.t('charts.sentiment.negative') : '负面'), itemStyle: {color: '#5A003D'}}
             ],
             top: 60,
             left: 'center',
@@ -164,11 +165,11 @@ function createTermSentimentRadarChart() {
             }
         },
         series: [{
-            name: '中性',
+            name: (window.i18n ? i18n.t('charts.sentiment.neutral') : '中性'),
             type: 'radar',
             data: [{
                 value: neutralData,
-                name: '中性',
+                name: (window.i18n ? i18n.t('charts.sentiment.neutral') : '中性'),
                 itemStyle: {
                     color: '#7F0056'
                 },
@@ -183,11 +184,11 @@ function createTermSentimentRadarChart() {
             symbol: 'circle',
             symbolSize: 6
         }, {
-            name: '正面',
+            name: (window.i18n ? i18n.t('charts.sentiment.positive') : '正面'),
             type: 'radar',
             data: [{
                 value: positiveData,
-                name: '正面',
+                name: (window.i18n ? i18n.t('charts.sentiment.positive') : '正面'),
                 itemStyle: {
                     color: '#A6006B'
                 },
@@ -202,11 +203,11 @@ function createTermSentimentRadarChart() {
             symbol: 'diamond',
             symbolSize: 6
         }, {
-            name: '负面',
+            name: (window.i18n ? i18n.t('charts.sentiment.negative') : '负面'),
             type: 'radar',
             data: [{
                 value: negativeData,
-                name: '负面',
+                name: (window.i18n ? i18n.t('charts.sentiment.negative') : '负面'),
                 itemStyle: {
                     color: '#5A003D'
                 },
@@ -249,5 +250,10 @@ function createTermSentimentRadarChart() {
 
     return myChart;
 }
+
+// 语言切换时重新渲染
+window.addEventListener('languagechange', function(){
+  try { createTermSentimentRadarChart(); } catch(e){}
+});
 
 // 图表创建函数，需要手动调用

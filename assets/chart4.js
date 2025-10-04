@@ -13,9 +13,28 @@ function createMultiGameRadarCharts() {
     chartDom.style.flexDirection = 'column';
     chartDom.style.padding = '20px';
     
-    // 添加大标题
+    // 添加说明文字（位于标题上方，支持中英文切换）
+    const introElement = document.createElement('p');
+    const lang = (window.i18n ? i18n.getLang() : 'zh');
+    introElement.innerHTML = lang === 'zh'
+      ? '理解社交中的黑话，不只是“懂梗”，更是掌握群体沟通的关键：<span style="color:#A6006B;font-weight:600;">快速对齐信息、提升协作效率</span>；同时作为<span style="color:#A6006B;font-weight:600;">代际传播的桥梁</span>，让不同年龄的游戏玩家共享共同语言，缩短理解成本、降低沟通壁垒。<br/>借助站内的<span style="color:#A6006B;font-weight:600;">搜索与分类筛选</span>，你可以在具体案例中看到黑话如何在社区扩散并沉淀为文化密码，进而反哺现实社交与内容创作。'
+      : 'Understanding community slang is not just “getting the meme”—it is a communication accelerant: <span style="color:#A6006B;font-weight:600;">align information faster and collaborate better</span>. As a <span style="color:#A6006B;font-weight:600;">bridge across generations</span>, shared gaming vocabulary reduces effort and smooths conversations. <br/>With the site’s <span style="color:#A6006B;font-weight:600;">search and category filters</span>, you can see how slang spreads in communities, settles into cultural codes, and even informs real‑world socializing and content creation.';
+    introElement.style.color = 'var(--gray-200)';
+    introElement.style.textAlign = 'justify';
+    introElement.style.fontSize = '16px';
+    introElement.style.lineHeight = '1.8';
+    introElement.style.maxWidth = '1000px';
+    introElement.style.margin = '0 auto 22px auto';
+    introElement.style.padding = '16px 18px';
+    introElement.style.background = 'rgba(127, 0, 86, 0.06)';
+    introElement.style.borderLeft = '3px solid #7F0056';
+    introElement.style.borderRadius = '10px';
+    introElement.style.wordBreak = 'break-word';
+    chartDom.appendChild(introElement);
+    
+    // 添加大标题（根据语言切换）
     const titleElement = document.createElement('h2');
-    titleElement.textContent = '多游戏术语分类雷达图';
+    titleElement.textContent = (window.i18n ? (i18n.getLang() === 'zh' ? '多游戏术语分类雷达图' : 'Multi‑Game Term Category Radar') : '多游戏术语分类雷达图');
     titleElement.style.color = '#ffffff';
     titleElement.style.textAlign = 'center';
     titleElement.style.fontSize = '24px';
@@ -191,6 +210,10 @@ function createMultiGameRadarCharts() {
         }
     ];
 
+    // 类别标签（原始与显示）
+    const categoriesRaw = ['交流/指挥类','地图/副本类','机制类','物品类','玩家/群体标签','社交类/梗类','经济交易类','职业类','行为类','跨游戏通用语'];
+    const categoriesDisplay = (window.i18n ? categoriesRaw.map(c => i18n.tCategory(c)) : categoriesRaw);
+
     // 定义每个游戏的颜色 - 清华紫主题配色方案
     const gameColors = [
         '#7F0056', // CSGO - 清华紫主色
@@ -232,8 +255,8 @@ function createMultiGameRadarCharts() {
         // 初始化ECharts实例
         const gameChart = echarts.init(gameContainer);
         
-        // 准备当前游戏的数据
-        const values = categories.map(category => gameData[category] || 0);
+        // 准备当前游戏的数据（用原始中文键取值）
+        const values = categoriesRaw.map(category => gameData[category] || 0);
         const gameColor = gameColors[index % gameColors.length];
         
         // 计算当前游戏数据的最大值，并设置合适的雷达图最大值
@@ -241,7 +264,7 @@ function createMultiGameRadarCharts() {
         const radarMax = Math.ceil(maxValue * 1.2 * 10) / 10; // 增加20%的余量并保留一位小数
         
         // 为当前游戏准备雷达图指标
-        const gameIndicators = categories.map(category => ({
+        const gameIndicators = categoriesDisplay.map(category => ({
             name: category,
             max: radarMax
         }));
@@ -249,7 +272,7 @@ function createMultiGameRadarCharts() {
         // 配置单个游戏的雷达图选项
         const option = {
             title: {
-                text: gameData['游戏'],
+                text: (window.i18n ? i18n.tGame(gameData['游戏']) : gameData['游戏']),
                 left: 'center',
                 top: 5,
                 textStyle: {
@@ -311,7 +334,7 @@ function createMultiGameRadarCharts() {
                 type: 'radar',
                 data: [{
                     value: values,
-                    name: gameData['游戏'],
+                    name: (window.i18n ? i18n.tGame(gameData['游戏']) : gameData['游戏']),
                     itemStyle: {
                         color: gameColor
                     },
@@ -339,6 +362,11 @@ function createMultiGameRadarCharts() {
         });
     });
 }
+
+// 语言切换时重新渲染
+window.addEventListener('languagechange', function(){
+  try { createMultiGameRadarCharts(); } catch(e){}
+});
 
 // 创建容器HTML的辅助函数
 function createRadarChartsContainer() {

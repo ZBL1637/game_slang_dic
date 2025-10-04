@@ -6,6 +6,11 @@ function createTermDistributionChart() {
         console.error('找不到chart1容器');
         return;
     }
+    // 处置已存在的实例，避免重复与渲染异常
+    const existing = echarts.getInstanceByDom(chartDom);
+    if (existing) {
+        try { existing.dispose(); } catch(e) {}
+    }
     const myChart = echarts.init(chartDom);
     
     // 直接嵌入JSON数据
@@ -195,15 +200,17 @@ function createTermDistributionChart() {
     ];
 
     // 提取游戏名称和分类
-    const games = data.map(item => item['游戏'].replace('.xlsx', '')); // 移除可能的文件扩展名
+    const gamesRaw = data.map(item => item['游戏'].replace('.xlsx', ''));
+    const gamesDisplay = (window.i18n ? gamesRaw.map(n => i18n.tGame(n)) : gamesRaw);
 
     // 获取所有分类名称（除了游戏名称）
-    const categories = Object.keys(data[0]).filter(key => key !== '游戏');
+    const categoriesRaw = Object.keys(data[0]).filter(key => key !== '游戏');
+    const categoriesDisplay = (window.i18n ? categoriesRaw.map(c => i18n.tCategory(c)) : categoriesRaw);
 
-    // 构建分类数据
-    const categoryData = {};
-    categories.forEach(category => {
-        categoryData[category] = data.map(item => item[category] || 0);
+    // 构建分类数据（使用原始中文键索引，避免因翻译导致取值失败）
+    const categoryDataByRaw = {};
+    categoriesRaw.forEach(rawKey => {
+        categoryDataByRaw[rawKey] = data.map(item => item[rawKey] || 0);
     });
 
     // 定义颜色方案，适配清华紫主题风格
@@ -225,7 +232,7 @@ function createTermDistributionChart() {
     // 配置选项
     const option = {
         title: {
-            text: '游戏术语分类分布',
+            text: (window.i18n ? (i18n.getLang() === 'zh' ? '游戏术语分类分布' : 'Term Category Distribution') : '游戏术语分类分布'),
             left: 'center',
             top: 10,
             textStyle: {
@@ -272,8 +279,15 @@ function createTermDistributionChart() {
         },
         xAxis: {
             type: 'category',
-            data: games,
+            // 使用原始游戏键作为类目，避免语言切换时索引错位
+            data: gamesRaw,
             axisLabel: {
+                // 显示时翻译为英文/中文
+                formatter: function(value){
+                  try {
+                    return (window.i18n ? i18n.tGame(value) : value);
+                  } catch(e){ return value; }
+                },
                 rotate: 45,
                 fontSize: 11,
                 color: '#e5e7eb',
@@ -307,11 +321,26 @@ function createTermDistributionChart() {
                 }
             }
         },
-        series: categories.map((category, index) => ({
-            name: category,
+        legend: {
+            type: 'scroll',
+            orient: 'horizontal',
+            top: 40,
+            left: 'center',
+            itemWidth: 14,
+            itemHeight: 14,
+            textStyle: {
+                fontSize: 12,
+                color: '#f9fafb',
+                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+            },
+            // 明确指定图例项，避免语言切换时自动推断失效
+            data: categoriesDisplay
+        },
+    series: categoriesRaw.map((rawKey, index) => ({
+            name: categoriesDisplay[index],
             type: 'bar',
             stack: 'total',
-            data: categoryData[category],
+            data: categoryDataByRaw[rawKey],
             itemStyle: {
                 color: colors[index % colors.length]
             },
@@ -322,7 +351,7 @@ function createTermDistributionChart() {
     };
 
     // 设置配置并渲染图表
-    myChart.setOption(option);
+    myChart.setOption(option, true); // notMerge=true，确保完整刷新
 
     // 响应式调整
     window.addEventListener('resize', function() {
@@ -331,5 +360,10 @@ function createTermDistributionChart() {
 
     return myChart;
 }
+
+// 语言切换时重新渲染
+window.addEventListener('languagechange', function(){
+  try { createTermDistributionChart(); } catch(e){}
+});
 
 // 图表创建函数，需要手动调用
