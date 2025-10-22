@@ -26,11 +26,11 @@
       titleDictionary: { zh: '词典', en: 'Dictionary' },
       intro1: {
         zh: "主播的造梗能力与弹幕的即时玩梗，形成了'黑话'的狂欢广场。'芜湖起飞'、'肉蛋葱鸡'……一个操作，一个口误，都能在瞬间成为全网热词。“黑话”从游戏圈破壁，通过表情包和群聊入侵日常。'肝论文'、'今天又非了'——游戏词汇被赋予了全新的生活化内涵。",
-        en: "Streamers' meme-making and real-time bullet chats turn slang into a carnival. 'Wuhu take off', 'meat-egg scallion chicken'… a single play or slip of the tongue can instantly become a viral catchphrase."
+        en: "Streamers' knack for coining memes, paired with viewers' real-time riffing in danmu (bullet chats), has turned the space into a carnival for gaming slang. 'Wuhu, take off!', 'meat-egg-scallion chicken' — a single move or a slip of the tongue can go viral in seconds. This slang has broken out of the gaming circle, infiltrating everyday life through memes and group chats. 'grind a thesis', 'got unlucky again today' — game vocabulary is being repurposed with fresh, everyday meanings."
       },
       intro2: {
         zh: "我们在国内最大的游戏玩家聚集地之一的Bilibili（B站）爬取了不同游戏tag的视频下超过10万条评论，结合大家自行添加的游戏“黑话”，整理出了一份实时产生、实时更新的游戏“黑话词典”。",
-        en: "Gaming slang breaks out of game circles, invading everyday life via memes and group chats. 'grind a thesis', 'unlucky again today'—game vocabulary gains new everyday meanings."
+        en: "On Bilibili, one of China's largest hubs for gamers, we scraped over 100,000 comments under videos across different game tags. Combined with user-submitted entries, we compiled a gaming slang dictionary that is generated and updated in real time."
       }
     },
     selector: {
@@ -225,8 +225,8 @@
     }
     ,
     wukong: {
-      zh: '《黑神话：悟空》中的"游戏黑话"与中华文化出海',
-      en: 'Game Slang in "Black Myth: Wukong" and Chinese Cultural Export'
+      zh: '《游戏黑话》出海：从"Wukong"到"Loong"的文化穿越',
+      en: 'Game Slang Going Global: Cultural Crossing from "Wukong" to "Loong"'
     },
     wukongIntro: {
       zh: '《黑神话：悟空》是中国游戏产业中具有标志性的现象级作品，其成功出口正体现了文化"走出去"战略的成效。国家十四五规划提出要"讲好中国故事"，数字游戏作为语言、影像与互动的综合媒介，在实现中华文化全球传播中独具优势。黑神话融合了《西游记》经典元素和现代科技，通过寓言式叙事和本地化语言，使玩家在沉浸式体验中感受中国传统文化意蕴。游戏中丰富的"黑话"——比如角色昵称、神话典故、成语诗句等——经过巧妙的翻译处理，不仅保留了浓郁的本土色彩，还激发了国际玩家探索文化内核的兴趣。',
@@ -241,7 +241,9 @@
           loong: '使用特指东方龙的\'Loong\'而非西方的\'Dragon\'',
           yaoguai: '保留音译，强调中国神话元素的独特性',
           shifu: '音译保留了中文的音韵美感',
-          yaomo: '保留中文特有的妖怪概念'
+          yaomo: '保留中文特有的妖怪概念',
+          jingubang: '保留音译“Jingubang”，突出专有名词的文化独特性',
+          pigsy: '采用 Pigsy，兼顾英语可读性与原典角色识别'
         }
       },
       en: {
@@ -252,7 +254,9 @@
           loong: 'Uses \'Loong\' specific to Eastern dragons rather than Western \'Dragon\'',
           yaoguai: 'Retains transliteration to emphasize unique Chinese mythological elements',
           shifu: 'Transliteration preserves the phonetic beauty of Chinese',
-          yaomo: 'Preserves the unique Chinese concept of demons and monsters'
+          yaomo: 'Preserves the unique Chinese concept of demons and monsters',
+          jingubang: 'Retains transliteration "Jingubang" to highlight cultural uniqueness',
+          pigsy: 'Uses "Pigsy" for readability while preserving source role identity'
         }
       }
     },
