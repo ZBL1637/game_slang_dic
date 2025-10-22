@@ -25,11 +25,11 @@
       titleCyber: { zh: '赛博', en: 'Cyber' },
       titleDictionary: { zh: '词典', en: 'Dictionary' },
       intro1: {
-        zh: "主播的造梗能力与弹幕的即时玩梗，形成了'黑话'的狂欢广场。'芜湖起飞'、'肉蛋葱鸡'……一个操作，一个口误，都能在瞬间成为全网热词。",
+        zh: "主播的造梗能力与弹幕的即时玩梗，形成了'黑话'的狂欢广场。'芜湖起飞'、'肉蛋葱鸡'……一个操作，一个口误，都能在瞬间成为全网热词。“黑话”从游戏圈破壁，通过表情包和群聊入侵日常。'肝论文'、'今天又非了'——游戏词汇被赋予了全新的生活化内涵。",
         en: "Streamers' meme-making and real-time bullet chats turn slang into a carnival. 'Wuhu take off', 'meat-egg scallion chicken'… a single play or slip of the tongue can instantly become a viral catchphrase."
       },
       intro2: {
-        zh: "'黑话'从游戏圈破壁，通过表情包和群聊入侵日常。'肝论文'、'今天又非了'——游戏词汇被赋予了全新的生活化内涵。",
+        zh: "我们在国内最大的游戏玩家聚集地之一的Bilibili（B站）爬取了不同游戏tag的视频下超过10万条评论，结合大家自行添加的游戏“黑话”，整理出了一份实时产生、实时更新的游戏“黑话词典”。",
         en: "Gaming slang breaks out of game circles, invading everyday life via memes and group chats. 'grind a thesis', 'unlucky again today'—game vocabulary gains new everyday meanings."
       }
     },
@@ -224,6 +224,137 @@
       }
     }
     ,
+    wukong: {
+      zh: '《黑神话：悟空》中的"游戏黑话"与中华文化出海',
+      en: 'Game Slang in "Black Myth: Wukong" and Chinese Cultural Export'
+    },
+    wukongIntro: {
+      zh: '《黑神话：悟空》是中国游戏产业中具有标志性的现象级作品，其成功出口正体现了文化"走出去"战略的成效。国家十四五规划提出要"讲好中国故事"，数字游戏作为语言、影像与互动的综合媒介，在实现中华文化全球传播中独具优势。黑神话融合了《西游记》经典元素和现代科技，通过寓言式叙事和本地化语言，使玩家在沉浸式体验中感受中国传统文化意蕴。游戏中丰富的"黑话"——比如角色昵称、神话典故、成语诗句等——经过巧妙的翻译处理，不仅保留了浓郁的本土色彩，还激发了国际玩家探索文化内核的兴趣。',
+      en: '"Black Myth: Wukong" is a phenomenal landmark work in China\'s gaming industry, and its successful export embodies the effectiveness of the cultural "going global" strategy. The national 14th Five-Year Plan proposes to "tell China\'s story well," and digital games, as a comprehensive medium of language, imagery, and interaction, have unique advantages in achieving global dissemination of Chinese culture. Black Myth integrates classic elements from "Journey to the West" with modern technology, allowing players to experience the essence of traditional Chinese culture through allegorical narratives and localized language in immersive experiences. The rich "slang" in the game—such as character nicknames, mythological allusions, idioms and poems—has been skillfully translated to not only retain strong local characteristics but also inspire international players\' interest in exploring cultural cores.'
+    },
+    wukongKeywordComparison: {
+      zh: {
+        title: '关键词对比',
+        subtitle: '中文原文与英文字幕中的专用词汇翻译对比',
+        tooltips: {
+          wukong: '保留音译，避免与西方文化中的\'Monkey King\'混淆',
+          loong: '使用特指东方龙的\'Loong\'而非西方的\'Dragon\'',
+          yaoguai: '保留音译，强调中国神话元素的独特性',
+          shifu: '音译保留了中文的音韵美感',
+          yaomo: '保留中文特有的妖怪概念'
+        }
+      },
+      en: {
+        title: 'Keyword Comparison',
+        subtitle: 'Translation comparison of specialized vocabulary between Chinese original and English subtitles',
+        tooltips: {
+          wukong: 'Retains transliteration to avoid confusion with Western \'Monkey King\'',
+          loong: 'Uses \'Loong\' specific to Eastern dragons rather than Western \'Dragon\'',
+          yaoguai: 'Retains transliteration to emphasize unique Chinese mythological elements',
+          shifu: 'Transliteration preserves the phonetic beauty of Chinese',
+          yaomo: 'Preserves the unique Chinese concept of demons and monsters'
+        }
+      }
+    },
+    wukongTranslationStyle: {
+      zh: {
+        title: '翻译风格切换',
+        subtitle: '体验"异化"与"归化"两种策略对文化信息传递的影响',
+        foreignization: '异化翻译',
+        domestication: '归化翻译'
+      },
+      en: {
+        title: 'Translation Style Toggle',
+        subtitle: 'Experience the impact of "foreignization" and "domestication" strategies on cultural information transmission',
+        foreignization: 'Foreignization',
+        domestication: 'Domestication'
+      }
+    },
+    wukongMetaphorMap: {
+      zh: {
+        title: '文化隐喻地图',
+        subtitle: '游戏中文化隐喻、成语或诗句的来源标注',
+        buddhism: {
+          marker: '佛',
+          label: '佛教教义'
+        },
+        taoism: {
+          marker: '道',
+          label: '道教文化'
+        },
+        poetry: {
+          marker: '诗',
+          label: '古典诗词'
+        },
+        idioms: {
+          marker: '语',
+          label: '成语典故'
+        },
+        tooltips: {
+          buddhism: '佛教教义对白被译成类似圣经十诫风格：\'Thou shalt not...\'',
+          taoism: '道教修仙理念的英文表达',
+          poetry: '《西游记》经典诗句的翻译处理',
+          idioms: '中国传统成语的文化内涵传达'
+        }
+      },
+      en: {
+        title: 'Cultural Metaphor Map',
+        subtitle: 'Source annotations of cultural metaphors, idioms, or poems in the game',
+        buddhism: {
+          marker: 'Buddha',
+          label: 'Buddhist Doctrine'
+        },
+        taoism: {
+          marker: 'Tao',
+          label: 'Taoist Culture'
+        },
+        poetry: {
+          marker: 'Poetry',
+          label: 'Classical Poetry'
+        },
+        idioms: {
+          marker: 'Idioms',
+          label: 'Idioms & Allusions'
+        },
+        tooltips: {
+          buddhism: 'Buddhist doctrine dialogues translated in biblical Ten Commandments style: \'Thou shalt not...\'',
+          taoism: 'English expression of Taoist cultivation concepts',
+          poetry: 'Translation handling of classic poems from Journey to the West',
+          idioms: 'Cultural connotation transmission of traditional Chinese idioms'
+        }
+      }
+    },
+    wukongCharacterNames: {
+      zh: {
+        title: '角色译名注解',
+        subtitle: '点击角色名称查看翻译缘由和文化背景',
+        clickToView: '点击查看译名缘由'
+      },
+      en: {
+        title: 'Character Name Annotations',
+        subtitle: 'Click character names to view translation rationale and cultural background',
+        clickToView: 'Click to view translation rationale'
+      }
+    },
+    wukongSummary: {
+      zh: {
+        title: '文化传播与国家形象',
+        text: '通过这些互动方式，玩家不仅能够直观比较不同翻译策略的传播效果，还能理解如何在忠实文化本质的基础上实现本地化。例如，通过切换"异化"和"归化"的翻译模式，玩家可以看到文化特色与易懂性之间的平衡。整体而言，《黑神话：悟空》以其深度本土化的翻译策略和创新叙事，成功将游戏黑话转化为传播中华文化的载体，在全球主流市场上塑造了鲜明的中国形象。'
+      },
+      en: {
+        title: 'Cultural Dissemination and National Image',
+        text: 'Through these interactive methods, players can not only intuitively compare the dissemination effects of different translation strategies but also understand how to achieve localization while remaining faithful to cultural essence. For example, by switching between "foreignization" and "domestication" translation modes, players can see the balance between cultural characteristics and comprehensibility. Overall, "Black Myth: Wukong" has successfully transformed game slang into a vehicle for spreading Chinese culture through its deeply localized translation strategies and innovative narratives, shaping a distinctive Chinese image in global mainstream markets.'
+      }
+    },
+    wukongModal: {
+      zh: {
+        close: '关闭'
+      },
+      en: {
+        close: 'Close'
+      }
+    }
+    ,
     conclusion: {
       title: { zh: '数字时代的语言密码', en: 'Language codes of the digital age' },
       p1: { zh: '游戏黑话不仅仅是玩家间的交流工具，更是数字原住民一代文化认同的重要载体。从主播直播间的即兴创造，到弹幕文化的集体狂欢，再到日常生活的广泛渗透，这些看似简单的词汇背后，蕴含着深刻的社会文化意义。', en: 'Gaming slang is not only a communication tool but also a carrier of cultural identity for digital natives. From improvised creation in streams to collective carnival in bullet chats and everyday infiltration, seemingly simple terms carry deep social‑cultural meanings.' },
@@ -256,12 +387,31 @@
 
   function t(key){
     const parts = key.split('.');
+    // 先尝试常规路径查找（末级为 { zh, en } 对象）
     let node = translations;
     for (const p of parts){
       node = node && node[p];
     }
-    if (!node) return key; // fallback
-    return node[state.lang] || node.zh || key;
+    if (node && typeof node === 'object' && (node.zh || node.en)) {
+      const val = node[state.lang] || node.zh;
+      return typeof val === 'string' ? val : key;
+    }
+
+    // 兼容分组结构：group 下为 zh/en 对象，末级为具体键
+    const group = translations[parts[0]];
+    if (group && typeof group === 'object' && group.zh && group.en) {
+      let curZh = group.zh;
+      let curEn = group.en;
+      for (let i = 1; i < parts.length; i++) {
+        curZh = curZh && curZh[parts[i]];
+        curEn = curEn && curEn[parts[i]];
+      }
+      const val2 = state.lang === 'en' ? curEn : curZh;
+      return typeof val2 === 'string' && val2 ? val2 : key;
+    }
+
+    // 找不到时返回 key 作为降级
+    return key;
   }
 
   function tCategory(label){

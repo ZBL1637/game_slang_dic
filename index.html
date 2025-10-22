@@ -898,6 +898,488 @@
             width: 4px;
             background: var(--primary-purple);
             border-radius: 2px;
+        }
+
+        /* Wukong Culture Section Styles */
+        .wukong-culture-section {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 60px 30px;
+            background: rgba(127, 0, 86, 0.05);
+            border: 1px solid rgba(127, 0, 86, 0.2);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wukong-culture-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(127, 0, 86, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .wukong-culture-section .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .wukong-culture-section .section-title {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--primary-purple);
+            margin-bottom: 30px;
+            letter-spacing: -1px;
+        }
+
+        .wukong-culture-section .section-description {
+            max-width: 1000px;
+            margin: 0 auto;
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--gray-200);
+            text-align: justify;
+            opacity: 0.95;
+        }
+
+        .culture-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .culture-card {
+            background: rgba(127, 0, 86, 0.08);
+            border: 1px solid rgba(127, 0, 86, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .culture-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(127, 0, 86, 0.02);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .culture-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(127, 0, 86, 0.2);
+            border-color: rgba(127, 0, 86, 0.4);
+        }
+
+        .culture-card:hover::before {
+            opacity: 1;
+        }
+
+        .culture-card .card-header {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .culture-card .card-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-purple);
+            margin-bottom: 8px;
+        }
+
+        .culture-card .card-subtitle {
+            font-size: 14px;
+            color: var(--gray-300);
+            opacity: 0.8;
+        }
+
+        /* Wukong Section Images */
+        .section-photo {
+            margin: 24px auto 36px;
+            max-width: 1100px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(127, 0, 86, 0.25);
+            box-shadow: 0 12px 30px rgba(127, 0, 86, 0.25);
+            background: rgba(127, 0, 86, 0.06);
+        }
+        .section-photo img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+        /* 调整不同区域图片宽度 */
+         .wukong-culture-section .section-header .section-photo { max-width: 1000px; }
+         .culture-summary .section-photo { max-width: 1000px; }
+         /* 让放在网格中的图片跨两列并居中（用于 wukong2.jpg） */
+         .culture-content .section-photo { grid-column: 1 / -1; justify-self: center; }
+ 
+         /* 关键词对比样式 */
+        .comparison-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .comparison-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(127, 0, 86, 0.05);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .comparison-item:hover {
+            background: rgba(127, 0, 86, 0.1);
+            transform: translateX(5px);
+        }
+
+        .chinese-term, .english-term {
+            font-weight: 600;
+            font-size: 16px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .chinese-term {
+            background: rgba(127, 0, 86, 0.2);
+            color: var(--primary-purple);
+        }
+
+        .english-term {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--accent-blue);
+        }
+
+        .arrow {
+            font-size: 18px;
+            color: var(--gray-300);
+            font-weight: bold;
+        }
+
+        /* 翻译风格切换样式 */
+        .style-toggle-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .toggle-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .style-btn {
+            padding: 12px 24px;
+            border: 2px solid rgba(127, 0, 86, 0.3);
+            background: rgba(127, 0, 86, 0.1);
+            color: var(--gray-200);
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .style-btn.active {
+            background: var(--primary-purple);
+            color: var(--white);
+            border-color: var(--primary-purple);
+        }
+
+        .style-btn:hover:not(.active) {
+            background: rgba(127, 0, 86, 0.2);
+            border-color: rgba(127, 0, 86, 0.5);
+        }
+
+        .translation-examples {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .example-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(127, 0, 86, 0.05);
+            border-radius: 12px;
+        }
+
+        .original-text {
+            font-weight: 600;
+            color: var(--primary-purple);
+            min-width: 80px;
+        }
+
+        .translation-text {
+            font-weight: 500;
+            color: var(--accent-blue);
+            transition: all 0.3s ease;
+        }
+
+        /* 文化隐喻地图样式 */
+        .map-container {
+            position: relative;
+            height: 300px;
+            background: rgba(127, 0, 86, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .metaphor-point {
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .point-marker {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-purple);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(127, 0, 86, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .point-label {
+            position: absolute;
+            top: 45px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: var(--gray-300);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .metaphor-point:hover .point-marker {
+            transform: scale(1.2);
+            box-shadow: 0 6px 20px rgba(127, 0, 86, 0.5);
+        }
+
+        .metaphor-point:hover .point-label {
+            opacity: 1;
+        }
+
+        /* 角色名称样式 */
+        .characters-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .character-item {
+            padding: 20px;
+            background: rgba(127, 0, 86, 0.05);
+            border: 1px solid rgba(127, 0, 86, 0.2);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .character-item:hover {
+            background: rgba(127, 0, 86, 0.1);
+            border-color: rgba(127, 0, 86, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .character-name {
+            font-weight: 700;
+            color: var(--primary-purple);
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .character-preview {
+            font-size: 12px;
+            color: var(--gray-300);
+            opacity: 0.8;
+        }
+
+        /* 文化传播总结样式 */
+        .culture-summary {
+            text-align: center;
+            padding: 40px;
+            background: rgba(127, 0, 86, 0.08);
+            border: 1px solid rgba(127, 0, 86, 0.2);
+            border-radius: 20px;
+            margin-top: 40px;
+        }
+
+        .summary-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-purple);
+            margin-bottom: 20px;
+        }
+
+        .summary-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--gray-200);
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: justify;
+        }
+
+        /* Tooltip样式 */
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: var(--white);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            max-width: 250px;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            border: 1px solid rgba(127, 0, 86, 0.3);
+        }
+
+        .tooltip.show {
+            opacity: 1;
+        }
+
+        /* Modal样式 */
+        .character-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .character-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: rgba(11, 8, 69, 0.95);
+            border: 1px solid rgba(127, 0, 86, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            backdrop-filter: blur(20px);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .character-modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-purple);
+            margin-bottom: 10px;
+        }
+
+        .modal-subtitle {
+            font-size: 16px;
+            color: var(--gray-300);
+        }
+
+        .modal-body {
+            color: var(--gray-200);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .modal-close {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background: var(--primary-purple);
+            color: var(--white);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--dark-purple);
+            transform: translateY(-2px);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .culture-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .wukong-culture-section .section-title {
+                font-size: 36px;
+            }
+            
+            .characters-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-item {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .chinese-term, .english-term {
+                min-width: auto;
+                width: 100%;
+            }
+        }
             box-shadow: 0 0 20px rgba(127, 0, 86, 0.4);
             animation: timelinePulse 4s ease-in-out infinite;
             z-index: 5;
@@ -2215,10 +2697,10 @@
         </p>
         <div class="hero-description">
             <p class="hero-intro" data-i18n="hero.intro1">
-                主播的造梗能力与弹幕的即时玩梗，形成了'黑话'的狂欢广场。'芜湖起飞'、'肉蛋葱鸡'……一个操作，一个口误，都能在瞬间成为全网热词。
+                主播的造梗能力与弹幕的即时玩梗，形成了'黑话'的狂欢广场。'芜湖起飞'、'肉蛋葱鸡'……一个操作，一个口误，都能在瞬间成为全网热词。“黑话”从游戏圈破壁，通过表情包和群聊入侵日常。'肝论文'、'今天又非了'——游戏词汇被赋予了全新的生活化内涵。
             </p>
             <p class="hero-intro" data-i18n="hero.intro2">
-                '黑话'从游戏圈破壁，通过表情包和群聊入侵日常。'肝论文'、'今天又非了'——游戏词汇被赋予了全新的生活化内涵。
+                我们在国内最大的游戏玩家聚集地之一的Bilibili（B站）爬取了不同游戏tag的视频下超过10万条评论，结合大家自行添加的游戏“黑话”，整理出了一份实时产生、实时更新的游戏“黑话词典”。
             </p>
         </div>
 
@@ -2739,11 +3221,162 @@
                 </div>
             </div>
         </section>
+
+        <!-- 《黑神话：悟空》文化出海 Section -->
+        <section class="wukong-culture-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" data-i18n="wukong">《黑神话：悟空》中的"游戏黑话"与中华文化出海</h2>
+
+                    <p class="section-description" data-i18n="wukongIntro">
+                        《黑神话：悟空》是中国游戏产业中具有标志性的现象级作品，其成功出口正体现了文化"走出去"战略的成效。国家十四五规划提出要"讲好中国故事"，数字游戏作为语言、影像与互动的综合媒介，在实现中华文化全球传播中独具优势。黑神话融合了《西游记》经典元素和现代科技，通过寓言式叙事和本地化语言，使玩家在沉浸式体验中感受中国传统文化意蕴。游戏中丰富的"黑话"——比如角色昵称、神话典故、成语诗句等——经过巧妙的翻译处理，不仅保留了浓郁的本土色彩，还激发了国际玩家探索文化内核的兴趣。
+                    </p>
+                    <figure class="section-photo">
+                        <img src="assets/wukong.jpg" alt="Black Myth: Wukong title section image">
+                    </figure>
+                </div>
+
+                <div class="culture-content">
+                    <!-- 中英关键词对比图表 -->
+                    <div class="culture-card keyword-comparison">
+                        <div class="card-header">
+                            <h3 class="card-title" data-i18n="wukongKeywordComparison.title">关键词对比</h3>
+                            <p class="card-subtitle" data-i18n="wukongKeywordComparison.subtitle">中文原文与英文字幕中的专用词汇翻译对比</p>
+                        </div>
+                        <div class="comparison-container">
+                            <div class="comparison-item" data-tooltip-key="wukongKeywordComparison.tooltips.wukong">
+                                <div class="chinese-term">悟空</div>
+                                <div class="arrow">→</div>
+                                <div class="english-term">Wukong</div>
+                            </div>
+                            <div class="comparison-item" data-tooltip-key="wukongKeywordComparison.tooltips.loong">
+                                <div class="chinese-term">龙</div>
+                                <div class="arrow">→</div>
+                                <div class="english-term">Loong</div>
+                            </div>
+                            <div class="comparison-item" data-tooltip-key="wukongKeywordComparison.tooltips.yaoguai">
+                                <div class="chinese-term">金箍棒</div>
+                                <div class="arrow">→</div>
+                                <div class="english-term">Jin Gu Bang</div>
+                            </div>
+                            <div class="comparison-item" data-tooltip-key="wukongKeywordComparison.tooltips.shifu">
+                                <div class="chinese-term">猪八戒</div>
+                                <div class="arrow">→</div>
+                                <div class="english-term">Pigsy</div>
+                            </div>
+                            <div class="comparison-item" data-tooltip-key="wukongKeywordComparison.tooltips.yaomo">
+                                <div class="chinese-term">妖怪</div>
+                                <div class="arrow">→</div>
+                                <div class="english-term">Yaoguai</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 翻译风格切换按钮 -->
+                    <div class="culture-card translation-style">
+                        <div class="card-header">
+                            <h3 class="card-title" data-i18n="wukongTranslationStyle.title">翻译风格切换</h3>
+                            <p class="card-subtitle" data-i18n="wukongTranslationStyle.subtitle">体验"异化"与"归化"两种策略对文化信息传递的影响</p>
+                        </div>
+                        <div class="style-toggle-container">
+                            <div class="toggle-buttons">
+                                <button class="style-btn active" data-style="foreignization" data-i18n="wukongTranslationStyle.foreignization">异化翻译</button>
+                                <button class="style-btn" data-style="domestication" data-i18n="wukongTranslationStyle.domestication">归化翻译</button>
+                            </div>
+                            <div class="translation-examples">
+                                <div class="example-item">
+                                    <div class="original-text">定身法</div>
+                                    <div class="translation-text" id="immobilize-translation">Immobilize</div>
+                                </div>
+                                <div class="example-item">
+                                    <div class="original-text">七十二变</div>
+                                    <div class="translation-text" id="transform-translation">Seventy-Two Transformations</div>
+                                </div>
+                                <div class="example-item">
+                                    <div class="original-text">筋斗云</div>
+                                    <div class="translation-text" id="cloud-translation">Somersault Cloud</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <figure class="section-photo">
+                         <img src="assets/wukong2.jpg" alt="Black Myth: Wukong keywords and translation style image">
+                     </figure>
+                     <figure class="section-photo">
+                         <img src="assets/wukong3.jpg" alt="Black Myth: Wukong metaphor map and character names image">
+                     </figure>
+ 
+                     <!-- 文化隐喻地图区域 -->
+                    <div class="culture-card metaphor-map">
+                        <div class="card-header">
+                            <h3 class="card-title" data-i18n="wukongMetaphorMap.title">文化隐喻地图</h3>
+                            <p class="card-subtitle" data-i18n="wukongMetaphorMap.subtitle">游戏中文化隐喻、成语或诗句的来源标注</p>
+                        </div>
+                        <div class="map-container">
+                            <div class="metaphor-point" data-x="20%" data-y="30%" data-tooltip-key="wukongMetaphorMap.tooltips.buddhism">
+                                <div class="point-marker" data-i18n="wukongMetaphorMap.buddhism.marker">佛</div>
+                                <div class="point-label" data-i18n="wukongMetaphorMap.buddhism.label">佛教教义</div>
+                            </div>
+                            <div class="metaphor-point" data-x="60%" data-y="45%" data-tooltip-key="wukongMetaphorMap.tooltips.taoism">
+                                <div class="point-marker" data-i18n="wukongMetaphorMap.taoism.marker">道</div>
+                                <div class="point-label" data-i18n="wukongMetaphorMap.taoism.label">道教文化</div>
+                            </div>
+                            <div class="metaphor-point" data-x="80%" data-y="25%" data-tooltip-key="wukongMetaphorMap.tooltips.poetry">
+                                <div class="point-marker" data-i18n="wukongMetaphorMap.poetry.marker">诗</div>
+                                <div class="point-label" data-i18n="wukongMetaphorMap.poetry.label">古典诗词</div>
+                            </div>
+                            <div class="metaphor-point" data-x="40%" data-y="70%" data-tooltip-key="wukongMetaphorMap.tooltips.idioms">
+                                <div class="point-marker" data-i18n="wukongMetaphorMap.idioms.marker">语</div>
+                                <div class="point-label" data-i18n="wukongMetaphorMap.idioms.label">成语典故</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 角色名称点击弹出解释框 -->
+                    <div class="culture-card character-names">
+                        <div class="card-header">
+                            <h3 class="card-title" data-i18n="wukongCharacterNames.title">角色译名注解</h3>
+                            <p class="card-subtitle" data-i18n="wukongCharacterNames.subtitle">点击角色名称查看翻译缘由和文化背景</p>
+                        </div>
+                        <div class="characters-grid">
+                            <div class="character-item" data-character="wukong">
+                                <div class="character-name">悟空 / Wukong</div>
+                                <div class="character-preview" data-i18n="wukongCharacterNames.clickToView">点击查看译名缘由</div>
+                            </div>
+                            <div class="character-item" data-character="bajie">
+                                <div class="character-name">猪八戒 / Pigsy</div>
+                                <div class="character-preview" data-i18n="wukongCharacterNames.clickToView">点击查看译名缘由</div>
+                            </div>
+                            <div class="character-item" data-character="jinguban">
+                                <div class="character-name">金箍棒 / Jin Gu Bang</div>
+                                <div class="character-preview" data-i18n="wukongCharacterNames.clickToView">点击查看译名缘由</div>
+                            </div>
+                            <div class="character-item" data-character="dragon">
+                                <div class="character-name">龙 / Loong</div>
+                                <div class="character-preview" data-i18n="wukongCharacterNames.clickToView">点击查看译名缘由</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 文化传播总结 -->
+                <div class="culture-summary">
+                    <h3 class="summary-title" data-i18n="wukongSummary.title">文化传播与国家形象</h3>
+                    <p class="summary-text" data-i18n="wukongSummary.text">
+                        通过这些互动方式，玩家不仅能够直观比较不同翻译策略的传播效果，还能理解如何在忠实文化本质的基础上实现本地化。例如，通过切换"异化"和"归化"的翻译模式，玩家可以看到文化特色与易懂性之间的平衡。整体而言，《黑神话：悟空》以其深度本土化的翻译策略和创新叙事，成功将游戏黑话转化为传播中华文化的载体，在全球主流市场上塑造了鲜明的中国形象。
+                    </p>
+                    <figure class="section-photo">
+                        <img src="assets/wukong4.jpg" alt="Black Myth: Wukong cultural communication and national image image">
+                    </figure>
+                </div>
+            </div>
+        </section>
     </main>
 
     <script>
       // 语言切换时，重建数据与图表
-      window.addEventListener('languagechange', function() {
+      window.addEventListener('languagechange', async function() {
         // 重新应用页面文案
         if (window.i18n) {
           i18n.applyTranslations();
@@ -2758,7 +3391,12 @@
             if (firstOption) selector.appendChild(firstOption);
           }
           // 语言切换时重新加载数据
-      loadAllGameData();
+          try {
+            await loadAllGameData();
+            console.log('数据重新加载完成，开始重新渲染图表和组件');
+          } catch (error) {
+            console.error('语言切换时数据加载失败:', error);
+          }
     }
     // 重新渲染所有图表
     if (typeof createTermDistributionChart === 'function') {
@@ -2776,6 +3414,10 @@
     // 语言切换时重新渲染热门词汇
     if (typeof displayPopularWords === 'function') {
       try { displayPopularWords(); } catch(e){}
+    }
+    // 重新创建漂浮词汇区域以使用最新语言的词库数据
+    if (typeof createFloatingWords === 'function') {
+      try { createFloatingWords(); } catch(e){}
     }
   });
     </script>
@@ -3147,14 +3789,20 @@
 
         async function loadAllGameData() {
             try {
+                console.log('开始加载游戏数据...');
                 // 清空全局数据，避免语言切换或重复初始化导致累加
                 allGameData = {};
                 slangData = [];
                 filteredData = [];
                 const lang = window.i18n ? i18n.getLang() : 'zh';
                 const source = lang === 'en' ? 'assets/data_en.json' : 'assets/combined_game_data.json';
+                console.log('当前语言:', lang, '数据源:', source);
                 const response = await fetch(source);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const combinedData = await response.json();
+                console.log('数据加载成功，条目数:', combinedData.length);
 
                 // 按游戏分组数据
                 Object.keys(gameDataConfig).forEach(gameKey => {
@@ -3187,13 +3835,21 @@
                 })));
 
                 // 初始化游戏选择器
+                console.log('初始化游戏选择器...');
                 initGameSelector();
 
                 // 默认显示所有游戏数据
+                console.log('更新当前数据显示...');
                 updateCurrentData();
 
             } catch (error) {
                 console.error('Error loading game data:', error);
+                // 显示错误信息给用户
+                const errorMsg = document.createElement('div');
+                errorMsg.style.cssText = 'position:fixed;top:20px;right:20px;background:red;color:white;padding:10px;border-radius:5px;z-index:9999;';
+                errorMsg.textContent = '数据加载失败: ' + error.message;
+                document.body.appendChild(errorMsg);
+                setTimeout(() => errorMsg.remove(), 5000);
             }
         }
 
@@ -4293,6 +4949,288 @@ Requirements:
                 }
             });
         });
+
+        // 《黑神话：悟空》文化出海交互功能
+        document.addEventListener('DOMContentLoaded', function() {
+            initWukongCultureInteractions();
+        });
+
+        /**
+         * 初始化《黑神话：悟空》文化出海section的所有交互功能
+         */
+        function initWukongCultureInteractions() {
+            initTooltips();
+            initTranslationStyleToggle();
+            initMetaphorMapInteractions();
+            initCharacterModals();
+        }
+
+        /**
+         * 初始化工具提示功能
+         */
+        function initTooltips() {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            document.body.appendChild(tooltip);
+
+            // 为关键词对比项添加悬停提示
+            document.querySelectorAll('.comparison-item[data-tooltip-key]').forEach(item => {
+                item.addEventListener('mouseenter', function(e) {
+                    const tooltipKey = this.getAttribute('data-tooltip-key');
+                    const tooltipText = (window.i18n && i18n.t) ? i18n.t(tooltipKey) : tooltipKey;
+                    tooltip.textContent = tooltipText;
+                    tooltip.classList.add('show');
+                    updateTooltipPosition(e, tooltip);
+                });
+
+                item.addEventListener('mousemove', function(e) {
+                    updateTooltipPosition(e, tooltip);
+                });
+
+                item.addEventListener('mouseleave', function() {
+                    tooltip.classList.remove('show');
+                });
+            });
+
+            // 为文化隐喻地图点添加悬停提示
+            document.querySelectorAll('.metaphor-point[data-tooltip-key]').forEach(point => {
+                point.addEventListener('mouseenter', function(e) {
+                    const tooltipKey = this.getAttribute('data-tooltip-key');
+                    const tooltipText = (window.i18n && i18n.t) ? i18n.t(tooltipKey) : tooltipKey;
+                    tooltip.textContent = tooltipText;
+                    tooltip.classList.add('show');
+                    updateTooltipPosition(e, tooltip);
+                });
+
+                point.addEventListener('mousemove', function(e) {
+                    updateTooltipPosition(e, tooltip);
+                });
+
+                point.addEventListener('mouseleave', function() {
+                    tooltip.classList.remove('show');
+                });
+            });
+
+            // 监听语言切换事件，更新工具提示内容
+            document.addEventListener('languagechange', function() {
+                // 工具提示会在下次悬停时自动更新
+            });
+        }
+
+        /**
+         * 更新工具提示位置
+         */
+        function updateTooltipPosition(e, tooltip) {
+            const x = e.clientX + 10;
+            const y = e.clientY - 10;
+            tooltip.style.left = x + 'px';
+            tooltip.style.top = y + 'px';
+        }
+
+        /**
+         * 初始化翻译风格切换功能
+         */
+        function initTranslationStyleToggle() {
+            const styleButtons = document.querySelectorAll('.style-btn');
+            const translationData = {
+                foreignization: {
+                    zh: {
+                        'immobilize-translation': 'Immobilize',
+                        'transform-translation': 'Seventy-Two Transformations',
+                        'cloud-translation': 'Somersault Cloud'
+                    },
+                    en: {
+                        'immobilize-translation': 'Immobilize',
+                        'transform-translation': 'Seventy-Two Transformations',
+                        'cloud-translation': 'Somersault Cloud'
+                    }
+                },
+                domestication: {
+                    zh: {
+                        'immobilize-translation': '让敌人动弹不得',
+                        'transform-translation': '七十二种变化形态',
+                        'cloud-translation': '翻筋斗的云朵'
+                    },
+                    en: {
+                        'immobilize-translation': 'Freeze enemies in place',
+                        'transform-translation': 'Seventy-two different forms',
+                        'cloud-translation': 'Flying cloud'
+                    }
+                }
+            };
+
+            styleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 移除所有按钮的active状态
+                    styleButtons.forEach(btn => btn.classList.remove('active'));
+                    // 添加当前按钮的active状态
+                    this.classList.add('active');
+
+                    const style = this.getAttribute('data-style');
+                    const currentLang = window.i18n ? window.i18n.getLang() : 'zh';
+                    const translations = translationData[style][currentLang];
+
+                    // 更新翻译文本
+                    Object.keys(translations).forEach(id => {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            element.textContent = translations[id];
+                        }
+                    });
+                });
+            });
+
+            // 语言切换时更新翻译示例
+            window.addEventListener('languagechange', function() {
+                const activeButton = document.querySelector('.style-btn.active');
+                if (activeButton) {
+                    activeButton.click(); // 重新触发点击事件以更新翻译
+                }
+            });
+        }
+
+        /**
+         * 初始化文化隐喻地图交互
+         */
+        function initMetaphorMapInteractions() {
+            const metaphorPoints = document.querySelectorAll('.metaphor-point');
+            
+            metaphorPoints.forEach(point => {
+                // 设置点的位置
+                const x = point.getAttribute('data-x');
+                const y = point.getAttribute('data-y');
+                point.style.left = x;
+                point.style.top = y;
+
+                // 添加点击效果
+                point.addEventListener('click', function() {
+                    // 添加点击动画效果
+                    this.style.transform = 'scale(1.3)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                });
+            });
+        }
+
+        /**
+         * 初始化角色模态框功能
+         */
+        function initCharacterModals() {
+            const characterItems = document.querySelectorAll('.character-item');
+            const characterData = {
+                wukong: {
+                    zh: {
+                        title: '悟空 / Wukong',
+                        subtitle: '音译保留策略',
+                        content: '开发团队选择保留"Wukong"音译，既保留了音韵美，又避免与其他文化背景中的"猴王"混淆。这种翻译策略强调了中国神话人物的独特性，让国际玩家能够直接感受到中文名字的原始魅力，同时建立了专属于中国文化的角色认知。'
+                    },
+                    en: {
+                        title: 'Wukong / 悟空',
+                        subtitle: 'Transliteration Strategy',
+                        content: 'The development team chose to retain the "Wukong" transliteration, preserving both phonetic beauty and avoiding confusion with "Monkey King" from other cultural backgrounds. This translation strategy emphasizes the uniqueness of Chinese mythological characters, allowing international players to directly experience the original charm of Chinese names while establishing character recognition exclusive to Chinese culture.'
+                    }
+                },
+                bajie: {
+                    zh: {
+                        title: '猪八戒 / Pigsy',
+                        subtitle: '意译与音译结合',
+                        content: '"猪八戒"译为"Pigsy"，采用了意译加昵称化的处理方式。"Pigsy"既保留了"猪"的含义，又通过"-sy"后缀增加了亲切感，符合西方文化中对角色昵称的习惯，让国际玩家更容易接受和记忆这个角色。'
+                    },
+                    en: {
+                        title: 'Pigsy / 猪八戒',
+                        subtitle: 'Semantic and Phonetic Combination',
+                        content: '"猪八戒" is translated as "Pigsy," using a combination of semantic translation and nickname formation. "Pigsy" retains the meaning of "pig" while adding intimacy through the "-sy" suffix, conforming to Western cultural habits for character nicknames and making it easier for international players to accept and remember this character.'
+                    }
+                },
+                jinguban: {
+                    zh: {
+                        title: '金箍棒 / Jin Gu Bang',
+                        subtitle: '完全音译策略',
+                        content: '"金箍棒"完全采用音译"Jin Gu Bang"，保留了中文的音韵特色。这种处理方式强调了这件神器的中国文化属性，让它区别于西方神话中的任何武器，建立了独特的文化标识。音译也便于国际玩家学习和传播中国文化元素。'
+                    },
+                    en: {
+                        title: 'Jin Gu Bang / 金箍棒',
+                        subtitle: 'Complete Transliteration Strategy',
+                        content: '"金箍棒" is completely transliterated as "Jin Gu Bang," preserving the phonetic characteristics of Chinese. This approach emphasizes the Chinese cultural attributes of this divine weapon, distinguishing it from any weapon in Western mythology and establishing a unique cultural identity. Transliteration also facilitates international players\' learning and spreading of Chinese cultural elements.'
+                    }
+                },
+                dragon: {
+                    zh: {
+                        title: '龙 / Loong',
+                        subtitle: '文化区分策略',
+                        content: '"龙"使用了特指东方龙的"Loong"而非西方的"Dragon"，这是一个重要的文化区分策略。东方龙象征着吉祥、力量和智慧，与西方龙的邪恶形象截然不同。使用"Loong"帮助国际玩家理解中国龙文化的独特内涵，避免文化误解。'
+                    },
+                    en: {
+                        title: 'Loong / 龙',
+                        subtitle: 'Cultural Distinction Strategy',
+                        content: '"龙" uses "Loong" specifically for Eastern dragons rather than the Western "Dragon," which is an important cultural distinction strategy. Eastern dragons symbolize auspiciousness, power, and wisdom, completely different from the evil image of Western dragons. Using "Loong" helps international players understand the unique connotations of Chinese dragon culture and avoid cultural misunderstandings.'
+                    }
+                }
+            };
+
+            // 创建模态框HTML
+            const modal = document.createElement('div');
+            modal.className = 'character-modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title"></h3>
+                        <p class="modal-subtitle"></p>
+                    </div>
+                    <div class="modal-body"></div>
+                    <button class="modal-close" data-i18n="wukongModal.close">关闭</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            const modalTitle = modal.querySelector('.modal-title');
+            const modalSubtitle = modal.querySelector('.modal-subtitle');
+            const modalBody = modal.querySelector('.modal-body');
+            const modalClose = modal.querySelector('.modal-close');
+
+            // 为每个角色项添加点击事件
+            characterItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const character = this.getAttribute('data-character');
+                    const currentLang = window.i18n ? window.i18n.getLang() : 'zh';
+                    const data = characterData[character][currentLang];
+                    
+                    if (data) {
+                        modalTitle.textContent = data.title;
+                        modalSubtitle.textContent = data.subtitle;
+                        modalBody.textContent = data.content;
+                        modal.classList.add('show');
+                    }
+                });
+            });
+
+            // 关闭模态框
+            modalClose.addEventListener('click', function() {
+                modal.classList.remove('show');
+            });
+
+            // 点击背景关闭模态框
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('show');
+                }
+            });
+
+            // ESC键关闭模态框
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.classList.contains('show')) {
+                    modal.classList.remove('show');
+                }
+            });
+
+            // 语言切换时更新模态框按钮文本
+            window.addEventListener('languagechange', function() {
+                if (window.i18n) {
+                    modalClose.textContent = window.i18n.t('wukongModal.close');
+                }
+            });
+        }
     </script>
 </body>
 </html>
