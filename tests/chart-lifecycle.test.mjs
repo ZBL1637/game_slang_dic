@@ -65,7 +65,9 @@ function harness(width=1440) {
   };
 }
 function digest(options) {
-  return createHash('sha256').update(JSON.stringify(options,(_key,value)=>typeof value==='function'?value.toString():value)).digest('hex');
+  // Baselines were captured with CRLF function bodies on Windows. Canonicalize
+  // only source line endings so Linux CI still checks the same options/code.
+  return createHash('sha256').update(JSON.stringify(options,(_key,value)=>typeof value==='function'?value.toString().replace(/\r?\n/g,'\r\n'):value)).digest('hex');
 }
 
 test('every chart keeps its exact original data, visual options and formatter functions',()=>{
