@@ -130,9 +130,14 @@ test('scanning maps scaled field coordinates, and clicking the locked blank area
   h.field.box = { left: 100, top: 200, width: h.field.clientWidth * 2, height: h.field.clientHeight * 2 };
   h.move(100 + p.x * 2, 200 + p.y * 2); h.flush();
   assert.equal(api.getState().scannedKey, button.dataset.key);
-  assert.equal(h.field.querySelector('.ws-lens').style.transform, `translate3d(${p.x}px,${p.y}px,0)`);
-  assert.equal(h.field.querySelector('.ws-atmosphere').style['--scan-x'], `${p.x}px`);
-  assert.equal(h.field.querySelector('.ws-atmosphere').style['--scan-y'], `${p.y}px`);
+  const lens = h.field.querySelector('.ws-lens').style.transform.match(/^translate3d\(([-\d.e]+)px,([-\d.e]+)px,0\)$/);
+  assert.ok(lens, 'scanner lens retains a valid translation');
+  // Scale/unscale can round at the last floating-point bit across runtimes.
+  for (const [actual, expected] of [[lens[1], p.x], [lens[2], p.y],
+    [h.field.querySelector('.ws-atmosphere').style['--scan-x'], p.x],
+    [h.field.querySelector('.ws-atmosphere').style['--scan-y'], p.y]]) {
+    assert.ok(Math.abs(parseFloat(actual) - expected) < 1e-8, 'scanner coordinates agree within subpixel precision');
+  }
   h.dispatch(h.field, 'click', { detail: 1 }); h.flush();
   assert.equal(api.getState().pinnedKey, button.dataset.key); assert.equal(h.detail().hidden, false);
   assert.equal(h.field.querySelector('.ws-lens').hidden, true);
