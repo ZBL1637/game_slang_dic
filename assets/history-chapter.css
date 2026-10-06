@@ -1,0 +1,396 @@
+/* This chapter keeps the site's existing font, black ground and purple accents. */
+#slang-history.hx-history {
+  --hx-ink: #f6eff8;
+  --hx-muted: #cebed3;
+  --hx-quiet: #ae96b7;
+  --hx-pink: #D946EF;
+  --hx-soft: #eea2f7;
+  --hx-line: rgba(165, 62, 167, .28);
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1200px;
+  margin: 72px auto;
+  padding: clamp(30px, 4.5vw, 58px);
+  overflow: visible;
+  border: 1px solid rgba(127, 0, 86, .42);
+  border-radius: 20px;
+  color: var(--hx-ink);
+  background: radial-gradient(ellipse at 12% 16%, rgba(127, 0, 86, .1), transparent 43%), rgba(5, 1, 7, .91);
+  text-align: left;
+  scroll-margin-top: 12px;
+}
+
+/* The old timeline's overflow and overlay would obscure the sticky illustration. */
+#slang-history.hx-history::before { content: none; }
+#slang-history *,
+#slang-history *::before,
+#slang-history *::after { box-sizing: border-box; }
+#slang-history :where(h2, h3, h4, p, blockquote, figure) { margin: 0; }
+#slang-history :where(a, button, summary) { -webkit-tap-highlight-color: transparent; }
+#slang-history :where(a, button, summary):focus-visible {
+  outline: 2px solid var(--hx-pink);
+  outline-offset: 5px;
+}
+#slang-history a { color: var(--hx-soft); text-underline-offset: 4px; }
+#slang-history .hx-header { max-width: 760px; margin-bottom: 44px; }
+#slang-history .hx-eyebrow {
+  margin-bottom: 14px;
+  color: var(--hx-soft);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.7;
+  letter-spacing: .07em;
+}
+#slang-history .hx-title {
+  margin-bottom: 20px;
+  color: var(--hx-pink);
+  font-size: clamp(29px, 3.2vw, 42px);
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+#slang-history .hx-intro {
+  max-width: 710px;
+  color: var(--hx-muted);
+  font-size: 16px;
+  line-height: 1.95;
+  overflow-wrap: anywhere;
+}
+
+#slang-history .hx-layout {
+  display: grid;
+  grid-template-columns: minmax(270px, 380px) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(34px, 5vw, 68px);
+  position: relative;
+  min-width: 0;
+}
+#slang-history .hx-visual {
+  position: sticky;
+  top: 96px;
+  align-self: start;
+  min-width: 0;
+}
+#slang-history .hx-stage {
+  position: relative;
+  padding: 6px 0 20px;
+  border-bottom: 1px solid var(--hx-line);
+  background: radial-gradient(ellipse at 50% 48%, rgba(127, 0, 86, .11), transparent 69%);
+}
+#slang-history .hx-scene { min-width: 0; }
+#slang-history .hx-scene[hidden] { display: none !important; }
+#slang-history .hx-scene:not([hidden]) { animation: hx-scene-appear .32s ease-out both; }
+#slang-history .hx-illustration {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 480 / 440;
+  object-fit: contain;
+  border: 0;
+  border-radius: 0;
+  margin: 0 auto;
+}
+#slang-history .hx-scene-caption {
+  min-height: 42px;
+  max-width: 34ch;
+  margin: 6px auto 0;
+  color: var(--hx-muted);
+  font-size: 12px;
+  line-height: 1.75;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+#slang-history .hx-scene-caption :where(span, small) { color: var(--hx-quiet); font-size: inherit; }
+#slang-history .hx-era-nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 10px;
+  margin: 18px 0 14px;
+}
+#slang-history .hx-era-nav a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  min-height: 44px;
+  padding: 9px 10px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  color: var(--hx-muted);
+  background: transparent;
+  font-size: 13px;
+  line-height: 1.6;
+  text-decoration: none;
+  transition: color .18s ease, border-color .18s ease, background-color .18s ease;
+}
+#slang-history .hx-nav-no { flex: 0 0 auto; color: var(--hx-quiet); font-size: 11px; font-variant-numeric: tabular-nums; }
+#slang-history .hx-nav-label { min-width: 0; overflow-wrap: anywhere; }
+#slang-history .hx-era-nav a[aria-current="step"] {
+  color: #fff;
+  border-color: rgba(217, 70, 239, .36);
+  background: rgba(127, 0, 86, .16);
+}
+#slang-history .hx-era-nav a[aria-current="step"] .hx-nav-no { color: var(--hx-soft); }
+#slang-history .hx-stage-note { color: var(--hx-quiet); font-size: 12px; line-height: 1.8; overflow-wrap: anywhere; }
+
+#slang-history .hx-stories { min-width: 0; }
+#slang-history .hx-story {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  min-height: 540px;
+  padding: 64px 0;
+  border-bottom: 1px solid var(--hx-line);
+  scroll-margin-top: 12px;
+}
+#slang-history .hx-story:first-child { padding-top: 30px; }
+#slang-history .hx-story:last-child { border-bottom: 0; padding-bottom: 40px; }
+#slang-history .hx-period { color: var(--hx-soft); font-size: 12px; font-weight: 500; line-height: 1.75; letter-spacing: .035em; }
+#slang-history .hx-story-title {
+  margin: 12px 0 20px;
+  color: #eda4f2;
+  font-size: clamp(25px, 2.35vw, 32px);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+#slang-history .hx-lead { color: var(--hx-ink); font-size: 18px; font-weight: 500; line-height: 1.8; overflow-wrap: anywhere; }
+#slang-history .hx-example {
+  margin: 24px 0;
+  padding: 3px 0 3px 18px;
+  border-left: 2px solid rgba(217, 70, 239, .62);
+  color: #efcff3;
+  font-size: 18px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+#slang-history .hx-example-label {
+  display: block;
+  margin-top: 9px;
+  color: var(--hx-quiet);
+  font-size: 12px;
+  font-weight: 400;
+  font-variant-caps: small-caps;
+  line-height: 1.7;
+  letter-spacing: .055em;
+}
+#slang-history .hx-body { color: var(--hx-muted); font-size: 15px; line-height: 1.95; overflow-wrap: anywhere; }
+#slang-history .hx-cite {
+  display: inline;
+  margin-left: 3px;
+  color: var(--hx-soft);
+  font-size: 12px;
+  line-height: 1;
+  vertical-align: super;
+  white-space: nowrap;
+  text-decoration-thickness: 1px;
+}
+#slang-history .hx-terms { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 15px; }
+#slang-history .hx-terms > span {
+  min-width: 0;
+  max-width: 100%;
+  padding: 5px 9px;
+  border: 1px solid rgba(127, 0, 86, .43);
+  border-radius: 5px;
+  background: rgba(127, 0, 86, .07);
+  color: #ddc4e6;
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+#slang-history .hx-takeaway { color: #d8bddf; font-size: 14px; line-height: 1.85; overflow-wrap: anywhere; }
+#slang-history .hx-takeaway strong { color: var(--hx-soft); font-weight: 600; }
+#slang-history .hx-mobile-scene { display: none; }
+
+#slang-history .hx-transfer { margin-top: 38px; padding-top: 38px; border-top: 1px solid var(--hx-line); }
+#slang-history .hx-transfer > :where(h3, h4) { margin-bottom: 12px; color: #eda4f2; font-size: 25px; font-weight: 700; line-height: 1.5; }
+#slang-history .hx-transfer > p { max-width: 780px; color: var(--hx-muted); font-size: 15px; line-height: 1.9; overflow-wrap: anywhere; }
+#slang-history .hx-transfer > .hx-eyebrow { margin-bottom: 12px; color: var(--hx-soft); font-size: 12px; line-height: 1.7; }
+#slang-history .hx-transfer-intro { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+#slang-history .hx-transfer > .hx-stage-note { margin-top: 14px; color: var(--hx-quiet); font-size: 12px; line-height: 1.8; }
+#slang-history .hx-word-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin: 23px 0; }
+#slang-history .hx-word-tabs button {
+  appearance: none;
+  min-width: 78px;
+  min-height: 44px;
+  padding: 9px 19px;
+  border: 1px solid rgba(165, 62, 167, .44);
+  border-radius: 8px;
+  background: rgba(127, 0, 86, .07);
+  box-shadow: none;
+  color: #dfcce5;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-transform: none;
+  transform: none;
+  cursor: pointer;
+  transition: color .18s ease, background-color .18s ease, border-color .18s ease;
+}
+#slang-history .hx-word-tabs button[aria-pressed="true"] { background: #7F0056; border-color: #c950d7; color: #fff; }
+#slang-history .hx-meaning-result { min-width: 0; max-width: 100%; }
+#slang-history .hx-meaning-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; }
+#slang-history .hx-meaning {
+  min-width: 0;
+  padding: 20px 22px;
+  border: 0;
+  border-left: 2px solid rgba(165, 62, 167, .4);
+  border-radius: 0 8px 8px 0;
+  background: rgba(127, 0, 86, .07);
+}
+#slang-history .hx-context { margin-bottom: 9px; color: var(--hx-soft); font-size: 12px; font-weight: 500; line-height: 1.75; }
+#slang-history .hx-meaning-word { margin-bottom: 10px; color: var(--hx-ink); font-size: 23px; font-weight: 700; line-height: 1.5; overflow-wrap: anywhere; }
+#slang-history .hx-meaning-line { color: #dbcce0; font-size: 15px; line-height: 1.9; overflow-wrap: anywhere; }
+#slang-history .hx-transfer .hx-meaning-note { margin-top: 16px; color: var(--hx-quiet); font-size: 12px; line-height: 1.85; }
+#slang-history .hx-sources { margin-top: 40px; border-top: 1px solid var(--hx-line); border-bottom: 1px solid var(--hx-line); }
+#slang-history .hx-sources > summary { min-height: 52px; padding: 16px 3px; color: #dfc9e7; font-size: 13px; line-height: 1.6; cursor: pointer; }
+#slang-history .hx-sources > summary::marker { color: var(--hx-soft); }
+#slang-history .hx-source-intro { max-width: 900px; margin: 0 3px 14px; color: var(--hx-muted); font-size: 13px; line-height: 1.9; overflow-wrap: anywhere; }
+#slang-history .hx-source-list { margin: 0; padding: 0 0 18px 24px; }
+#slang-history .hx-source-list > li { padding: 12px 0 12px 7px; scroll-margin-top: 115px; }
+#slang-history .hx-source-list > li::marker { color: var(--hx-soft); font-size: 12px; }
+#slang-history .hx-source-list a { color: #e4b6ed; font-size: 13px; line-height: 1.8; overflow-wrap: anywhere; }
+#slang-history .hx-source-list p { margin-top: 5px; color: var(--hx-quiet); font-size: 12px; line-height: 1.85; overflow-wrap: anywhere; }
+#slang-history .hx-source-list .hx-source-meta { margin-top: 6px; color: #b49cbd; font-size: 12px; line-height: 1.75; font-variant-numeric: tabular-nums; }
+/* A full-screen reading pause, in the earlier understated bridge style. */
+#history-culture-bridge {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1200px;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 120px 40px;
+  border: 0;
+  border-radius: 0;
+  color: var(--white);
+  text-align: center;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  /* Cancels the existing 110px global anchor offset for this one full screen. */
+  scroll-margin-top: -110px;
+  background: radial-gradient(ellipse at center, rgba(7, 1, 9, .82), transparent 72%);
+}
+#history-culture-bridge::before {
+  content: '';
+  display: block;
+  flex: 0 0 auto;
+  width: 72px;
+  height: 1px;
+  margin: 0 auto 28px;
+  background: linear-gradient(90deg, transparent, #a53ea7, transparent);
+}
+#history-culture-bridge .hx-bridge-context {
+  max-width: 800px;
+  margin: 0 auto;
+  color: var(--white);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.9;
+}
+#history-culture-bridge .hx-bridge-question {
+  max-width: 900px;
+  margin: 12px 0 0;
+  color: var(--white);
+  font-size: clamp(21px, 2.25vw, 28px);
+  font-weight: 600;
+  line-height: 1.65;
+}
+
+@keyframes hx-scene-appear {
+  from { opacity: .35; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (hover: hover) {
+  #slang-history .hx-era-nav a:hover { color: #fff; border-color: rgba(217, 70, 239, .4); background: rgba(127, 0, 86, .13); }
+  #slang-history .hx-word-tabs button:hover { color: #fff; border-color: #d270e2; background: rgba(127, 0, 86, .3); }
+  #slang-history .hx-word-tabs button[aria-pressed="true"]:hover { background: #920063; }
+  #slang-history :where(.hx-cite, .hx-source-list a):hover { color: #fff; }
+}
+@media (max-width: 1000px) {
+  #slang-history.hx-history { padding: 34px 28px; }
+  #slang-history .hx-layout { grid-template-columns: minmax(225px, .82fr) minmax(0, 1fr); gap: 30px; }
+  #slang-history .hx-visual { top: 90px; }
+  #slang-history .hx-story { min-height: 500px; padding: 48px 0; }
+  #slang-history .hx-era-nav { gap: 6px; }
+  #slang-history .hx-era-nav a { gap: 7px; padding: 8px 7px; font-size: 12px; }
+  #slang-history .hx-lead, #slang-history .hx-example { font-size: 17px; }
+  #slang-history .hx-meaning-grid { gap: 18px; }
+}
+@media (min-width: 761px) and (max-height: 720px) {
+  #slang-history .hx-visual { top: 96px; }
+  #slang-history .hx-stage .hx-illustration { max-height: 235px; }
+  #slang-history .hx-stage { padding-bottom: 12px; }
+  #slang-history .hx-era-nav { margin-top: 12px; margin-bottom: 10px; }
+}
+@media (max-width: 760px) {
+  body .timeline-wrapper:has(> #slang-history.hx-history) { padding: 0 0 30px; min-height: 0; }
+  #slang-history.hx-history { margin: 34px auto; padding: 30px 22px; border-radius: 16px; }
+  #slang-history .hx-header { margin-bottom: 24px; }
+  #slang-history .hx-title { font-size: clamp(27px, 5.6vw, 34px); margin-bottom: 16px; }
+  #slang-history .hx-intro { font-size: 15px; line-height: 1.9; }
+  #slang-history .hx-layout { display: block; }
+  #slang-history .hx-visual { position: static; margin-bottom: 4px; }
+  #slang-history .hx-stage, #slang-history .hx-visual .hx-stage-note { display: none; }
+  #slang-history .hx-era-nav { margin: 0 0 12px; padding-bottom: 16px; gap: 7px 8px; border-bottom: 1px solid var(--hx-line); }
+  #slang-history .hx-era-nav a { min-height: 44px; padding: 9px 10px; }
+  #slang-history .hx-story, #slang-history .hx-story:first-child, #slang-history .hx-story:last-child {
+    min-height: 0;
+    padding: 38px 0;
+    scroll-margin-top: 12px;
+  }
+  #slang-history .hx-story:first-child { padding-top: 26px; }
+  #slang-history .hx-story:last-child { padding-bottom: 20px; }
+  #slang-history .hx-mobile-scene { display: block; width: 100%; margin: 4px 0 23px; }
+  #slang-history .hx-mobile-scene .hx-illustration { max-height: 285px; }
+  #slang-history .hx-mobile-scene .hx-scene-caption { min-height: 0; margin-top: 4px; }
+  #slang-history .hx-story-title { font-size: 26px; margin: 10px 0 16px; }
+  #slang-history .hx-lead { font-size: 17px; }
+  #slang-history .hx-example { margin: 20px 0; padding-left: 14px; font-size: 17px; }
+  #slang-history .hx-body { font-size: 14px; line-height: 1.95; }
+  #slang-history .hx-terms { margin: 18px 0 14px; gap: 7px; }
+  #slang-history .hx-takeaway { font-size: 13px; }
+  #slang-history .hx-transfer { margin-top: 22px; padding-top: 28px; }
+  #slang-history .hx-transfer > :where(h3, h4) { font-size: 23px; }
+  #slang-history .hx-transfer > p { font-size: 14px; }
+  #slang-history .hx-transfer > .hx-eyebrow, #slang-history .hx-transfer > .hx-stage-note { font-size: 12px; }
+  #slang-history .hx-word-tabs { gap: 8px; margin: 20px 0; }
+  #slang-history .hx-word-tabs button { flex: 1 1 70px; min-width: 0; padding: 9px 11px; }
+  #slang-history .hx-meaning-grid { grid-template-columns: minmax(0, 1fr); gap: 15px; }
+  #slang-history .hx-meaning { padding: 17px 18px; }
+  #slang-history .hx-meaning-word { font-size: 22px; }
+  #slang-history .hx-meaning-line { font-size: 14px; }
+  #slang-history .hx-sources { margin-top: 30px; }
+  #history-culture-bridge { margin: 0 auto; padding: 120px 12px; }
+  #history-culture-bridge .hx-bridge-context { font-size: 14px; }
+}
+@media (max-width: 460px) {
+  #slang-history.hx-history { padding: 26px 17px; }
+  #slang-history .hx-eyebrow { font-size: 11px; letter-spacing: .035em; }
+  #slang-history .hx-title { font-size: 27px; }
+  #slang-history .hx-era-nav a { padding: 8px 6px; gap: 6px; }
+  #slang-history .hx-story-title { font-size: 24px; }
+  #slang-history .hx-mobile-scene .hx-illustration { max-height: 235px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #slang-history .hx-scene:not([hidden]) { animation: none; }
+  #slang-history .hx-era-nav a, #slang-history .hx-word-tabs button { transition: none; }
+  #slang-history .hx-story, #slang-history .hx-source-list > li { scroll-behavior: auto; }
+}

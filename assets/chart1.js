@@ -6,12 +6,13 @@ function createTermDistributionChart() {
         console.error('找不到chart1容器');
         return;
     }
+    const lifecycle = window.GameChartLifecycle.begin('chart1');
     // 处置已存在的实例，避免重复与渲染异常
     const existing = echarts.getInstanceByDom(chartDom);
     if (existing) {
         try { existing.dispose(); } catch(e) {}
     }
-    const myChart = echarts.init(chartDom);
+    const myChart = lifecycle.track(echarts.init(chartDom));
     
     // 直接嵌入JSON数据
     const data = [
@@ -353,10 +354,7 @@ function createTermDistributionChart() {
     // 设置配置并渲染图表
     myChart.setOption(option, true); // notMerge=true，确保完整刷新
 
-    // 响应式调整
-    window.addEventListener('resize', function() {
-        myChart.resize();
-    });
+    // Resize is owned by the shared lifecycle manager.
 
     return myChart;
 }

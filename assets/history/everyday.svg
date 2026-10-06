@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 440" width="480" height="440"><defs>
+<linearGradient id="shell" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#65416e"/><stop offset=".45" stop-color="#332039"/><stop offset="1" stop-color="#1a0e24"/></linearGradient>
+<linearGradient id="side" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#44244c"/><stop offset="1" stop-color="#180e20"/></linearGradient>
+<linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2b1938"/><stop offset=".55" stop-color="#160d22"/><stop offset="1" stop-color="#39233d"/></linearGradient>
+<linearGradient id="edge"><stop stop-color="#995ea5"/><stop offset=".5" stop-color="#dfb2dc"/><stop offset="1" stop-color="#6e467f"/></linearGradient>
+<linearGradient id="pink"><stop stop-color="#7f0056"/><stop offset="1" stop-color="#db88cd"/></linearGradient>
+<radialGradient id="halo"><stop stop-color="#9e4ba7" stop-opacity=".23"/><stop offset="1" stop-color="#9e4ba7" stop-opacity="0"/></radialGradient>
+<filter id="shadow" x="-50%" y="-50%" width="200%" height="220%"><feGaussianBlur stdDeviation="11"/></filter>
+<filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="2.2"/></filter>
+<pattern id="scan" width="4" height="5" patternUnits="userSpaceOnUse"><path d="M0 1H4" stroke="#b291cc" stroke-opacity=".07"/></pattern>
+</defs><ellipse cx="242" cy="240" rx="218" ry="186" fill="url(#halo)"/>
+<g fill="none" stroke="#82508f" stroke-opacity=".2"><path d="M46 300L240 399 438 299"/><path d="M81 320L272 224 409 292"/><path d="M92 98h28M92 98v28M388 334h-28M388 334v-28"/></g>
+<g fill="#bfa0d0" opacity=".55"><circle cx="68" cy="178" r="2"/><circle cx="412" cy="214" r="1.8"/><circle cx="368" cy="85" r="1.4"/></g>
+<ellipse cx="244" cy="368" rx="151" ry="20" fill="#050208" opacity=".8" filter="url(#shadow)"/>
+<g transform="translate(65 93) rotate(-7 125 100)"><rect x="6" y="7" width="237" height="162" rx="12" fill="#29162f" stroke="#5f3b68"/>
+<rect width="237" height="162" rx="12" fill="url(#shell)" stroke="#9b72a3"/>
+<rect x="11" y="30" width="215" height="121" rx="5" fill="url(#glass)"/><text x="15" y="19" fill="#bb9ecb" font-family="monospace" font-size="9" letter-spacing="2">IN GAME</text><circle cx="217" cy="15" r="3" fill="#b288bd"/>
+<path d="M24 57h109M24 66h148" stroke="#6b4a7e" stroke-width="3"/><path d="M170 59l10-8 10 8v14l-10 9-10-9Z" fill="none" stroke="#c8a7dc" stroke-width="2"/>
+<rect x="25" y="93" width="116" height="38" rx="8" fill="#593161" stroke="#9d69a8"/><text x="48" y="117" font-family="sans-serif" font-size="19" fill="#e6c5e9">破防</text></g>
+<path d="M191 272C261 306 310 191 348 218" fill="none" stroke="#c17aa9" stroke-opacity=".65" stroke-width="1.5" stroke-dasharray="4 6"/>
+<g transform="translate(211 233) rotate(5 100 70)"><rect x="5" y="6" width="206" height="121" rx="12" fill="#231328" stroke="#65416f"/>
+<rect width="206" height="121" rx="12" fill="url(#glass)" stroke="#aa7eb1"/><text x="16" y="23" fill="#c3a5cb" font-family="monospace" font-size="9" letter-spacing="2">IN EVERYDAY LIFE</text><path d="M16 36h174" stroke="#55375f"/>
+<circle cx="27" cy="67" r="11" fill="#805b94"/><path d="M25 62l6 5-6 5" fill="none" stroke="#ddbfed"/>
+<rect x="49" y="51" width="134" height="47" rx="8" fill="#43264e" stroke="#795188"/><text x="66" y="80" font-family="sans-serif" font-size="21" fill="#edcfee">破防了</text></g>
+<g fill="#a06eb6" opacity=".7"><circle cx="390" cy="128" r="5"/><circle cx="405" cy="113" r="3"/><circle cx="414" cy="95" r="1.8"/></g></svg>

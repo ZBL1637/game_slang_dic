@@ -1,801 +1,236 @@
-/**
- * 黑话DNA测试 - JavaScript逻辑
- * 转换自React版本，适配原生HTML/CSS/JS
- */
-
-// 游戏流派常量
-const GENRES = ["MOBA", "二次元", "沙盒", "FPS", "竞速", "休闲"];
-
-// 语言工具与显示映射
-function getLang(){
-  try {
-    if (window.i18n && typeof i18n.getLang === 'function') return i18n.getLang();
-  } catch(e) {}
-  const lang = (document.documentElement.getAttribute('lang') || navigator.language || 'zh').toLowerCase();
-  return lang.startsWith('zh') ? 'zh' : 'en';
-}
-
-function displayGenre(genre){
-  const map = {
-    'MOBA': { zh: 'MOBA', en: 'MOBA' },
-    '二次元': { zh: '二次元', en: 'Anime/Gacha' },
-    '沙盒': { zh: '沙盒', en: 'Sandbox' },
-    'FPS': { zh: 'FPS', en: 'FPS' },
-    '竞速': { zh: '竞速', en: 'Racing' },
-    '休闲': { zh: '休闲', en: 'Casual' }
+/* Eight-question card controller; scoring stays independent of presentation. */
+(() => {
+  'use strict';
+  const content=window.QuizContent, model=window.QuizModel;
+  const questions=content.questions, storageKey='gameslang-quiz-progress';
+  const $=id=>document.getElementById(id);
+  const lang=()=>window.i18n?.getLang()==='en'?'en':'zh';
+  const local=value=>value?.[lang()]||value?.zh||'';
+  const tr=(zh,en)=>lang()==='en'?en:zh;
+  const el=(tag,className,text)=>{
+    const node=document.createElement(tag);
+    if(className)node.className=className;
+    if(text!==undefined)node.textContent=text;
+    return node;
   };
-  const node = map[genre];
-  return node ? (node[getLang()] || node.zh || genre) : genre;
-}
-
-// 黑话词库
-const JARGON = {
-    "MOBA": [
-        "别送！稳住节奏",
-        "先手控一手，跟上跟上", 
-        "开团拉满，别贪线",
-        "看资源节奏，小龙先拿"
-    ],
-    "二次元": [
-        "抽卡玄学，今天必不歪",
-        "UP 池满命是信仰",
-        "肝活动也要有仪式感", 
-        "角色强度只是参考，爱才是永恒"
-    ],
-    "沙盒": [
-        "今晚继续开荒搭家",
-        "红石电路我小有研究",
-        "种田养老才是王道",
-        "生存日记·第 7 天"
-    ],
-    "FPS": [
-        "拉枪线，别露头",
-        "压枪稳住，听脚步",
-        "A 点无敌点清了",
-        "烟闪火来一个"
-    ],
-    "竞速": [
-        "走内线贴弯 apex",
-        "氮气点放别早", 
-        "刹车漂移别断流",
-        "分段卡线，干净利落"
-    ],
-    "休闲": [
-        "开黑走起，轻松躺赢",
-        "佛系日常，签到即快乐",
-        "派对局快乐最重要",
-        "好友互动加成 +100"
-    ]
-};
-
-// 英文黑话词库
-const JARGON_EN = {
-  "MOBA": [
-    "Don’t feed! Hold the tempo",
-    "Initiate first, follow up fast",
-    "Full commit teamfight, don’t overfarm",
-    "Play objectives, take drake first"
-  ],
-  "二次元": [
-    "Gacha luck on my side today",
-    "Banner max const is life",
-    "Grind events with style",
-    "Power level matters less — love matters most"
-  ],
-  "沙盒": [
-    "Keep expanding base tonight",
-    "I dabble in redstone circuits",
-    "Farming and chilling is king",
-    "Survival diary · Day 7"
-  ],
-  "FPS": [
-    "Swing angles, don’t peek wide",
-    "Control recoil, listen for steps",
-    "A site god spot cleared",
-    "Smoke-flash-molly incoming"
-  ],
-  "竞速": [
-    "Hug apex on inner line",
-    "Time nitro — not too early",
-    "Brake-drift, keep the flow",
-    "Clip lines clean and smooth"
-  ],
-  "休闲": [
-    "Party queue — chill wins",
-    "Zen dailies; log in for joy",
-    "Party games are about fun",
-    "Friend interactions +100"
-  ]
-};
-
-// 主题配色 - 统一网页配色方案
-const THEMES = {
-    "MOBA": { bg: "linear-gradient(135deg,#0b1222,#0e1c3a 60%,#183b8a)", accent: "#7F0056" },
-    "二次元": { bg: "linear-gradient(135deg,#271a3a,#3b2364 60%,#7045ff)", accent: "#D946EF" },
-    "沙盒": { bg: "linear-gradient(135deg,#1f1a14,#2b241a 60%,#6f5b2f)", accent: "#3B82F6" },
-    "FPS": { bg: "linear-gradient(135deg,#121212,#1b1b1b 60%,#2e2e2e)", accent: "#7F0056" },
-    "竞速": { bg: "linear-gradient(135deg,#0d1018,#0f1422 60%,#1c2e6b)", accent: "#3B82F6" },
-    "休闲": { bg: "linear-gradient(135deg,#17211a,#1d2a20 60%,#284e3a)", accent: "#D946EF" }
-};
-
-// 问题数据
-const QUESTIONS = [
-    {
-        id: "q1",
-        title: "你最喜欢哪种游戏类型？",
-        options: [
-            { label: "MOBA 团队竞技", weights: { "MOBA": 3, "FPS": 1 } },
-            { label: "二次元抽卡养成", weights: { "二次元": 3, "休闲": 1 } },
-            { label: "沙盒创造/生存", weights: { "沙盒": 3, "休闲": 1 } },
-            { label: "FPS 射击对战", weights: { "FPS": 3, "竞速": 1 } },
-            { label: "竞速/赛车", weights: { "竞速": 3, "FPS": 1 } },
-            { label: "派对/休闲", weights: { "休闲": 3, "二次元": 1 } }
-        ]
-    },
-    {
-        id: "q2", 
-        title: "开黑时你最常说的一句？",
-        options: [
-            { label: "别送！稳住节奏", weights: { "MOBA": 2 } },
-            { label: "今晚一定出金闪闪", weights: { "二次元": 2 } },
-            { label: "先把家搭好再探险", weights: { "沙盒": 2 } },
-            { label: "听枪声，卡视野", weights: { "FPS": 2 } },
-            { label: "走内线，漂移！", weights: { "竞速": 2 } },
-            { label: "佛系一点，开心就好", weights: { "休闲": 2 } }
-        ]
-    },
-    {
-        id: "q3",
-        title: "你在队伍里的典型定位是？", 
-        options: [
-            { label: "指挥型：开团拉满", weights: { "MOBA": 2, "FPS": 1 } },
-            { label: "工具人：资源管理达人", weights: { "沙盒": 2, "二次元": 1 } },
-            { label: "核心 C：伤害拉满", weights: { "FPS": 2, "MOBA": 1 } },
-            { label: "辅助奶妈：兜底护航", weights: { "二次元": 2, "休闲": 1 } },
-            { label: "极限操作手：极速与激情", weights: { "竞速": 2 } }
-        ]
-    },
-    {
-        id: "q4",
-        title: "遇到连败你会？",
-        options: [
-            { label: "复盘节奏问题，换战术", weights: { "MOBA": 2, "FPS": 1 } },
-            { label: "抽卡换阵容，下把转运", weights: { "二次元": 2 } },
-            { label: "回家造点更强的装备", weights: { "沙盒": 2 } },
-            { label: "换图/练枪，打基础", weights: { "FPS": 2 } },
-            { label: "冲几把竞速换换脑子", weights: { "竞速": 2 } },
-            { label: "休息一下，明天再战", weights: { "休闲": 2 } }
-        ]
-    },
-    {
-        id: "q5",
-        title: "你最享受的游戏瞬间？",
-        options: [
-            { label: "一波开团翻盘全场沸腾", weights: { "MOBA": 3 } },
-            { label: "抽到心仪角色/满命", weights: { "二次元": 3 } },
-            { label: "搭出复杂机关顺利运转", weights: { "沙盒": 3 } },
-            { label: "极限 1v3 反杀", weights: { "FPS": 3 } },
-            { label: "终点线前反超", weights: { "竞速": 3 } },
-            { label: "朋友一起哈哈大笑", weights: { "休闲": 3 } }
-        ]
-    },
-    {
-        id: "q6",
-        title: "偏爱的美术/界面风格？",
-        options: [
-            { label: "科幻霓虹 / 赛博 UI", weights: { "MOBA": 2, "FPS": 1 } },
-            { label: "日系清爽 / 软萌渐变", weights: { "二次元": 2 } },
-            { label: "像素/方块/自然质感", weights: { "沙盒": 2 } },
-            { label: "极简战术 / HUD 信息流", weights: { "FPS": 2 } },
-            { label: "速度线 / 碳纤维纹理", weights: { "竞速": 2 } },
-            { label: "糖果色 / 派对贴纸感", weights: { "休闲": 2 } }
-        ]
-    },
-    {
-        id: "q7",
-        title: "更像你的一句个性签名是？",
-        options: [
-            { label: "节奏是门艺术", weights: { "MOBA": 2 } },
-            { label: "命运与我签了契约", weights: { "二次元": 2 } },
-            { label: "世界是我搭的乐高", weights: { "沙盒": 2 } },
-            { label: "精准即浪漫", weights: { "FPS": 2 } },
-            { label: "速度即信仰", weights: { "竞速": 2 } },
-            { label: "快乐至上", weights: { "休闲": 2 } }
-        ]
-    },
-    {
-        id: "q8",
-        title: "可多选：以下你也常玩？",
-        subtitle: "最多选 2 个",
-        multi: true,
-        maxPick: 2,
-        options: [
-            { label: "MOBA", weights: { "MOBA": 1 } },
-            { label: "二次元", weights: { "二次元": 1 } },
-            { label: "沙盒", weights: { "沙盒": 1 } },
-            { label: "FPS", weights: { "FPS": 1 } },
-            { label: "竞速", weights: { "竞速": 1 } },
-            { label: "休闲派对", weights: { "休闲": 1 } }
-        ]
-    }
-];
-
-// 英文问题数据
-const QUESTIONS_EN = [
-  {
-    id: "q1",
-    title: "Which game genre do you like most?",
-    options: [
-      { label: "MOBA teamfight", weights: { "MOBA": 3, "FPS": 1 } },
-      { label: "Anime/Gacha progression", weights: { "二次元": 3, "休闲": 1 } },
-      { label: "Sandbox create/survive", weights: { "沙盒": 3, "休闲": 1 } },
-      { label: "FPS shooting duels", weights: { "FPS": 3, "竞速": 1 } },
-      { label: "Racing / motorsports", weights: { "竞速": 3, "FPS": 1 } },
-      { label: "Party / chill", weights: { "休闲": 3, "二次元": 1 } }
-    ]
-  },
-  {
-    id: "q2",
-    title: "Your usual callout when queueing?",
-    options: [
-      { label: "Don’t feed! Keep tempo", weights: { "MOBA": 2 } },
-      { label: "Tonight we pull SSR", weights: { "二次元": 2 } },
-      { label: "Build base first, then roam", weights: { "沙盒": 2 } },
-      { label: "Hold angles, listen", weights: { "FPS": 2 } },
-      { label: "Inner line, drift!", weights: { "竞速": 2 } },
-      { label: "Stay zen, have fun", weights: { "休闲": 2 } }
-    ]
-  },
-  {
-    id: "q3",
-    title: "Your typical team role?",
-    options: [
-      { label: "Shotcaller — full engage", weights: { "MOBA": 2, "FPS": 1 } },
-      { label: "Utility — resource manager", weights: { "沙盒": 2, "二次元": 1 } },
-      { label: "Carry — damage maxed", weights: { "FPS": 2, "MOBA": 1 } },
-      { label: "Support — safe escort", weights: { "二次元": 2, "休闲": 1 } },
-      { label: "Mechanics — speed & precision", weights: { "竞速": 2 } }
-    ]
-  },
-  {
-    id: "q4",
-    title: "On a losing streak, you…",
-    options: [
-      { label: "Review tempo, change strats", weights: { "MOBA": 2, "FPS": 1 } },
-      { label: "Pull new banner, reset luck", weights: { "二次元": 2 } },
-      { label: "Craft stronger gear at home", weights: { "沙盒": 2 } },
-      { label: "Change map / aim train", weights: { "FPS": 2 } },
-      { label: "Queue racing to refresh mind", weights: { "竞速": 2 } },
-      { label: "Take a break; try tomorrow", weights: { "休闲": 2 } }
-    ]
-  },
-  {
-    id: "q5",
-    title: "Your favorite gaming moment?",
-    options: [
-      { label: "Massive teamfight comeback", weights: { "MOBA": 3 } },
-      { label: "Pulling beloved unit / max const", weights: { "二次元": 3 } },
-      { label: "Complex contraption runs smoothly", weights: { "沙盒": 3 } },
-      { label: "Clutch 1v3", weights: { "FPS": 3 } },
-      { label: "Overtake at the finish line", weights: { "竞速": 3 } },
-      { label: "Laughing with friends", weights: { "休闲": 3 } }
-    ]
-  },
-  {
-    id: "q6",
-    title: "Preferred art / UI style?",
-    options: [
-      { label: "Sci-fi neon / cyber UI", weights: { "MOBA": 2, "FPS": 1 } },
-      { label: "Clean anime / soft gradients", weights: { "二次元": 2 } },
-      { label: "Pixel/block / natural texture", weights: { "沙盒": 2 } },
-      { label: "Minimal tactics / HUD info flow", weights: { "FPS": 2 } },
-      { label: "Speed lines / carbon fiber", weights: { "竞速": 2 } },
-      { label: "Candy colors / party sticker vibe", weights: { "休闲": 2 } }
-    ]
-  },
-  {
-    id: "q7",
-    title: "Which signature line fits you?",
-    options: [
-      { label: "Tempo is an art", weights: { "MOBA": 2 } },
-      { label: "Fate signed with me", weights: { "二次元": 2 } },
-      { label: "World is my Lego build", weights: { "沙盒": 2 } },
-      { label: "Precision is romance", weights: { "FPS": 2 } },
-      { label: "Speed is faith", weights: { "竞速": 2 } },
-      { label: "Fun above all", weights: { "休闲": 2 } }
-    ]
-  },
-  {
-    id: "q8",
-    title: "Multi-pick: you also play…",
-    subtitle: "Pick up to 2",
-    multi: true,
-    maxPick: 2,
-    options: [
-      { label: "MOBA", weights: { "MOBA": 1 } },
-      { label: "Anime/Gacha", weights: { "二次元": 1 } },
-      { label: "Sandbox", weights: { "沙盒": 1 } },
-      { label: "FPS", weights: { "FPS": 1 } },
-      { label: "Racing", weights: { "竞速": 1 } },
-      { label: "Casual/Party", weights: { "休闲": 1 } }
-    ]
+  let answers={}, step=0, screen='intro', generation=0;
+  function restore(){
+    try{
+      const saved=JSON.parse(localStorage.getItem(storageKey));
+      if(!saved||saved.version!==content.version)return;
+      answers=model.sanitizeProgressAnswers(saved.answers);
+      step=Number.isInteger(saved.step)?Math.max(0,Math.min(questions.length-1,saved.step)):0;
+    }catch(_){/* Blocked or damaged storage must not stop the quiz. */}
   }
-];
-
-// 全局状态
-let currentStep = 0;
-let answers = {};
-let scores = {};
-
-// 初始化
-function init() {
-    // 检查是否有缓存数据
-    const cached = localStorage.getItem('blackspeak-dna-answers');
-    if (cached) {
-        try {
-            answers = JSON.parse(cached);
-            if (Object.keys(answers).length > 0) {
-                showReport();
-                return;
-            }
-        } catch (e) {
-            console.log('缓存数据解析失败');
-        }
-    }
-    
-    applyDnaI18nStaticTexts();
-    showIntro();
-}
-
-// 显示介绍页面
-function showIntro() {
-    hideAllCards();
-    document.getElementById('introCard').classList.remove('dna-hidden');
-    // 根据语言更新介绍卡片文案
-    const lang = getLang();
-    const titleEl = document.querySelector('.dna-title');
-    if (titleEl){
-      titleEl.innerHTML = lang === 'zh' ? '<span class="dna-accent">黑话</span>DNA' : '<span class="dna-accent">Slang</span> DNA';
-    }
-    const bigEl = document.querySelector('#introCard .dna-big-text');
-    const mutedEl = document.querySelector('#introCard .dna-muted');
-    const bullets = document.querySelector('#introCard .dna-bullets');
-    const startBtn = document.querySelector('#introCard .dna-primary-btn');
-    const resetBtn = document.querySelector('.dna-reset-btn');
-    if (lang === 'zh'){
-      bigEl.textContent = '你的游戏\u201c黑话\u201d基因，究竟来自哪里？';
-      mutedEl.textContent = '通过 8 个趣味问题，生成你的「黑话 DNA 报告」。支持一键生成海报，分享给好友一起对线（不，是对标 😎）。';
-      bullets.innerHTML = '<li>流派占比：MOBA / 二次元 / 沙盒 / FPS / 竞速 / 休闲</li>\n<li>黑话关键词云 + 身份标签 + 分享文案</li>\n<li>不涉及任何特定游戏 IP（放心使用）</li>';
-      startBtn.textContent = '开始测试';
-      if (resetBtn) resetBtn.textContent = '重新开始';
-    } else {
-      bigEl.textContent = 'Where does your gaming "slang" DNA come from?';
-      mutedEl.textContent = 'Answer 8 playful questions to generate your Slang DNA report. Export a poster and share with friends 😎.';
-      bullets.innerHTML = '<li>Genre mix: MOBA / Anime / Sandbox / FPS / Racing / Casual</li>\n<li>Slang word cloud + identity tags + share copy</li>\n<li>No specific game IP involved (safe to use)</li>';
-      startBtn.textContent = 'Start';
-      if (resetBtn) resetBtn.textContent = 'Restart';
-    }
-}
-
-// 开始测试
-function startTest() {
-    currentStep = 0;
-    answers = {};
-    showQuestion();
-}
-
-// 显示问题
-function showQuestion() {
-    hideAllCards();
-    document.getElementById('quizCard').classList.remove('dna-hidden');
-    const lang = getLang();
-    const dataset = lang === 'zh' ? QUESTIONS : QUESTIONS_EN;
-    const question = dataset[currentStep];
-    document.getElementById('stepInfo').textContent = lang === 'zh' ? `问题 ${currentStep + 1} / ${dataset.length}` : `Question ${currentStep + 1} / ${dataset.length}`;
-    document.getElementById('questionTitle').textContent = question.title;
-    
-    const subtitleEl = document.getElementById('questionSubtitle');
-    if (question.subtitle) {
-        subtitleEl.textContent = question.subtitle;
-        subtitleEl.classList.remove('dna-hidden');
-    } else {
-        subtitleEl.classList.add('dna-hidden');
-    }
-    
-    // 生成选项
-    const optionsContainer = document.getElementById('optionsContainer');
-    optionsContainer.innerHTML = '';
-    
-    question.options.forEach((option, index) => {
-        const button = document.createElement('button');
-        button.className = 'dna-option';
-        button.textContent = option.label;
-        button.onclick = () => selectOption(index);
-        button.setAttribute('data-index', index);
-        optionsContainer.appendChild(button);
+  function persist(){
+    try{localStorage.setItem(storageKey,JSON.stringify({version:content.version,answers:model.sanitizeProgressAnswers(answers),step}));}
+    catch(_){/* In-memory answers remain usable without storage. */}
+  }
+  function staticLabels(){
+    document.documentElement.lang=lang()==='en'?'en':'zh-CN';
+    document.title=tr('黑话 DNA 测试','Game Slang DNA');
+    try{if(window.frameElement)window.frameElement.title=document.title;}catch(_){/* Standalone or foreign embed. */}
+    const labels={
+      brandLabel:tr('黑话','SLANG'),headerReset:tr('重新开始','Start over'),
+      introEyebrow:tr('8 个问题 · 一份游戏偏好速写','8 questions · A sketch of your play preferences'),
+      introTitle:tr('你的游戏“黑话”基因，究竟来自哪里？','Where does your game-slang DNA come from?'),
+      introDescription:tr('回到你熟悉的游戏现场：怎样回复队友，把时间留给什么，能否听懂一条战术指令。','Back in the game: how you reply to teammates, what you make time for, and how you read a tactical call.'),
+      prevBtn:tr('上一步','Previous'),reportTitle:tr('你的黑话 DNA 报告','Your game-slang DNA'),
+      evidenceTitle:tr('从你的选择看','What your choices suggest'),
+      communicationTitle:tr('你会怎样和队友沟通','How you communicate'),
+      gamesTitle:tr('可以试试的游戏体验','Experiences to explore'),
+      knowledgeTitle:tr('黑话理解 · 单独看看','Slang understanding · A separate look'),
+      shareTitle:tr('把这次结果带走','Take your result with you'),
+      reportReset:tr('重新测试','Try again'),shareBtn:tr('复制结果','Copy result'),
+      quizFooter:tr('结果来自本次选择，用于观察游戏偏好与沟通习惯。','A reflection of these choices: play preferences and communication habits.')
+    };
+    Object.entries(labels).forEach(([id,value])=>$(id).textContent=value);
+    $('introBullets').replaceChildren(...[
+      tr('6 道情境题：回复队友、取舍资源，再排一次优先级。','6 scenarios: reply to teammates, make trade-offs and rank your priorities.'),
+      tr('2 道黑话题：放进真实语境，看看你会怎样理解。','2 slang questions: interpret a call in its game context.'),
+      tr('报告保留选择依据，游戏偏好和黑话理解分开呈现。','See the choices behind your result, with preferences and slang kept separate.')
+    ].map(text=>el('li','',text)));
+  }
+  function showCard(name){
+    screen=name;
+    ['intro','quiz','report'].forEach(id=>$(id+'Card').classList.toggle('dna-hidden',id!==name));
+  }
+  function focusHeading(id){
+    requestAnimationFrame(()=>{
+      $(id).focus({preventScroll:true});
+      // The host owns scrolling; avoid a hidden scroll offset inside the growing iframe.
+      try{
+        const frame=window.frameElement;
+        if(frame&&parent.location.origin===location.origin){
+          const top=frame.getBoundingClientRect().top;
+          if(top<90||top>parent.innerHeight*.7)parent.scrollBy({top:top-130,behavior:'instant'});
+        }else $(id).scrollIntoView({block:'nearest'});
+      }catch(_){/* Foreign embeds retain their normal document flow. */}
     });
-    
-    // 恢复之前的选择
-    const currentAnswers = answers[question.id] || [];
-    currentAnswers.forEach(index => {
-        const button = optionsContainer.querySelector(`[data-index="${index}"]`);
-        if (button) button.classList.add('active');
-    });
-    
-    // 更新按钮状态
-    updateButtons();
-    
-    // 更新进度条
-    const progress = ((currentStep + 1) / QUESTIONS.length) * 100;
-    document.getElementById('progressBar').style.width = `${progress}%`;
-    // 按钮文案
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    prevBtn.textContent = lang === 'zh' ? '上一步' : 'Back';
-    nextBtn.textContent = lang === 'zh' ? '下一步' : 'Next';
-}
-
-// 选择选项
-function selectOption(index) {
-    const question = QUESTIONS[currentStep];
-    const currentAnswers = answers[question.id] || [];
-    
-    if (!question.multi) {
-        // 单选
-        answers[question.id] = [index];
-        // 更新UI
-        document.querySelectorAll('.dna-option').forEach(btn => btn.classList.remove('active'));
-        document.querySelector(`[data-index="${index}"]`).classList.add('active');
-    } else {
-        // 多选
-        const exists = currentAnswers.includes(index);
-        let newAnswers;
-        
-        if (exists) {
-            newAnswers = currentAnswers.filter(i => i !== index);
-        } else {
-            newAnswers = [...currentAnswers, index];
-            if (question.maxPick && newAnswers.length > question.maxPick) {
-                newAnswers = newAnswers.slice(-question.maxPick);
-            }
-        }
-        
-        answers[question.id] = newAnswers;
-        
-        // 更新UI
-        document.querySelectorAll('.dna-option').forEach(btn => btn.classList.remove('active'));
-        newAnswers.forEach(i => {
-            document.querySelector(`[data-index="${i}"]`).classList.add('active');
-        });
-    }
-    
-    updateButtons();
-}
-
-// 更新按钮状态
-function updateButtons() {
-    const question = QUESTIONS[currentStep];
-    const hasAnswers = answers[question.id] && answers[question.id].length > 0;
-    
-    document.getElementById('prevBtn').disabled = currentStep === 0;
-    document.getElementById('nextBtn').disabled = !hasAnswers;
-}
-
-// 上一题
-function prevQuestion() {
-    if (currentStep > 0) {
-        currentStep--;
-        showQuestion();
-    }
-}
-
-// 下一题
-function nextQuestion() {
-    if (currentStep < QUESTIONS.length - 1) {
-        currentStep++;
-        showQuestion();
-    } else {
-        // 完成测试
-        calculateScores();
-        saveAnswers();
-        showReport();
-    }
-}
-
-// 计算分数
-function calculateScores() {
-    scores = {};
-    GENRES.forEach(genre => scores[genre] = 0);
-    
-    QUESTIONS.forEach(question => {
-        const picks = answers[question.id] || [];
-        picks.forEach(index => {
-            const option = question.options[index];
-            GENRES.forEach(genre => {
-                scores[genre] += option.weights[genre] || 0;
-            });
-        });
-    });
-}
-
-// 标准化百分比
-/**
- * 计算各类型的百分比并规范化为总和100（整数百分比）
- * - 将各类型分数占比转换为百分数（四舍五入为整数）
- * - 若总和不为100，则将差值补到占比最高的类型，保证总和为100
- * @returns {Array<{genre:string, percent:number}>} 按百分比降序排列的结果
- */
-function normalizeScores() {
-    const total = GENRES.reduce((sum, genre) => sum + (scores[genre] || 0), 0) || 1;
-    const percents = GENRES.map(genre => ({
-        genre,
-        percent: Math.round((scores[genre] || 0) / total * 100)
+  }
+  function showIntro(){
+    showCard('intro');
+    const count=Object.keys(model.sanitizeAnswers(answers)).length;
+    $('savedNote').hidden=count===0;
+    $('savedNote').textContent=tr('已保留 '+count+' / 8 题的选择，可继续，也可从头开始。',count+' / 8 answers saved. Continue or start over.');
+    $('startBtn').textContent=count===8?tr('查看上次结果','View saved result'):count?tr('继续测试','Continue'):tr('开始测试','Start test');
+    $('headerReset').disabled=count===0;
+  }
+  function renderQuestion(moveFocus=false){
+    showCard('quiz');$('headerReset').disabled=false;
+    const q=questions[step];
+    $('stepInfo').textContent=tr('问题 ','Question ')+(step+1)+' / '+questions.length;
+    $('questionType').textContent=({single:tr('情境选择','Scenario'),chat:tr('聊天回复','Chat reply'),rank:tr('优先级排序','Rank priorities'),knowledge:tr('黑话语境','Slang in context')})[q.type];
+    $('questionTitle').textContent=local(q.title);$('questionSubtitle').textContent=local(q.subtitle);
+    $('questionContext').hidden=!q.context;$('questionContext').textContent=local(q.context);
+    $('optionsContainer').dataset.type=q.type;
+    $('optionsContainer').replaceChildren(...q.options.map((option,index)=>{
+      const button=el('button','dna-option'+(option.neutral?' neutral':''));
+      button.type='button';button.dataset.option=option.id;
+      const marker=el('span','dna-option-marker',String.fromCharCode(65+index));marker.setAttribute('aria-hidden','true');
+      button.append(marker,el('span','dna-option-label',local(option.label)));return button;
     }));
-    
-    // 确保总和为100%
-    const sum = percents.reduce((acc, item) => acc + item.percent, 0);
-    const diff = 100 - sum;
-    if (diff !== 0) {
-        const maxIndex = percents.reduce((maxIdx, item, idx, arr) => 
-            item.percent > arr[maxIdx].percent ? idx : maxIdx, 0);
-        percents[maxIndex].percent += diff;
+    $('prevBtn').disabled=step===0;
+    $('nextBtn').textContent=step===questions.length-1?tr('查看报告','See result'):tr('下一步','Next');
+    $('progressBar').style.width=((step+1)/questions.length*100)+'%';
+    $('progressTrack').setAttribute('aria-valuenow',String(step+1));
+    $('progressTrack').setAttribute('aria-label',tr('答题进度','Question progress'));
+    updateSelection();if(moveFocus)focusHeading('questionTitle');
+  }
+  function updateSelection(message){
+    const q=questions[step],selected=answers[q.id]||[];
+    $('optionsContainer').querySelectorAll('[data-option]').forEach(button=>{
+      const index=selected.indexOf(button.dataset.option),active=index!==-1;
+      button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active));
+      const marker=button.querySelector('.dna-option-marker');
+      marker.textContent=active?(q.type==='rank'&&!q.options.find(o=>o.id===button.dataset.option).neutral?String(index+1):'✓'):String.fromCharCode(65+q.options.findIndex(o=>o.id===button.dataset.option));
+    });
+    const valid=model.isAnswerValid(q,selected);$('nextBtn').disabled=!valid;
+    $('answerStatus').textContent=message||(q.type==='rank'
+      ?(selected.some(id=>q.options.find(o=>o.id===id)?.neutral)?tr('已记录：这次没有明确偏好。','Recorded: no clear preference this time.')
+        :tr('已选 '+selected.length+' / 3 项，按先后排列；再次点击可取消。',selected.length+' / 3 ranked. Click a selected option again to remove it.'))
+      :valid?tr('已记录，可以继续，也可以换一个回答。','Answer recorded. Continue, or choose another reply.')
+        :q.type==='knowledge'?tr('选择你对这句话的理解，不确定也可以选。','Choose how you understand the phrase, or select “Not sure”.')
+        :tr('选择最接近你实际反应的一项。','Choose the response closest to what you would actually do.'));
+    renderRanking(q,selected);
+  }
+  function renderRanking(q,selected){
+    const rows=selected.filter(id=>!q.options.find(o=>o.id===id)?.neutral);
+    $('rankingContainer').hidden=q.type!=='rank'||rows.length===0;
+    if($('rankingContainer').hidden){$('rankingContainer').replaceChildren();return;}
+    const heading=el('p','dna-rank-heading',tr('你的优先顺序 · 可用箭头调整','Your order · Use the arrows to adjust')),list=el('ol','dna-rank-list');
+    rows.forEach((id,index)=>{
+      const option=q.options.find(o=>o.id===id),row=el('li','dna-rank-row');
+      row.append(el('span','dna-rank-number',String(index+1)),el('span','',local(option.label)));
+      const controls=el('span','dna-rank-controls');
+      [['up','↑',index===0,tr('上移','Move up')],['down','↓',index===rows.length-1,tr('下移','Move down')],['remove','×',false,tr('移除','Remove')]].forEach(([action,symbol,disabled,label])=>{
+        const button=el('button','dna-rank-button',symbol);
+        button.type='button';button.dataset.rankAction=action;button.dataset.rankId=id;button.disabled=disabled;
+        button.setAttribute('aria-label',label+'：'+local(option.label));controls.append(button);
+      });
+      row.append(controls);list.append(row);
+    });
+    $('rankingContainer').replaceChildren(heading,list);
+  }
+  function selectOption(id){
+    const q=questions[step],option=q.options.find(o=>o.id===id);if(!option)return;
+    let selected=answers[q.id]||[];
+    if(q.type!=='rank'||option.neutral)selected=[id];
+    else{
+      selected=selected.filter(value=>!q.options.find(o=>o.id===value)?.neutral);
+      if(selected.includes(id))selected=selected.filter(value=>value!==id);
+      else if(selected.length<q.pickCount)selected=[...selected,id];
+      else{updateSelection(tr('已经选了三项，请先取消一项再替换。','Three selected. Remove one before adding another.'));return;}
     }
-    
-    return percents.sort((a, b) => b.percent - a.percent);
-}
-
-// 显示报告
-function showReport() {
-    hideAllCards();
-    document.getElementById('reportCard').classList.remove('dna-hidden');
-    const lang = getLang();
-    calculateScores();
-    const percents = normalizeScores();
-    const topGenre = percents[0];
-    
-    // 更新主题
-    updateTheme(topGenre.genre);
-    
-    // 更新中心显示
-    document.getElementById('topGenre').textContent = displayGenre(topGenre.genre);
-    document.getElementById('topPercent').textContent = `${topGenre.percent}%`;
-    
-    // 绘制环形图
-    drawDonutChart(percents);
-    
-    // 生成徽章
-    generateBadges(percents.slice(0, 3));
-    
-    // 生成标签云
-    generateTagCloud(percents);
-    
-    // 生成黑话样本
-    generateJargonSample(percents);
-    
-    // 生成分享文案
-    generateShareCopy(percents);
-    // 标题与面板文案
-    const reportTitle = document.querySelector('#reportCard .dna-report-title');
-    const panelTitles = document.querySelectorAll('#reportCard .dna-panel .dna-panel-title');
-    const actionBtns = document.querySelectorAll('#reportCard .dna-actions button');
-    if (reportTitle) reportTitle.textContent = lang === 'zh' ? '你的黑话 DNA 报告' : 'Your Slang DNA Report';
-    if (panelTitles[0]) panelTitles[0].textContent = lang === 'zh' ? '黑话片段 · 随机采样' : 'Slang Snippets · Random Sample';
-    if (panelTitles[1]) panelTitles[1].textContent = lang === 'zh' ? '自动生成分享文案' : 'Auto-generated Share Copy';
-    if (actionBtns[0]) actionBtns[0].textContent = lang === 'zh' ? '重新测试' : 'Retake';
-    if (actionBtns[1]) actionBtns[1].textContent = lang === 'zh' ? '分享结果' : 'Share';
-}
-
-// 更新主题
-function updateTheme(topGenre) {
-    const theme = THEMES[topGenre];
-    const container = document.getElementById('dnaContainer');
-    container.style.background = theme.bg;
-    
-    // 更新强调色
-    document.documentElement.style.setProperty('--dna-accent', theme.accent);
-    
-    // 更新所有强调色元素
-    document.querySelectorAll('.dna-accent, .dna-center-genre').forEach(el => {
-        el.style.color = theme.accent;
-    });
-    
-    document.querySelectorAll('.dna-progress-bar').forEach(el => {
-        el.style.background = theme.accent;
-    });
-}
-
-// 绘制环形图
-function drawDonutChart(percents) {
-    const svg = document.getElementById('donutChart');
-    const size = 200;
-    const stroke = 20;
-    const radius = size / 2 - stroke / 2;
-    const circumference = Math.PI * 2 * radius;
-    
-    // 清除现有内容
-    svg.innerHTML = `<circle cx="100" cy="100" r="${radius}" stroke="rgba(255,255,255,0.1)" stroke-width="${stroke}" fill="none" />`;
-    
-    const colors = {
-        "MOBA": "#7F0056",
-        "二次元": "#D946EF", 
-        "沙盒": "#3B82F6",
-        "FPS": "#7F0056",
-        "竞速": "#3B82F6",
-        "休闲": "#D946EF"
+    answers[q.id]=selected;persist();updateSelection();
+  }
+  function moveRank(button){
+    const q=questions[step],selected=[...(answers[q.id]||[])],index=selected.indexOf(button.dataset.rankId);if(index<0)return;
+    const action=button.dataset.rankAction,next=action==='up'?index-1:index+1;
+    if(action==='remove')selected.splice(index,1);
+    else if(next>=0&&next<selected.length)[selected[index],selected[next]]=[selected[next],selected[index]];
+    answers[q.id]=selected;persist();updateSelection();
+    const rowControls=[...$('rankingContainer').querySelectorAll('button')].filter(b=>b.dataset.rankId===button.dataset.rankId&&!b.disabled);
+    const same=rowControls.find(b=>b.dataset.rankAction===action)||rowControls[0];
+    (same||[...$('optionsContainer').querySelectorAll('[data-option]')].find(b=>b.dataset.option===button.dataset.rankId))?.focus({preventScroll:true});
+  }
+  function evidenceNode(item){
+    const q=questions.find(question=>question.id===item.questionId),option=q.options.find(o=>o.id===item.optionId),p=el('p','dna-evidence');
+    p.append(el('strong','',tr('第 '+(questions.indexOf(q)+1)+' 题','Question '+(questions.indexOf(q)+1))),document.createTextNode(' · '+local(q.title)),el('br'),document.createTextNode(tr('你的选择：','Your choice: ')+local(option.label)));return p;
+  }
+  const percent=value=>new Intl.NumberFormat(lang(),{maximumFractionDigits:1}).format(value)+'%';
+  function showReport(moveFocus=false){
+    let result;
+    try{result=model.evaluate(answers);}
+    catch(_){step=questions.findIndex(q=>!model.isAnswerValid(q,answers[q.id]));if(step<0)step=0;renderQuestion(true);return;}
+    showCard('report');$('headerReset').disabled=false;
+    const positive=result.dimensions.filter(d=>d.score>0),top=positive[0],leaders=positive.filter(d=>d.score===top?.score);
+    const dimension=id=>content.dimensions.find(d=>d.id===id);
+    const leadingLabel=!top?tr('暂未定型','Still open'):leaders.length>1?tr('混合偏好','Mixed interests'):local(dimension(top.id).label);
+    $('reportCaption').textContent=tr('偏好图谱 · 基于 '+result.preferenceAnswers+' 道有效情境回答','Preference map · Based on '+result.preferenceAnswers+' scenario answers');
+    $('ringLabel').textContent=leaders.length>1?tr('并列倾向','Shared lead'):tr('本次偏好','This time');
+    $('topGenre').textContent=leadingLabel;$('topPercent').textContent=top?percent(top.percent):'—';
+    const svg=$('donutChart'),circle=(color,dash,offset)=>{
+      const node=document.createElementNS('http://www.w3.org/2000/svg','circle');
+      Object.entries({cx:100,cy:100,r:80,fill:'none',stroke:color,'stroke-width':18}).forEach(([k,v])=>node.setAttribute(k,String(v)));
+      if(dash!==undefined){node.setAttribute('stroke-dasharray',dash+' '+(Math.PI*160-dash));node.setAttribute('stroke-dashoffset',String(-offset));node.setAttribute('transform','rotate(-90 100 100)');}return node;
     };
-    
-    let accumulatedPercent = 0;
-    
-    percents.forEach(item => {
-        if (item.percent > 0) {
-            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            circle.setAttribute('cx', '100');
-            circle.setAttribute('cy', '100');
-            circle.setAttribute('r', radius.toString());
-            circle.setAttribute('stroke', colors[item.genre] || '#7F0056');
-            circle.setAttribute('stroke-width', stroke.toString());
-            circle.setAttribute('fill', 'none');
-            circle.setAttribute('stroke-dasharray', `${circumference * item.percent / 100} ${circumference}`);
-            circle.setAttribute('stroke-dashoffset', `${-circumference * accumulatedPercent / 100}`);
-            circle.setAttribute('transform', 'rotate(-90 100 100)');
-            
-            svg.appendChild(circle);
-            accumulatedPercent += item.percent;
-        }
-    });
-}
-
-// 生成徽章
-function generateBadges(topThree) {
-    const container = document.getElementById('badgesContainer');
-    container.innerHTML = '';
-    
-    topThree.forEach((item, index) => {
-        const badge = document.createElement('div');
-        badge.className = `dna-badge ${index === 0 ? 'rank1' : ''}`;
-        badge.innerHTML = `
-            <span class="dna-badge-dot"></span>
-            <span>${displayGenre(item.genre)} ${item.percent}%</span>
-        `;
-        container.appendChild(badge);
-    });
-}
-
-// 生成标签云
-function generateTagCloud(percents) {
-    const tags = [];
-    const tagMapZh = {
-        "MOBA": ["团队协作", "策略思维", "节奏控制"],
-        "二次元": ["收集癖", "颜值党", "剧情控"],
-        "沙盒": ["创造力", "探索欲", "建造狂"],
-        "FPS": ["反应速度", "精准操作", "战术意识"],
-        "竞速": ["速度感", "操控欲", "竞技心"],
-        "休闲": ["佛系玩家", "社交达人", "快乐至上"]
-    };
-    const tagMapEn = {
-        "MOBA": ["Teamwork", "Strategic mind", "Tempo control"],
-        "二次元": ["Collector", "Style lover", "Story-driven"],
-        "沙盒": ["Creativity", "Exploration", "Builder"],
-        "FPS": ["Reaction", "Precision", "Tactical sense"],
-        "竞速": ["Speed feel", "Control", "Competitive"],
-        "休闲": ["Zen player", "Social", "Fun first"]
-    };
-    const isZh = getLang() === 'zh';
-    
-    percents.slice(0, 3).forEach(item => {
-        const genreTags = (isZh ? tagMapZh : tagMapEn)[item.genre] || [];
-        tags.push(...genreTags);
-    });
-    
-    const container = document.getElementById('tagCloud');
-    container.innerHTML = '';
-    
-    tags.slice(0, 6).forEach(tag => {
-        const chip = document.createElement('span');
-        chip.className = 'dna-chip';
-        chip.textContent = tag;
-        container.appendChild(chip);
-    });
-}
-
-// 生成黑话样本
-function generateJargonSample(percents) {
-    const parts = [];
-    const top3 = percents.slice(0, 3);
-    
-    top3.forEach(item => {
-        const jargons = (getLang() === 'zh' ? JARGON : JARGON_EN)[item.genre] || [];
-        if (jargons.length > 0) {
-            const randomIndex = Math.floor(Math.random() * jargons.length);
-            parts.push(jargons[randomIndex]);
-        }
-    });
-    
-    document.getElementById('jargonSample').textContent = parts.join(' · ');
-}
-
-// 生成分享文案
-function generateShareCopy(percents) {
-    const top = percents[0];
-    const lang = getLang();
-    const copyZh = {
-        "MOBA": "我是一个标准的 MOBA 玩家，节奏感拉满！",
-        "二次元": "二次元世界的忠实信徒，为爱发电永不停歇！",
-        "沙盒": "沙盒游戏建造狂魔，创造力就是我的超能力！",
-        "FPS": "FPS 射击高手，精准操作就是我的代名词！",
-        "竞速": "竞速游戏速度狂，追求极限就是我的信仰！",
-        "休闲": "休闲游戏佛系玩家，快乐游戏才是王道！"
-    };
-    const copyEn = {
-        "MOBA": "I’m a classic MOBA player — rhythm on point!",
-        "二次元": "Devoted Anime/Gacha fan — powered by love!",
-        "沙盒": "Sandbox builder — creativity is my superpower!",
-        "FPS": "FPS sharpshooter — precision defines me!",
-        "竞速": "Racing speedster — chasing the limit is my creed!",
-        "休闲": "Casual zen player — fun is the way!"
-    };
-    const baseCopy = (lang === 'zh' ? copyZh : copyEn)[top.genre] || (lang === 'zh' ? '游戏黑话达人，各种流派都有涉猎！' : 'Slang connoisseur — I dabble across genres!');
-    document.getElementById('shareCopy').textContent = lang === 'zh' ? `${baseCopy} 测测你的游戏黑话基因吧~` : `${baseCopy} Check your Slang DNA!`;
-}
-
-// 保存答案
-function saveAnswers() {
-    localStorage.setItem('blackspeak-dna-answers', JSON.stringify(answers));
-}
-
-// 重置测试
-function resetTest() {
-    currentStep = 0;
-    answers = {};
-    scores = {};
-    localStorage.removeItem('blackspeak-dna-answers');
-    showIntro();
-}
-
-// 分享结果
-function shareResult() {
-    const shareText = document.getElementById('shareCopy').textContent;
-    
-    if (navigator.share) {
-        navigator.share({
-            title: getLang() === 'zh' ? '黑话DNA测试结果' : 'Slang DNA Test Result',
-            text: shareText,
-            url: window.location.href
-        });
-    } else {
-        // 复制到剪贴板
-        navigator.clipboard.writeText(shareText).then(() => {
-            alert(getLang() === 'zh' ? '分享文案已复制到剪贴板！' : 'Share copy has been copied!');
-        }).catch(() => {
-            alert(getLang() === 'zh' ? '分享功能暂不可用，请手动复制文案分享~' : 'Sharing unavailable; please copy the text manually.');
-        });
-    }
-}
-
-// 隐藏所有卡片
-function hideAllCards() {
-    document.querySelectorAll('.dna-card').forEach(card => {
-        card.classList.add('dna-hidden');
-    });
-}
-
-// 更新静态标签（标题等）
-function applyDnaI18nStaticTexts(){
-  const lang = getLang();
-  const centerLabel = document.querySelector('.dna-center-label');
-  if (centerLabel) centerLabel.textContent = 'TOP';
-}
-
-// 语言切换时根据当前显示卡片刷新
-window.addEventListener('languagechange', function(){
-  applyDnaI18nStaticTexts();
-  const introVisible = !document.getElementById('introCard').classList.contains('dna-hidden');
-  const quizVisible = !document.getElementById('quizCard').classList.contains('dna-hidden');
-  const reportVisible = !document.getElementById('reportCard').classList.contains('dna-hidden');
-  if (introVisible) showIntro();
-  else if (quizVisible) showQuestion();
-  else if (reportVisible) showReport();
-});
-
-// 页面加载完成后初始化
-document.addEventListener('DOMContentLoaded', init);
+    svg.replaceChildren(circle('rgba(255,255,255,.1)'));let offset=0;
+    positive.forEach(d=>{const length=Math.PI*160*d.percent/100;svg.append(circle(dimension(d.id).color,length,offset));offset+=length;});
+    $('badgesContainer').replaceChildren(...positive.map(d=>{
+      const badge=el('span','dna-badge'),dot=el('span','dna-badge-dot');dot.style.background=dimension(d.id).color;
+      badge.append(dot,document.createTextNode(local(dimension(d.id).label)+' '+percent(d.percent)));return badge;
+    }));
+    const evidence=positive.slice(0,2).flatMap(d=>d.evidence.slice(0,2));
+    $('evidenceContainer').replaceChildren(...(evidence.length?evidence.map(evidenceNode):[el('p','dna-evidence',tr('你暂时没有选出明确的偏好，可以换一种状态再试。','You did not express a clear preference this time. Try again when you feel like it.'))]));
+    const communication=result.communication,maxCount=Math.max(0,...communication.map(c=>c.count)),communicationLeads=communication.filter(c=>c.count===maxCount);
+    const communicationLabel=communicationLeads.map(c=>local(content.communication.find(s=>s.id===c.id).label)).join(' / ');
+    $('communicationSummary').textContent=communicationLabel||tr('这次先不贴标签','No label this time');
+    $('communicationEvidence').replaceChildren(...(communication.length?communication.flatMap(c=>c.evidence.map(evidenceNode)):[el('p','dna-evidence',tr('还没有足够的回复选择来描述你的沟通习惯。','There are not enough reply choices to describe your communication habits.'))]));
+    const games=leaders.length>1?leaders:positive.slice(0,2);
+    $('gamesContainer').replaceChildren(...(games.length?games.map(d=>{
+      const node=el('p','dna-game-match');node.append(el('strong','',local(dimension(d.id).label)+' · '),document.createTextNode(local(dimension(d.id).games)));return node;
+    }):[el('p','dna-game-match',tr('先从你愿意花时间的体验开始，不急着限定游戏类型。','Start with an experience you want to spend time on; no genre label is needed yet.'))]));
+    const k=result.knowledge,unsure=k.total-k.answered;
+    $('knowledgeSummary').textContent=tr('理解正确 '+k.correct+' / '+k.total+' 题'+(unsure?' · '+unsure+' 题暂未判断':''),k.correct+' / '+k.total+' understood'+(unsure?' · '+unsure+' not sure':''));
+    $('knowledgeContainer').replaceChildren(...k.items.map(item=>{
+      const q=questions.find(question=>question.id===item.questionId),selected=q.options.find(o=>o.id===item.optionId),details=el('details','dna-knowledge-item'),summary=el('summary');
+      summary.append(el('span','',local(q.title)),el('span','dna-knowledge-state',item.uncertain?tr('未判断','Not sure'):item.correct?tr('正确','Correct'):tr('看解读','Read why')));
+      details.append(summary,el('p','',tr('你的选择：','Your answer: ')+local(selected.label)),el('p','',local(q.explanation)));return details;
+    }));
+    $('shareCopy').textContent=tr('我的游戏偏好：','My play preferences: ')+(positive.length?positive.map(d=>local(dimension(d.id).label)+' '+percent(d.percent)).join(' / '):leadingLabel)
+      +tr('。沟通习惯：','. Communication: ')+(communicationLabel||tr('暂未判断','still open'))
+      +tr('。这次黑话语境理解正确 '+k.correct+' / '+k.total+' 题。','. Slang in context: '+k.correct+' / '+k.total+' understood.');
+    $('shareStatus').textContent='';if(moveFocus)focusHeading('reportTitle');
+  }
+  function reset(){
+    generation++;answers={};step=0;try{localStorage.removeItem(storageKey);}catch(_){}
+    staticLabels();showIntro();focusHeading('introTitle');
+  }
+  function start(){
+    const missing=questions.findIndex(q=>!model.isAnswerValid(q,answers[q.id]));
+    if(missing<0)showReport(true);else{step=missing;renderQuestion(true);}
+  }
+  async function copyResult(){
+    const version=generation,button=$('shareBtn');button.disabled=true;
+    try{await navigator.clipboard.writeText($('shareCopy').textContent);if(version===generation&&screen==='report')$('shareStatus').textContent=tr('已复制，可以粘贴给朋友。','Copied. Paste it wherever you like.');}
+    catch(_){
+      if(version===generation&&screen==='report'){
+        const selection=window.getSelection(),range=document.createRange();range.selectNodeContents($('shareCopy'));selection.removeAllRanges();selection.addRange(range);
+        $('shareStatus').textContent=tr('结果文字已选中，可长按或按 Ctrl / Command + C 复制。','Result selected. Long-press or press Ctrl / Command + C to copy.');
+      }
+    }finally{button.disabled=false;}
+  }
+  restore();staticLabels();showIntro();$('introTitle').tabIndex=-1;
+  $('startBtn').addEventListener('click',start);
+  $('headerReset').addEventListener('click',reset);$('reportReset').addEventListener('click',reset);
+  $('optionsContainer').addEventListener('click',event=>{const button=event.target.closest('[data-option]');if(button)selectOption(button.dataset.option);});
+  $('rankingContainer').addEventListener('click',event=>{const button=event.target.closest('[data-rank-action]');if(button&&!button.disabled)moveRank(button);});
+  $('prevBtn').addEventListener('click',()=>{if(step>0){step--;persist();renderQuestion(true);}});
+  $('nextBtn').addEventListener('click',()=>{
+    if(!model.isAnswerValid(questions[step],answers[questions[step].id]))return;
+    if(step<questions.length-1){step++;persist();renderQuestion(true);}else{persist();showReport(true);}
+  });
+  $('shareBtn').addEventListener('click',copyResult);
+  window.addEventListener('languagechange',()=>{generation++;staticLabels();if(screen==='quiz')renderQuestion();else if(screen==='report')showReport();else showIntro();});
+})();

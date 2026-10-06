@@ -7,6 +7,7 @@ function createGameSentimentCharts() {
         return;
     }
     
+    const lifecycle = window.GameChartLifecycle.begin('chart2');
     // 清空容器内容
     chartDom.innerHTML = '';
     
@@ -126,7 +127,7 @@ function createGameSentimentCharts() {
         gridContainer.appendChild(pieContainer);
         
         // 初始化ECharts实例
-        const pieChart = echarts.init(pieContainer);
+        const pieChart = lifecycle.track(echarts.init(pieContainer));
         
         // 准备饼图数据
         const pieData = [
@@ -194,16 +195,13 @@ function createGameSentimentCharts() {
         
         pieChart.setOption(pieOption);
         
-        // 响应式调整
-        window.addEventListener('resize', function() {
-            pieChart.resize();
-        });
+        // The lifecycle owns this child instance and its resize.
     });
     
     // 自动调整容器高度
     function adjustContainerHeight() {
         // 计算网格行数
-        const itemsPerRow = Math.floor(gridContainer.offsetWidth / 260); // 240px + 20px gap
+        const itemsPerRow = Math.max(1, Math.floor(gridContainer.offsetWidth / 260)); // 240px + 20px gap
         const totalItems = sentimentData.length;
         const rows = Math.ceil(totalItems / itemsPerRow);
         
@@ -227,11 +225,11 @@ function createGameSentimentCharts() {
     }
     
     // 初始调整
-    setTimeout(adjustContainerHeight, 100);
+    lifecycle.schedule('height', adjustContainerHeight, 100);
     
-    // 窗口大小改变时重新调整
-    window.addEventListener('resize', function() {
-        setTimeout(adjustContainerHeight, 100);
+    // Coalesce delayed layout work; replacing this chart cancels it.
+    lifecycle.beforeResize(function() {
+        lifecycle.schedule('height', adjustContainerHeight, 100);
     });
 }
 

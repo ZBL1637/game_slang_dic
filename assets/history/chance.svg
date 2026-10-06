@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 440" width="480" height="440"><defs>
+<linearGradient id="shell" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#65416e"/><stop offset=".45" stop-color="#332039"/><stop offset="1" stop-color="#1a0e24"/></linearGradient>
+<linearGradient id="side" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#44244c"/><stop offset="1" stop-color="#180e20"/></linearGradient>
+<linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2b1938"/><stop offset=".55" stop-color="#160d22"/><stop offset="1" stop-color="#39233d"/></linearGradient>
+<linearGradient id="edge"><stop stop-color="#995ea5"/><stop offset=".5" stop-color="#dfb2dc"/><stop offset="1" stop-color="#6e467f"/></linearGradient>
+<linearGradient id="pink"><stop stop-color="#7f0056"/><stop offset="1" stop-color="#db88cd"/></linearGradient>
+<radialGradient id="halo"><stop stop-color="#9e4ba7" stop-opacity=".23"/><stop offset="1" stop-color="#9e4ba7" stop-opacity="0"/></radialGradient>
+<filter id="shadow" x="-50%" y="-50%" width="200%" height="220%"><feGaussianBlur stdDeviation="11"/></filter>
+<filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="2.2"/></filter>
+<pattern id="scan" width="4" height="5" patternUnits="userSpaceOnUse"><path d="M0 1H4" stroke="#b291cc" stroke-opacity=".07"/></pattern>
+</defs><ellipse cx="242" cy="240" rx="218" ry="186" fill="url(#halo)"/>
+<g fill="none" stroke="#82508f" stroke-opacity=".2"><path d="M46 300L240 399 438 299"/><path d="M81 320L272 224 409 292"/><path d="M92 98h28M92 98v28M388 334h-28M388 334v-28"/></g>
+<g fill="#bfa0d0" opacity=".55"><circle cx="68" cy="178" r="2"/><circle cx="412" cy="214" r="1.8"/><circle cx="368" cy="85" r="1.4"/></g>
+<ellipse cx="244" cy="384" rx="106" ry="17" fill="#050208" opacity=".8" filter="url(#shadow)"/>
+<g transform="rotate(-9 240 224)">
+<rect x="161" y="58" width="172" height="327" rx="26" fill="#221329" stroke="#5d3b66" stroke-width="2"/>
+<rect x="152" y="51" width="172" height="327" rx="26" fill="url(#shell)" stroke="url(#edge)" stroke-width="1.5"/>
+<rect x="162" y="63" width="152" height="302" rx="18" fill="#100a19" stroke="#805989"/>
+<rect x="204" y="69" width="66" height="10" rx="5" fill="#09060e"/>
+<text x="182" y="111" font-family="monospace" font-size="10" fill="#bd9dce" letter-spacing="2">WISH / AGAIN</text>
+<path d="M181 124h113" stroke="#4d305c"/>
+<rect x="183" y="140" width="108" height="119" rx="10" fill="url(#glass)" stroke="#9b6b9f"/>
+<path d="M237 160l10 27 27 10-27 11-10 28-11-28-27-11 27-10Z" fill="url(#pink)" stroke="#dab0da"/>
+<path d="M237 176v43M216 197h43" stroke="#ebd0e9" stroke-opacity=".6"/>
+<g fill="#d7b5d9"><circle cx="219" cy="248" r="2"/><circle cx="237" cy="248" r="2"/><circle cx="255" cy="248" r="2"/></g>
+<text x="181" y="284" font-family="monospace" font-size="9" fill="#b99bc9" letter-spacing="1">GUARANTEE</text>
+<rect x="181" y="297" width="115" height="5" rx="2.5" fill="#3d254b"/><rect x="181" y="297" width="83" height="5" rx="2.5" fill="url(#pink)"/>
+<rect x="185" y="320" width="106" height="28" rx="7" fill="#553059" stroke="#9563a0"/><text x="219" y="338" font-family="monospace" font-size="10" fill="#e6cee6">DRAW</text>
+</g>
+<g transform="translate(73 206) rotate(-15)"><path d="M0 15L18 0l22 10v25L22 49 0 34Z" fill="url(#shell)" stroke="#b57db2"/><path d="M18 0L22 25 40 10M0 15L22 25 0 34M22 25v24" fill="none" stroke="#9b649c"/></g>
+<g transform="translate(360 145)"><path d="M0 10L14 0l17 8v20L15 38 0 27Z" fill="url(#shell)" stroke="#8d639f"/><path d="M14 0L15 20 31 8M0 10L15 20v18" fill="none" stroke="#9563a3"/></g></svg>

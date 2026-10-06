@@ -6,8 +6,16 @@ function createTermSentimentRadarChart() {
         console.error('找不到chart3容器');
         return;
     }
-    chartDom.innerHTML = '';
-    const myChart = echarts.init(chartDom);
+    if (typeof echarts === 'undefined') {
+        console.warn('ECharts 未加载，跳过 chart3 重绘');
+        return;
+    }
+    const lifecycle = window.GameChartLifecycle.begin('chart3');
+    const existing = echarts.getInstanceByDom(chartDom);
+    if (existing) {
+        existing.dispose();
+    }
+    const myChart = lifecycle.track(echarts.init(chartDom));
     
     // 直接嵌入JSON数据
     const sentimentData = [
@@ -229,10 +237,7 @@ function createTermSentimentRadarChart() {
     // 渲染图表
     myChart.setOption(option);
 
-    // 响应式调整
-    window.addEventListener('resize', function() {
-        myChart.resize();
-    });
+    // Resize is owned by the shared lifecycle manager.
 
     // 输出数据统计
     console.log('术语类别情感分布数据:', sentimentData);
@@ -253,7 +258,11 @@ function createTermSentimentRadarChart() {
 
 // 语言切换时重新渲染
 window.addEventListener('languagechange', function(){
-  try { createTermSentimentRadarChart(); } catch(e){}
+  try {
+    window.GameChartLifecycle.scheduleRender('chart3', createTermSentimentRadarChart, 100);
+  } catch(e){
+    console.error('chart3语言切换重绘失败:', e);
+  }
 });
 
 // 图表创建函数，需要手动调用

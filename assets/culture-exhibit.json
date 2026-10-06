@@ -1,0 +1,690 @@
+{
+  "schemaVersion": 1,
+  "verifiedOn": "2026-10-07",
+  "sources": [
+    {
+      "id": "game-store",
+      "sourceType": "official_store",
+      "title": {
+        "zh": "游戏科学 · Steam 游戏介绍",
+        "en": "Game Science · Steam store"
+      },
+      "publisher": "Game Science / Steam",
+      "url": "https://store.steampowered.com/app/2358720/Black_Myth_Wukong/?l=english",
+      "locator": {
+        "zh": "英文游戏名称与 About This Game",
+        "en": "English title and About This Game"
+      },
+      "note": {
+        "zh": "支持 Wukong 与 Destined One 的官方公开用法；本页不据此合并两者身份。",
+        "en": "Documents public use of Wukong and the Destined One; these names are treated separately."
+      }
+    },
+    {
+      "id": "game-patch",
+      "sourceType": "official_announcement",
+      "title": {
+        "zh": "游戏科学 · 1.0.13.16669 更新公告",
+        "en": "Game Science · Patch 1.0.13.16669"
+      },
+      "publisher": "Game Science / Steam",
+      "date": "2024-12-14",
+      "url": "https://steamcommunity.com/games/2358720/announcements/detail/527580578293220146?l=english",
+      "locator": {
+        "zh": "错误修复：Zhu Bajie、Yellow Loong、yaoguai",
+        "en": "Bug fixes: Zhu Bajie, Yellow Loong and yaoguai"
+      },
+      "note": {
+        "zh": "英文开发者公告可核对三个写法。Loong 的证据限于 Yellow Loong 这一名称实例。",
+        "en": "The developer's English announcement records these spellings. Loong is evidenced here within the name Yellow Loong."
+      }
+    },
+    {
+      "id": "game-pr",
+      "sourceType": "official_press_release",
+      "title": {
+        "zh": "游戏科学 · 2025 年 6 月新闻稿",
+        "en": "Game Science · June 2025 press release"
+      },
+      "publisher": "Game Science / GamesPress",
+      "date": "2025-06-06",
+      "url": "https://www.gamespress.com/Black-Myth-Wukong-The-Most-Worthwhile-ARPG-in-Years-Gets-Its-First-Dis",
+      "locator": {
+        "zh": "正文用语：Wukong's Jingubang",
+        "en": "Body text: Wukong's Jingubang"
+      },
+      "note": {
+        "zh": "GamesPress 收录的游戏科学宣传新闻稿，支持 Jingubang 的宣传用名；证据不等同于游戏内字幕截图。",
+        "en": "A Game Science publicity release hosted by GamesPress. This supports a publicity spelling, rather than an in-game subtitle transcription."
+      }
+    },
+    {
+      "id": "novel-01",
+      "sourceType": "primary_text",
+      "title": {
+        "zh": "《西游记》第一回",
+        "en": "Journey to the West · Chapter 1"
+      },
+      "publisher": {
+        "zh": "原著文本 · 维基文库转录",
+        "en": "Original text · Wikisource transcription"
+      },
+      "url": "https://zh.wikisource.org/wiki/西遊記/第001回",
+      "locator": {
+        "zh": "回末，菩提祖师为石猴取名",
+        "en": "Closing scene: the Patriarch names the Monkey"
+      },
+      "note": {
+        "zh": "引文保留转录本繁体字。这里提供原文定位，不把转录本当作校勘定本。",
+        "en": "Quotes retain the traditional characters of the transcription. This is a reading reference, not a critical edition."
+      }
+    },
+    {
+      "id": "novel-03",
+      "sourceType": "primary_text",
+      "title": {
+        "zh": "《西游记》第三回",
+        "en": "Journey to the West · Chapter 3"
+      },
+      "publisher": {
+        "zh": "原著文本 · 维基文库转录",
+        "en": "Original text · Wikisource transcription"
+      },
+      "url": "https://zh.wikisource.org/wiki/西遊記/第003回",
+      "locator": {
+        "zh": "海藏取棒，棒身铭文",
+        "en": "The sea treasury and the staff's inscription"
+      },
+      "note": {
+        "zh": "以金箍棒的名称及器物描写连接原著；不将故事设定作为历史事实。",
+        "en": "Connects the staff's name and description to the novel's story world."
+      }
+    },
+    {
+      "id": "novel-19",
+      "sourceType": "primary_text",
+      "title": {
+        "zh": "《西游记》第十九回",
+        "en": "Journey to the West · Chapter 19"
+      },
+      "publisher": {
+        "zh": "原著文本 · 维基文库转录",
+        "en": "Original text · Wikisource transcription"
+      },
+      "url": "https://zh.wikisource.org/wiki/西遊記/第019回",
+      "locator": {
+        "zh": "高老庄拜师，悟能与八戒之名",
+        "en": "The disciple joins Tripitaka: Wuneng and Bajie"
+      },
+      "note": {
+        "zh": "本回区分法名“悟能”和别名“八戒”，本展页沿用这一文本区分。",
+        "en": "The chapter distinguishes the religious name Wuneng from the additional name Bajie."
+      }
+    },
+    {
+      "id": "teaching",
+      "sourceType": "teaching_example",
+      "title": {
+        "zh": "本展页编写 · 策略教学对照",
+        "en": "Written for this exhibit · Translation exercise"
+      },
+      "publisher": {
+        "zh": "本展页",
+        "en": "This exhibit"
+      },
+      "locator": {
+        "zh": "中文短句及两种英文拟译",
+        "en": "Chinese sentence and two proposed English translations"
+      },
+      "note": {
+        "zh": "三句均为本展页自拟，不是官方台词或字幕。“异化／归化倾向”仅帮助观察这一个词的处理；真实译文可结合多种策略。阅读提示为编辑分析，未进行受众效果测量。",
+        "en": "All three sentences were written for this exhibit and are not official dialogue or subtitles. The two tendencies describe a single word choice; real translations can combine strategies. Reading notes are editorial analysis, with no audience-effect measurements."
+      }
+    },
+    {
+      "id": "editorial",
+      "sourceType": "editorial_note",
+      "title": {
+        "zh": "阅读边界与图片说明",
+        "en": "Editorial scope and images"
+      },
+      "publisher": {
+        "zh": "本展页",
+        "en": "This exhibit"
+      },
+      "locator": {
+        "zh": "文化关联、档案说明与原站配图",
+        "en": "Connections, dossier notes and original site images"
+      },
+      "note": {
+        "zh": "中英文解说由本展页整理，英文解说不是原著出版译本。关联线表示可回到章节核对的对应关系，不代表因果、学术结论或译者动机。四张图片沿用原站素材，仅作配图，不能充当术语或台词证据。",
+        "en": "Explanations in both languages are editorial; English notes are not a published translation of the novel. Connections identify passages to consult, without claiming causation or translator intent. Four images are retained from the original site as illustrations, not evidence for names or dialogue."
+      }
+    }
+  ],
+  "terms": [
+    {
+      "id": "wukong",
+      "zh": "悟空",
+      "en": "Wukong",
+      "kind": "character",
+      "mark": "悟",
+      "sourceIds": [
+        "game-store",
+        "novel-01"
+      ],
+      "description": {
+        "zh": "Wukong 出现在英文游戏标题中；《西游记》第一回记述了石猴获得孙悟空这一姓名的场景。",
+        "en": "Wukong appears in the English game title. Chapter 1 of Journey to the West records how the Monkey receives the name Sun Wukong."
+      },
+      "scope": {
+        "zh": "证据位置：英文游戏标题。",
+        "en": "Evidence: the English game title."
+      },
+      "observation": {
+        "zh": "Wukong 保留姓名的读音线索；命名的故事还需要原著来补充。",
+        "en": "Wukong retains a link to the sound of the name; the novel provides the story behind its naming."
+      }
+    },
+    {
+      "id": "destined",
+      "zh": "天命人",
+      "en": "Destined One",
+      "kind": "character",
+      "mark": "命",
+      "sourceIds": [
+        "game-store"
+      ],
+      "description": {
+        "zh": "官方英文介绍称玩家角色为 the Destined One。这个称谓与标题中的 Wukong 分开记录。",
+        "en": "The official English description calls the player character the Destined One. This designation is recorded separately from Wukong in the title."
+      },
+      "scope": {
+        "zh": "证据位置：官方商店 About This Game。",
+        "en": "Evidence: the official store's About This Game section."
+      },
+      "observation": {
+        "zh": "the Destined One 呈现称谓的含义，Wukong 则呈现姓名的音译。",
+        "en": "The Destined One conveys a designation through meaning, while Wukong presents a name through transliteration."
+      }
+    },
+    {
+      "id": "bajie",
+      "zh": "猪八戒",
+      "en": "Zhu Bajie",
+      "kind": "character",
+      "mark": "戒",
+      "sourceIds": [
+        "game-patch",
+        "novel-19"
+      ],
+      "description": {
+        "zh": "开发者英文公告使用 Zhu Bajie，可对照原著中的八戒之名。",
+        "en": "The developer’s English announcement uses Zhu Bajie, which can be read alongside the naming of Bajie in the novel."
+      },
+      "scope": {
+        "zh": "证据位置：1.0.13.16669 更新公告。",
+        "en": "Evidence: patch 1.0.13.16669."
+      },
+      "observation": {
+        "zh": "Zhu Bajie 保留姓与别名的音译；“八戒”为何得名，还需回到原文。",
+        "en": "Zhu Bajie transliterates the surname and additional name; the novel explains how Bajie receives that name."
+      }
+    },
+    {
+      "id": "jingubang",
+      "zh": "金箍棒",
+      "en": "Jingubang",
+      "kind": "object",
+      "mark": "棒",
+      "sourceIds": [
+        "game-pr",
+        "novel-03"
+      ],
+      "description": {
+        "zh": "游戏科学宣传新闻稿使用 Jingubang 指称悟空的兵器。",
+        "en": "Game Science’s publicity release uses Jingubang for Wukong’s weapon."
+      },
+      "scope": {
+        "zh": "证据类型：官方宣传新闻稿。",
+        "en": "Evidence type: official publicity release."
+      },
+      "observation": {
+        "zh": "Jingubang 对应“金箍棒”这一称呼；器物形制与铭文由原著补充。",
+        "en": "Jingubang corresponds to the name 金箍棒; the novel adds the object’s form and inscription."
+      }
+    },
+    {
+      "id": "loong",
+      "zh": "龙 · 名称成分",
+      "en": "Yellow Loong",
+      "pairZh": "龙",
+      "pairEn": "Loong",
+      "kind": "name_component",
+      "mark": "龙",
+      "sourceIds": [
+        "game-patch"
+      ],
+      "description": {
+        "zh": "开发者英文公告使用名称 Yellow Loong。这里观察 Loong 在专名中的用法，不将它作为所有“龙”的统一译法。",
+        "en": "The developer’s English announcement uses the name Yellow Loong. This is an example of Loong within a proper name, rather than a rule for translating every occurrence of 龙."
+      },
+      "scope": {
+        "zh": "证据范围：专名 Yellow Loong 中的 Loong。",
+        "en": "Evidence scope: Loong within the proper name Yellow Loong."
+      },
+      "observation": {
+        "zh": "同一个名字里，英文颜色词 Yellow 与 Loong 并用。",
+        "en": "The English colour word Yellow and the form Loong appear together in one name."
+      }
+    },
+    {
+      "id": "yaoguai",
+      "zh": "妖怪",
+      "en": "yaoguai",
+      "kind": "category",
+      "mark": "妖",
+      "sourceIds": [
+        "game-patch"
+      ],
+      "description": {
+        "zh": "开发者英文公告使用 yaoguai 描述游戏敌人。",
+        "en": "The developer’s English announcement uses yaoguai when describing enemies."
+      },
+      "scope": {
+        "zh": "证据位置：更新公告中的敌人描述。",
+        "en": "Evidence: enemy descriptions in the patch notes."
+      },
+      "observation": {
+        "zh": "yaoguai 保留文化称谓的音形；它具体指谁，还要结合角色和情节。",
+        "en": "Yaoguai retains the form and sound of a cultural term; characters and plot establish who it refers to."
+      }
+    }
+  ],
+  "experiment": {
+    "sourceType": "teaching_example",
+    "sourceIds": [
+      "teaching"
+    ],
+    "original": "当心这片山里的妖怪。",
+    "variants": [
+      {
+        "id": "retain",
+        "label": {
+          "zh": "保留文化称谓",
+          "en": "Retain the cultural term"
+        },
+        "strategy": {
+          "zh": "异化倾向",
+          "en": "Foreignizing tendency"
+        },
+        "english": "Beware of yaoguai in these mountains.",
+        "keyword": "yaoguai",
+        "heading": {
+          "zh": "把陌生的称谓留下来",
+          "en": "Keep an unfamiliar cultural term"
+        },
+        "note": {
+          "zh": "yaoguai 的音形进入英文句子，读者仍能看到它与中文称谓的联系。初次阅读时，可增加简短释义或情境提示。",
+          "en": "Yaoguai remains visible in the English sentence and keeps a recognizable link to the Chinese term. A brief gloss or context can help a first-time reader."
+        },
+        "tradeoff": {
+          "zh": "观察点：文化称谓的辨识度与额外解释的需要。",
+          "en": "Consider: a recognizable cultural term and the need for explanation."
+        },
+        "carries": {
+          "zh": "留下 yaoguai 的音形，保留与中文称谓的联系。",
+          "en": "Keeps the form and sound of yaoguai, preserving a link to the Chinese term."
+        },
+        "needs": {
+          "zh": "首次出现时，可用上下文或简短释义帮助读者理解它是什么。",
+          "en": "Context or a brief gloss can help a first-time reader understand what it refers to."
+        }
+      },
+      {
+        "id": "familiar",
+        "label": {
+          "zh": "采用熟悉类别",
+          "en": "Use a familiar category"
+        },
+        "strategy": {
+          "zh": "归化倾向",
+          "en": "Domesticating tendency"
+        },
+        "english": "Beware of monsters in these mountains.",
+        "keyword": "monsters",
+        "heading": {
+          "zh": "先用熟悉的类别理解",
+          "en": "Start with a familiar category"
+        },
+        "note": {
+          "zh": "monsters 提供一个常见的英文类别词。它可能带出凶恶、骇人的联想，不能覆盖“妖怪”在不同故事中的所有身份与性情。",
+          "en": "The word monsters provides a familiar English category. It may suggest frightening or hostile creatures and cannot cover every identity or temperament associated with 妖怪 across stories."
+        },
+        "tradeoff": {
+          "zh": "观察点：容易建立类别联想，也会改变词语的意义范围。",
+          "en": "Consider: a familiar category can also shift the word's range of meaning."
+        },
+        "carries": {
+          "zh": "用常见英文类别词，先给出“怪物”的理解线索。",
+          "en": "Uses a familiar English category to give the reader an initial sense of the creature."
+        },
+        "needs": {
+          "zh": "这个类别词没有说明来历、身份与性情，这些信息仍需故事补充。",
+          "en": "The category alone does not explain origins, identity, or temperament; the story still supplies those details."
+        }
+      }
+    ],
+    "boundary": {
+      "zh": "中文短句和两种英文译法均为本页自拟，只比较“妖怪”这一文化称谓的处理，不是官方台词。真实译文可以结合多种策略。",
+      "en": "The Chinese sentence and both English versions were written for this exhibit, not taken from official dialogue. This exercise compares only the treatment of one cultural term; real translations can combine strategies."
+    }
+  },
+  "routes": [
+    {
+      "id": "name",
+      "termId": "wukong",
+      "chapter": "01",
+      "title": {
+        "zh": "一个名字，从拜师开始",
+        "en": "A name begins with a teacher"
+      },
+      "label": {
+        "zh": "悟空之名",
+        "en": "The name Wukong"
+      },
+      "quote": "與你起個法名叫做『孫悟空』，好麼？",
+      "sourceIds": [
+        "novel-01"
+      ],
+      "note": {
+        "zh": "第一回中，菩提祖师为石猴取姓“孙”，并起法名“孙悟空”。先读命名场景，再讨论名字的文化意味。",
+        "en": "In Chapter 1, the Patriarch gives the Monkey the surname Sun and the religious name Sun Wukong. The naming scene is a starting point for reading the name in context."
+      },
+      "highlight": "孫悟空"
+    },
+    {
+      "id": "staff",
+      "termId": "jingubang",
+      "chapter": "03",
+      "title": {
+        "zh": "一件兵器，有自己的铭文",
+        "en": "An object with an inscription"
+      },
+      "label": {
+        "zh": "如意金箍棒",
+        "en": "The staff Jingubang"
+      },
+      "quote": "如意金箍棒，重一萬三千五百斤。",
+      "sourceIds": [
+        "novel-03"
+      ],
+      "note": {
+        "zh": "第三回写悟空进入海藏取棒，并读到棒身铭文。名称、重量与形制都属于原著的器物叙事。",
+        "en": "Chapter 3 describes the Monkey finding the staff in the sea treasury and reading its inscription. Name, weight and form belong to the novel's account of the object."
+      },
+      "highlight": "如意金箍棒"
+    },
+    {
+      "id": "discipline",
+      "termId": "bajie",
+      "chapter": "19",
+      "title": {
+        "zh": "悟能与八戒，两个名字的来处",
+        "en": "Wuneng and Bajie: two names"
+      },
+      "label": {
+        "zh": "八戒之名",
+        "en": "The name Bajie"
+      },
+      "quote": "我再與你起個別名，喚為八戒。",
+      "sourceIds": [
+        "novel-19"
+      ],
+      "note": {
+        "zh": "第十九回先说明菩萨已赐法名“悟能”，随后三藏另起“八戒”这个别名。将这两个名字区分开，才能读准原文。",
+        "en": "Chapter 19 first records Wuneng as the religious name already given by the Bodhisattva. Tripitaka then gives him the additional name Bajie. The distinction matters when reading the passage."
+      },
+      "highlight": "別名，喚為八戒"
+    }
+  ],
+  "dossiers": [
+    {
+      "id": "wukong",
+      "termId": "wukong",
+      "sourceIds": [
+        "game-store",
+        "novel-01"
+      ],
+      "heading": {
+        "zh": "同一款游戏，两个称谓",
+        "en": "Two designations in one game"
+      },
+      "facts": [
+        {
+          "label": {
+            "zh": "身份线索",
+            "en": "Context"
+          },
+          "value": {
+            "zh": "《西游记》石猴拜师后的姓名",
+            "en": "The name given to the Monkey in Journey to the West"
+          }
+        },
+        {
+          "label": {
+            "zh": "文本定位",
+            "en": "Text reference"
+          },
+          "value": {
+            "zh": "第一回 · 菩提祖师命名",
+            "en": "Chapter 1 · Naming by the Patriarch"
+          }
+        },
+        {
+          "label": {
+            "zh": "阅读提示",
+            "en": "Reading note"
+          },
+          "value": {
+            "zh": "人物背景与译名写法分开核对。",
+            "en": "Check the character's story and the English spelling separately."
+          }
+        }
+      ],
+      "label": {
+        "zh": "悟空 / 天命人",
+        "en": "Wukong / the Destined One"
+      },
+      "left": {
+        "name": {
+          "zh": "悟空 · Wukong",
+          "en": "Wukong · 悟空"
+        },
+        "role": {
+          "zh": "人物姓名 / 游戏标题用名",
+          "en": "Character name / game title"
+        },
+        "description": {
+          "zh": "《西游记》第一回记述石猴拜师后获名孙悟空；英文游戏标题采用 Wukong。",
+          "en": "Chapter 1 of Journey to the West records the Monkey receiving the name Sun Wukong from his teacher. The English game title uses Wukong."
+        }
+      },
+      "right": {
+        "name": {
+          "zh": "天命人 · the Destined One",
+          "en": "The Destined One · 天命人"
+        },
+        "role": {
+          "zh": "官方介绍中的玩家角色称谓",
+          "en": "Player designation in the official description"
+        },
+        "description": {
+          "zh": "官方英文介绍以 the Destined One 称呼玩家将扮演的角色。",
+          "en": "The official English description uses the Destined One for the character the player will portray."
+        }
+      },
+      "takeaway": {
+        "zh": "一个是人物姓名，一个是玩家角色称谓；两者需要分别阅读。",
+        "en": "One is a character’s name; the other designates the player character. Read the two separately."
+      }
+    },
+    {
+      "id": "bajie",
+      "termId": "bajie",
+      "sourceIds": [
+        "game-patch",
+        "novel-19"
+      ],
+      "heading": {
+        "zh": "同一人物，不同命名场景",
+        "en": "One character, two naming scenes"
+      },
+      "facts": [
+        {
+          "label": {
+            "zh": "法名",
+            "en": "Religious name"
+          },
+          "value": {
+            "zh": "悟能 · 第十九回自述已由菩萨所赐",
+            "en": "Wuneng · attributed to the Bodhisattva in Chapter 19"
+          }
+        },
+        {
+          "label": {
+            "zh": "别名",
+            "en": "Additional name"
+          },
+          "value": {
+            "zh": "八戒 · 同回由三藏另起",
+            "en": "Bajie · given by Tripitaka in the same chapter"
+          }
+        },
+        {
+          "label": {
+            "zh": "英文写法",
+            "en": "English usage"
+          },
+          "value": "Zhu Bajie"
+        }
+      ],
+      "label": {
+        "zh": "悟能 / 八戒",
+        "en": "Wuneng / Bajie"
+      },
+      "left": {
+        "name": {
+          "zh": "悟能 · Wuneng",
+          "en": "Wuneng · 悟能"
+        },
+        "role": {
+          "zh": "法名",
+          "en": "Religious name"
+        },
+        "description": {
+          "zh": "第十九回中，角色自述悟能是菩萨所赐的法名。",
+          "en": "In Chapter 19, the character says that the Bodhisattva gave him the religious name Wuneng."
+        }
+      },
+      "right": {
+        "name": {
+          "zh": "八戒 · Bajie",
+          "en": "Bajie · 八戒"
+        },
+        "role": {
+          "zh": "别名",
+          "en": "Additional name"
+        },
+        "description": {
+          "zh": "同一回中，三藏在谈到他的戒行时，另起别名八戒。",
+          "en": "In the same chapter, Tripitaka gives him the additional name Bajie while discussing his observance of the precepts."
+        }
+      },
+      "takeaway": {
+        "zh": "两个名字指向同一人物，分别对应不同的命名场景。",
+        "en": "Both names refer to the same character, but come from different naming scenes."
+      }
+    },
+    {
+      "id": "jingubang",
+      "termId": "jingubang",
+      "sourceIds": [
+        "game-pr",
+        "novel-03"
+      ],
+      "heading": {
+        "zh": "同一件器物，两种称呼",
+        "en": "One object, two forms of its name"
+      },
+      "facts": [
+        {
+          "label": {
+            "zh": "类别",
+            "en": "Category"
+          },
+          "value": {
+            "zh": "器物 / 兵器",
+            "en": "Object / weapon"
+          }
+        },
+        {
+          "label": {
+            "zh": "文本定位",
+            "en": "Text reference"
+          },
+          "value": {
+            "zh": "第三回 · 海藏取棒与棒身铭文",
+            "en": "Chapter 3 · Sea treasury and inscription"
+          }
+        },
+        {
+          "label": {
+            "zh": "英文写法",
+            "en": "English usage"
+          },
+          "value": {
+            "zh": "Jingubang · 官方宣传新闻稿",
+            "en": "Jingubang · official publicity release"
+          }
+        }
+      ],
+      "label": {
+        "zh": "金箍棒 / 如意金箍棒",
+        "en": "Short name / full inscribed name"
+      },
+      "left": {
+        "name": {
+          "zh": "金箍棒",
+          "en": "Jingubang · 金箍棒"
+        },
+        "role": {
+          "zh": "短称 / 宣传用名 Jingubang",
+          "en": "Short name / Jingubang in publicity"
+        },
+        "description": {
+          "zh": "宣传新闻稿以 Jingubang 指称悟空的兵器，对应这里展示的短称“金箍棒”。",
+          "en": "The publicity release calls Wukong’s weapon Jingubang, corresponding to the shorter Chinese name 金箍棒 shown here."
+        }
+      },
+      "right": {
+        "name": {
+          "zh": "如意金箍棒",
+          "en": "如意金箍棒 · full inscribed name"
+        },
+        "role": {
+          "zh": "原著铭文中的完整器名",
+          "en": "Full object name in the novel’s inscription"
+        },
+        "description": {
+          "zh": "《西游记》第三回写到棒身铭文“如意金箍棒”，并接着注明重量。",
+          "en": "Chapter 3 of Journey to the West gives 如意金箍棒 as the name inscribed on the staff, followed by its weight."
+        }
+      },
+      "takeaway": {
+        "zh": "短称和完整器名指向同一件器物；比较时应先对齐名称的范围。",
+        "en": "The shorter name and the full inscribed name refer to the same object. Match their scope before comparing translations."
+      }
+    }
+  ]
+}

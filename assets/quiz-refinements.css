@@ -1,0 +1,96 @@
+/* Keep the original navy cards, blue actions and ring report. */
+:root { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif; }
+* { box-sizing:border-box; }
+body { margin:0; color:#e8f1ff; background:transparent; }
+button { font:inherit; cursor:pointer; touch-action:manipulation; }
+button:disabled { cursor:default; opacity:.4; }
+button:focus-visible,summary:focus-visible { outline:2px solid #e7a5da; outline-offset:4px; }
+[tabindex="-1"]:focus { outline:none; }
+[hidden],.dna-hidden { display:none!important; }
+h1,h2,h3,p { margin:0; }
+.blackspeak-dna-container { max-width:540px; margin:20px auto; padding:16px 16px 24px; position:relative; border-radius:20px; background:linear-gradient(135deg,#0b1222,#0e1c3a 60%,#183b8a); box-shadow:0 10px 40px #0005; overflow-wrap:anywhere; }
+.dna-deco { position:absolute; top:0; left:0; width:100%; height:200px; opacity:.6; pointer-events:none; }
+.dna-header { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 8px 8px; position:relative; }
+.dna-title { font-size:22px; font-weight:800; letter-spacing:1px; }
+.dna-accent { color:#e193cf; }
+.dna-reset-btn { border:0; border-radius:8px; padding:10px 8px; min-height:44px; flex-shrink:0; background:transparent; color:#b2c6ff; font-size:13px; }
+.dna-reset-btn:hover { background:#ffffff12; }
+.dna-card { position:relative; background:rgba(13,17,26,.86); border:1px solid #ffffff24; border-radius:16px; padding:24px; margin-top:16px; box-shadow:0 6px 30px #0005; }
+.dna-big-text { font-size:24px; line-height:1.5; font-weight:800; margin:12px 0; }
+.dna-muted { color:#bac8df; line-height:1.85; font-size:15px; }
+.dna-bullets { color:#c9d7ec; line-height:1.8; font-size:14px; padding-left:20px; margin:18px 0 24px; }
+.dna-bullets li+li { margin-top:8px; }
+.dna-note,.dna-footer { color:#a8b8d3; font-size:12px; line-height:1.7; }
+.dna-note { margin-bottom:14px; }
+.dna-footer { margin:16px 10px 0; text-align:center; }
+.dna-primary-btn,.dna-ghost-btn { min-height:46px; border-radius:12px; padding:12px 18px; line-height:1.5; white-space:normal; transition:background .18s,border-color .18s; }
+.dna-primary-btn { width:100%; background:#2b67ff; color:#fff; border:1px solid transparent; font-size:15px; font-weight:700; }
+.dna-primary-btn:hover:not(:disabled) { background:#3e76ff; }
+.dna-ghost-btn { background:#ffffff12; border:1px solid #ffffff38; color:#dce7ff; font-size:14px; }
+.dna-ghost-btn:hover:not(:disabled) { background:#ffffff20; }
+.dna-step-row { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+.dna-step { color:#b3c2df; font-size:12px; line-height:1.6; letter-spacing:.03em; }
+.dna-type { font-size:11px; color:#a6dafa; border:1px solid #5cc3ff40; border-radius:999px; padding:3px 9px; }
+.dna-progress { height:4px; background:#ffffff16; border-radius:99px; overflow:hidden; margin:14px 0 22px; }
+.dna-progress-bar { height:100%; background:#5cc3ff; width:0; border-radius:99px; transition:width .22s ease; }
+.dna-qtitle { font-size:20px; font-weight:750; line-height:1.6; margin-bottom:9px; }
+.dna-qsub { color:#acbad1; font-size:13px; line-height:1.8; margin-bottom:18px; }
+.dna-context { margin:0 0 18px; padding:14px 16px; border-left:2px solid #689bef; border-radius:0 10px 10px 0; background:#2b67ff13; font-size:14px; line-height:1.9; color:#d4e3ff; white-space:pre-line; }
+.dna-options { display:grid; grid-template-columns:minmax(0,1fr); gap:10px; }
+.dna-option { display:flex; align-items:flex-start; gap:12px; width:100%; min-height:48px; text-align:left; background:#ffffff0c; border:1px solid #ffffff26; border-radius:12px; padding:13px 14px; color:#e8f1ff; font-size:14px; line-height:1.7; transition:background .18s,border-color .18s; }
+.dna-option:hover { background:#ffffff16; border-color:#9fb5ff65; }
+.dna-option.active { border-color:#73c9ff; background:#5cc3ff15; box-shadow:inset 0 0 0 1px #73c9ff55; }
+.dna-option.neutral { color:#a9b7d0; font-size:13px; background:transparent; border-style:dashed; }
+.dna-option-label { flex:1; min-width:0; }
+.dna-option-marker { display:inline-flex; align-items:center; justify-content:center; margin-top:1px; flex:0 0 23px; width:23px; height:23px; border-radius:7px; background:#ffffff0d; color:#aabbda; font-size:11px; }
+.dna-option.active .dna-option-marker { background:#5cc3ff24; color:#92d7ff; }
+.dna-options[data-type="chat"] .dna-option:not(.neutral) { border-radius:12px 12px 12px 4px; }
+.dna-answer-status { font-size:12px; color:#adbfdd; line-height:1.7; margin:14px 0 0; min-height:21px; }
+.dna-actions { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.35fr); gap:10px; margin-top:14px; }
+.dna-ranking { border:1px solid #5cc3ff35; background:#5cc3ff08; padding:12px; border-radius:12px; margin-top:14px; }
+.dna-rank-heading { font-size:12px; color:#90cff7; margin:0 0 10px; }
+.dna-rank-list { list-style:none; padding:0; margin:0; display:grid; gap:8px; }
+.dna-rank-row { display:grid; grid-template-columns:20px minmax(0,1fr) auto; align-items:center; gap:8px; padding:8px 0; border-top:1px solid #ffffff12; font-size:13px; line-height:1.7; }
+.dna-rank-number { color:#85caff; font-variant-numeric:tabular-nums; }
+.dna-rank-controls { display:flex; }
+.dna-rank-button { color:#bbd7fb; background:transparent; border:0; border-radius:5px; min-width:32px; min-height:40px; padding:5px; }
+.dna-rank-button:hover:not(:disabled) { background:#ffffff12; }
+.dna-report-title { font-size:21px; font-weight:800; line-height:1.6; text-align:center; margin:0 0 8px; }
+.dna-centered { text-align:center; }
+.dna-ring-wrap { position:relative; width:200px; max-width:100%; aspect-ratio:1; margin:22px auto; }
+.dna-ring-wrap svg { display:block; width:100%; height:100%; }
+.dna-ring-center { position:absolute; inset:24%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:5px; }
+.dna-center-label { font-size:11px; color:#b4c3dc; }
+.dna-center-genre { font-size:20px; line-height:1.35; color:#9cdafa; }
+html[lang="en"] .dna-center-genre { font-size:16px; }
+.dna-center-percent { font-size:24px; font-weight:750; font-variant-numeric:tabular-nums; }
+.dna-badges { display:flex; justify-content:center; flex-wrap:wrap; gap:8px; margin:0 0 20px; }
+.dna-badge { display:inline-flex; align-items:center; gap:7px; color:#cfdef4; font-size:12px; line-height:1.6; padding:5px 9px; border:1px solid #ffffff26; border-radius:99px; }
+.dna-badge-dot { display:inline-block; flex:0 0 6px; height:6px; border-radius:50%; }
+.dna-panel { background:#0003; border:1px solid #ffffff1f; border-radius:12px; padding:16px; margin-top:12px; }
+.dna-panel-title { color:#a2c8f4; font-size:13px; line-height:1.7; margin:0 0 9px; font-weight:650; }
+.dna-result-lead { font-weight:650; font-size:16px; line-height:1.65; margin-bottom:8px; }
+.dna-evidence,.dna-game-match,.dna-knowledge-item { color:#bac8de; font-size:13px; line-height:1.85; }
+.dna-evidence+.dna-evidence,.dna-game-match+.dna-game-match,.dna-knowledge-item+.dna-knowledge-item { margin-top:12px; padding-top:12px; border-top:1px solid #ffffff13; }
+.dna-evidence strong,.dna-game-match strong { color:#dae6f7; font-weight:600; }
+.dna-knowledge-item summary { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; min-height:44px; cursor:pointer; padding:8px 0; color:#dce7f6; }
+.dna-knowledge-item summary::after { content:'+'; color:#9bc9fc; }
+.dna-knowledge-item[open] summary::after { content:'−'; }
+.dna-knowledge-item p { margin:7px 0; }
+.dna-knowledge-state { color:#8dcefa; font-size:12px; flex-shrink:0; }
+.dna-copy { font-size:13px; color:#c7d4e8; line-height:1.85; user-select:text; }
+@media(max-width:480px) {
+  .blackspeak-dna-container { margin:10px 0; padding:10px 6px 20px; }
+  .dna-header { padding:8px 4px 4px; gap:6px; }
+  .dna-title { font-size:20px; }
+  .dna-card { padding:18px 12px; margin-top:12px; }
+  .dna-big-text { font-size:21px; }
+  .dna-qtitle { font-size:18px; }
+  .dna-option { font-size:14px; padding:12px 11px; gap:9px; }
+  .dna-primary-btn,.dna-ghost-btn { padding:12px 10px; font-size:14px; }
+  .dna-panel { padding:13px; }
+  .dna-rank-row { grid-template-columns:18px minmax(0,1fr); }
+  .dna-rank-controls { grid-column:2; justify-self:end; }
+  .dna-rank-button { min-width:44px; min-height:44px; }
+}
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none!important; scroll-behavior:auto!important; } }

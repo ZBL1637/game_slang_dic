@@ -1,0 +1,209 @@
+[
+  {
+    "term": "架枪",
+    "game": "三角洲行动",
+    "gloss": "Hold an angle",
+    "definition": {
+      "zh": "将准星预先对准敌人可能出现的位置",
+      "en": "Pre-aim at a position where an enemy is likely to appear."
+    }
+  },
+  {
+    "term": "压枪",
+    "game": "三角洲行动",
+    "gloss": "Recoil control",
+    "definition": {
+      "zh": "控制后坐力，使子弹集中",
+      "en": "Control weapon recoil to keep shots grouped together."
+    }
+  },
+  {
+    "term": "跑刀",
+    "game": "三角洲行动",
+    "gloss": "Knife run",
+    "definition": {
+      "zh": "只使用近战武器快速移动或突袭",
+      "en": "Use only a melee weapon to move quickly or make a sudden attack."
+    }
+  },
+  {
+    "term": "Rush",
+    "game": "三角洲行动",
+    "gloss": "Rush",
+    "definition": {
+      "zh": "快速突进战术",
+      "en": "A tactic of rapidly pushing into a position."
+    }
+  },
+  {
+    "term": "听声辨位",
+    "game": "三角洲行动",
+    "gloss": "Sound localization",
+    "definition": {
+      "zh": "在射击游戏中，指通过听游戏音效来判断敌人位置。",
+      "en": "Use in-game sounds to determine an enemy's position in a shooter."
+    }
+  },
+  {
+    "term": "开黑",
+    "game": "三角洲行动",
+    "gloss": "Squad up",
+    "definition": {
+      "zh": "组队一起游戏",
+      "en": "Form a group and play together."
+    }
+  },
+  {
+    "term": "拉枪线",
+    "game": "三角洲行动",
+    "gloss": "Draw fire",
+    "definition": {
+      "zh": "分散敌人火力",
+      "en": "Draw enemy fire in different directions."
+    }
+  },
+  {
+    "term": "交叉火力",
+    "game": "三角洲行动",
+    "gloss": "Crossfire",
+    "definition": {
+      "zh": "多方向夹击敌人",
+      "en": "Attack an enemy from multiple directions."
+    }
+  },
+  {
+    "term": "GG",
+    "game": "三角洲行动",
+    "gloss": "Good game",
+    "definition": {
+      "zh": "Good Game的缩写，表示游戏结束",
+      "en": "Short for 'Good Game'; used to mark the end of a game."
+    }
+  },
+  {
+    "term": "控龙",
+    "game": "英雄联盟",
+    "gloss": "Dragon control",
+    "definition": {
+      "zh": "争夺峡谷中的元素龙、远古龙资源",
+      "en": "Contest elemental drakes and the Elder Dragon on Summoner's Rift."
+    }
+  },
+  {
+    "term": "走A",
+    "game": "英雄联盟",
+    "gloss": "Orb walking",
+    "definition": {
+      "zh": "移动和普攻交替进行，风筝技巧",
+      "en": "Alternate movement with basic attacks to kite an opponent."
+    }
+  },
+  {
+    "term": "Gank",
+    "game": "英雄联盟",
+    "gloss": "Gank",
+    "definition": {
+      "zh": "从草丛或野区偷袭敌人",
+      "en": "Ambush an enemy from brush or the jungle."
+    }
+  },
+  {
+    "term": "开团",
+    "game": "英雄联盟",
+    "gloss": "Engage",
+    "definition": {
+      "zh": "主动发起团战",
+      "en": "Initiate a teamfight."
+    }
+  },
+  {
+    "term": "ADC",
+    "game": "英雄联盟",
+    "gloss": "AD carry",
+    "definition": {
+      "zh": "Attack Damage Carry，主要物理输出角色",
+      "en": "Attack Damage Carry: a team's main physical-damage dealer."
+    }
+  },
+  {
+    "term": "拉扯",
+    "game": "英雄联盟",
+    "gloss": "Spacing",
+    "definition": {
+      "zh": "控制距离反复消耗",
+      "en": "Control the distance to opponents while repeatedly wearing them down."
+    }
+  },
+  {
+    "term": "团战",
+    "game": "英雄联盟",
+    "gloss": "Teamfight",
+    "definition": {
+      "zh": "多名玩家集体作战",
+      "en": "A fight in which multiple players battle together as a team."
+    }
+  },
+  {
+    "term": "四保一",
+    "game": "英雄联盟",
+    "gloss": "Protect the carry",
+    "definition": {
+      "zh": "四人保护一个核心输出",
+      "en": "Four teammates protect one primary damage dealer."
+    }
+  },
+  {
+    "term": "R闪",
+    "game": "英雄联盟",
+    "gloss": "R + Flash",
+    "definition": {
+      "zh": "大招接闪现",
+      "en": "Cast an ultimate ability, then follow it with Flash."
+    }
+  },
+  {
+    "term": "跑图",
+    "game": "原神",
+    "gloss": "Map exploration",
+    "definition": {
+      "zh": "探索地图收集资源",
+      "en": "Explore the map and gather resources."
+    }
+  },
+  {
+    "term": "速通",
+    "game": "艾尔登法环",
+    "gloss": "Speedrun",
+    "definition": {
+      "zh": "以最快时间完成全游戏流程",
+      "en": "Complete the full game as quickly as possible."
+    }
+  },
+  {
+    "term": "幻化",
+    "game": "魔兽世界",
+    "gloss": "Transmogrification",
+    "definition": {
+      "zh": "改变装备外观但保留属性的系统",
+      "en": "A system that changes equipment appearance while preserving its stats."
+    }
+  },
+  {
+    "term": "剧情党",
+    "game": "魔兽世界",
+    "gloss": "Story-focused player",
+    "definition": {
+      "zh": "关注游戏背景和故事的玩家",
+      "en": "A player interested in a game's setting and story."
+    }
+  },
+  {
+    "term": "风景党",
+    "game": "ff14",
+    "gloss": "Scenery enthusiast",
+    "definition": {
+      "zh": "风景党是指喜欢在游戏中欣赏风景、拍照的玩家。",
+      "en": "A player who enjoys in-game scenery and taking screenshots."
+    }
+  }
+]

@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>赛博词典：游戏场景如何塑造我们的"黑话DNA" | Chinese Gaming Slang Data Visualization</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23000000'/%3E%3Ctext x='50%25' y='56%25' text-anchor='middle' font-size='34' fill='%23d946ef' font-family='Arial,sans-serif'%3EG%3C/text%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="assets/vendor/echarts-5.4.3.min.js"></script>
+    <script src="assets/vendor/d3-7.9.0.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -188,7 +189,7 @@
             line-height: 0.9;
             margin-bottom: 20px;
             text-transform: uppercase;
-            letter-spacing: -0.02em;
+            letter-spacing: 0;
         }
 
         .hero-title .highlight {
@@ -296,7 +297,94 @@
             }
 
             .hero {
-                padding: 100px 20px 0 20px; /* 移动端增加更多顶部间距 */
+                height: auto;
+                min-height: 100vh;
+                padding: 150px 20px 40px 20px;
+            }
+
+            .header {
+                padding: 10px 16px;
+            }
+
+            .nav {
+                display: grid;
+                grid-template-columns: 1fr auto;
+                gap: 10px 12px;
+                align-items: center;
+            }
+
+            .logo {
+                font-size: 20px;
+                line-height: 1.1;
+            }
+
+            .nav-links {
+                grid-column: 1 / -1;
+                justify-content: center;
+                gap: 10px 16px;
+                flex-wrap: wrap;
+            }
+
+            .nav-links a {
+                font-size: 13px;
+                white-space: nowrap;
+            }
+
+            .lang-toggle {
+                padding: 8px 12px 8px 30px;
+                font-size: 12px;
+                white-space: nowrap;
+            }
+
+            .hero-title {
+                font-size: clamp(30px, 9vw, 38px);
+                line-height: 1;
+                max-width: 100%;
+                overflow-wrap: normal;
+                word-break: normal;
+            }
+
+            .hero-subtitle {
+                font-size: 18px;
+                margin-bottom: 24px;
+            }
+
+            .hero-description {
+                margin-bottom: 28px;
+            }
+
+            .hero-intro {
+                font-size: 15px;
+                line-height: 1.55;
+                padding: 0;
+            }
+
+            .game-selector {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin: 1.5rem 0;
+            }
+
+            .game-selector label {
+                margin-right: 0;
+            }
+
+            .game-select-dropdown {
+                width: min(240px, 100%);
+            }
+
+            .stats {
+                flex-direction: column;
+                align-items: center;
+                gap: 18px;
+                margin-top: 40px;
+            }
+
+            .stat {
+                width: min(240px, 100%);
             }
         }
 
@@ -312,11 +400,19 @@
             }
 
             .hero {
-                padding: 120px 15px 0 15px; /* 超小屏幕进一步增加顶部间距 */
+                padding: 155px 15px 40px 15px;
             }
 
             .header {
-                padding: 15px 20px; /* 减少导航栏高度 */
+                padding: 10px 14px;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .nav-links {
+                gap: 8px 12px;
             }
         }
 
@@ -541,11 +637,11 @@
         }
 
         @keyframes infiniteGlow {
-            from { 
+            from {
                 text-shadow: 0 0 30px var(--primary-purple);
                 transform: scale(1);
             }
-            to { 
+            to {
                 text-shadow: 0 0 50px var(--primary-purple), 0 0 70px var(--primary-purple);
                 transform: scale(1.05);
             }
@@ -571,12 +667,12 @@
                 grid-template-columns: 1fr;
                 gap: 40px;
             }
-            
+
             .conclusion-section {
                 margin: 80px 0 60px 0;
                 padding: 60px 20px;
             }
-            
+
             .final-number {
                 font-size: 60px;
             }
@@ -1032,7 +1128,7 @@
          .culture-summary .section-photo { max-width: 1000px; }
          /* 让放在网格中的图片跨两列并居中（用于 wukong2.jpg） */
          .culture-content .section-photo { grid-column: 1 / -1; justify-self: center; }
- 
+
          /* 关键词对比样式 */
         .comparison-container {
             display: flex;
@@ -1361,20 +1457,20 @@
             .culture-content {
                 grid-template-columns: 1fr;
             }
-            
+
             .wukong-culture-section .section-title {
                 font-size: 36px;
             }
-            
+
             .characters-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .comparison-item {
                 flex-direction: column;
                 gap: 10px;
             }
-            
+
             .chinese-term, .english-term {
                 min-width: auto;
                 width: 100%;
@@ -2447,11 +2543,22 @@
             .chart-item {
                 min-height: 300px;
                 margin-bottom: 20px;
+                padding: 14px;
             }
 
             .charts-section {
                 margin: 40px 0;
-                padding: 20px;
+                padding: 20px 14px;
+            }
+
+            #chart1,
+            #chart3 {
+                height: 440px !important;
+            }
+
+            #chart2,
+            #chart4 {
+                min-height: 900px;
             }
         }
 
@@ -2572,12 +2679,12 @@
             .search-section {
                 padding: 30px 10px;
             }
-            
+
             /* DNA测试模块移动端适配 */
             .dna-test-module {
                 margin: 20px 0 !important;
             }
-            
+
             .dna-test-module iframe {
                 min-height: 500px !important;
                 border-radius: 8px !important;
@@ -2612,7 +2719,9 @@
         /* Responsive */
         @media (max-width: 768px) {
             .hero-title {
-                font-size: 60px;
+                font-size: clamp(30px, 9vw, 38px);
+                line-height: 1;
+                max-width: 100%;
             }
 
             .stats {
@@ -2628,7 +2737,7 @@
                 width: 90%;
                 height: 70%;
             }
-            
+
             /* DNA测试模块响应式 */
             .dna-test-module iframe {
                 min-height: 600px !important;
@@ -2650,9 +2759,25 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="assets/home-refinements.css">
+    <link rel="stylesheet" href="assets/living-wordclouds.css">
+    <link rel="stylesheet" href="assets/decorative-props.css">
+    <link rel="stylesheet" href="assets/culture-exhibit.css">
+    <link rel="stylesheet" href="assets/focused-ui.css">
+    <link rel="stylesheet" href="assets/word-scanner.css">
+    <link rel="stylesheet" href="assets/slang-charts.css">
+    <link rel="stylesheet" href="assets/history-chapter.css">
+    <script defer src="assets/history-chapter.js"></script>
+    <script defer src="assets/word-scanner-core.js"></script>
+    <script defer src="assets/word-scanner.js"></script>
+    <script defer src="assets/focused-app.js"></script>
+    <script defer src="assets/culture-exhibit.js"></script>
+    <script defer src="assets/home-refinements.js"></script>
+    <script defer src="assets/living-wordclouds.js"></script>
+    <script defer src="assets/decorative-props.js"></script>
 </head>
 <body>
-    <script src="assets/i18n.js?v=20251004"></script>
+    <script src="assets/i18n.js?v=20260619"></script>
     <!-- Custom Cursor -->
     <div class="custom-cursor"></div>
 
@@ -2738,11 +2863,11 @@
                     <div class="section-intro">
                         <p data-i18n="sections.knowIntro">从"芜湖起飞"到"肉蛋葱鸡"，这些看似无厘头的词汇背后，蕴含着数字原生代的文化密码。让我们一起探索这些游戏"黑话"的奥秘。</p>
                     </div>
-                    
+
                     <!-- 黑话DNA测试模块 -->
                     <div class="dna-test-module" style="margin: 40px 0; padding: 0; position: relative;">
-                        <iframe 
-                            src="assets/blackspeak-dna.html" 
+                        <iframe
+                            src="assets/blackspeak-dna.html"
                             style="width: 100%; min-height: 700px; height: auto; border: none; border-radius: 16px; box-shadow: 0 8px 32px rgba(127, 0, 86, 0.2); display: block;"
                             title="黑话DNA测试"
                             loading="lazy"
@@ -2758,12 +2883,12 @@
                         <div class="conclusion-content">
                             <div class="conclusion-text">
                                 <p data-i18n="conclusion.p1">游戏黑话不仅仅是玩家间的交流工具，更是数字原住民一代文化认同的重要载体。从主播直播间的即兴创造，到弹幕文化的集体狂欢，再到日常生活的广泛渗透，这些看似简单的词汇背后，蕴含着深刻的社会文化意义。</p>
-                                
+
                                 <p data-i18n="conclusion.p2">通过大数据分析和人工智能技术，我们得以窥见这个庞大语言体系的内在规律：不同游戏类型塑造着不同的语言特色，玩家情感在虚拟世界中得到充分表达，而技术的进步正在加速这种文化现象的演进。</p>
-                                
+
                                 <p data-i18n="conclusion.p3">在这个数字化浪潮中，游戏黑话已经成为连接虚拟与现实、个体与群体、传统与创新的桥梁。它们不仅记录着游戏产业的发展轨迹，更见证着一代人的成长足迹，成为我们理解当代青年文化的重要窗口。</p>
                             </div>
-                            
+
                             <div class="conclusion-stats">
                                 <div class="final-stat">
                                     <span class="final-number">∞</span>
@@ -2785,11 +2910,11 @@
                 <!-- 第二个Section: AI智能查询 -->
                 <div class="search-section" id="search-section">
                     <div class="section-intro">
-                        <p data-i18n="ai.intro">我们引入前沿的大语言模型与知识图谱技术，构建了新一代智能语义分析系统。该系统能够深度解析游戏术语的语义结构、情感倾向及使用场景，并揭示其背后的文化动因与社群特征，为游戏内容优化、社区精细化运营及玩家体验提升提供数据支持。</p>
+                        <p data-i18n="ai.intro">我们基于整理后的游戏黑话词库，构建了本地语义检索系统。输入术语、解释片段或游戏名称后，系统会在词库中匹配相关词条，并展示释义、使用场景、关联游戏与相近词，帮助读者快速理解玩家社群的语言脉络。</p>
                     </div>
                     <div class="search-interface">
-                        <h3 class="search-title" data-i18n="ai.title">🤖 AI智能查询</h3>
-                        <p class="search-subtitle" data-i18n="ai.subtitle">输入游戏术语，AI为您提供详细解释和使用场景</p>
+                        <h3 class="search-title" data-i18n="ai.title">🔎 智能词典查询</h3>
+                        <p class="search-subtitle" data-i18n="ai.subtitle">输入游戏术语，基于本地词库查看解释和使用场景</p>
                         <div class="search-container">
                             <input type="text" class="search-box" placeholder="请输入游戏黑话，如：躺平、卷王、开黑..." id="searchInput" data-i18n-attr="placeholder:ai.placeholder">
                             <button class="search-btn" id="searchBtn">
@@ -2807,7 +2932,7 @@
                                 <div class="spinner-ring"></div>
                                 <div class="spinner-ring"></div>
                             </div>
-                            <p class="loading-text" data-i18n="ai.loading">AI正在分析中...</p>
+                            <p class="loading-text" data-i18n="ai.loading">正在检索词库...</p>
                             <div class="loading-progress">
                                 <div class="progress-bar" id="progressBar"></div>
                             </div>
@@ -2831,18 +2956,70 @@
                     <h2 class="section-title" data-i18n="sections.dataTitle">游戏黑话背后的数据是怎么样的？</h2>
                     <div class="section-intro">
                         <div class="intro-paragraph">
-                            <p data-i18n="charts.intro1">游戏"黑话"作为玩家社群自发形成的语言符号体系，其背后隐藏着怎样一幅数据图景？在虚拟世界的交流场域中，从"GG""ADCarry"到"肝""氪金"，每一句高频术语不仅是沟通工具，更是玩家行为、情感态度与文化演变的微观镜像。为了系统解析这些语言现象背后的规律，我们借助大数据分析与机器学习算法，对跨越多个主流游戏平台、论坛及直播场景的数万条游戏术语进行了多维度挖掘。</p>
+                            <p data-i18n="charts.intro1">一句“开团”，既是游戏里的行动，也是一群玩家共同理解的信号。把散落在评论中的词语放到一起，我们可以从分类、共现、情感和时间四个角度，观察游戏黑话的使用方式。</p>
                         </div>
-                        
+
                         <div class="intro-paragraph">
-                            <p data-i18n="charts.intro2">我们首先对非结构化评论文本进行清洗与分词，提取出具有代表性的游戏黑话词库；随后运用情感分析模型识别术语在使用中所附带的情感极性。例如，"佛系"往往关联轻松正向的情绪，而"坑"则常映射负面体验。进一步地，我们引入时间序列分析，追踪关键术语的流行度变迁，识别不同版本更新、电竞赛事等外部事件对玩家语言生态的冲击与塑造。基于关联规则挖掘与语义网络分析，我们还绘制出术语之间的共现关系，揭示出诸如"氪金"与"抽卡"等行为类词汇的强相关性，从而勾勒出玩家群体在消费、社交与竞技等不同维度中的行为偏好。</p>
+                            <p data-i18n="charts.intro2">先从旭日图看黑话的分类层级，再沿节点之间的连线，看哪些词经常被一起提起。点击图中的分类或词条，可以展开细节；小扇区和不显眼的节点，也能通过选择菜单找到。</p>
                         </div>
-                        
+
                         <div class="intro-paragraph">
-                            <p data-i18n="charts.intro3">这一分析的价值不仅在于理解语言本身，更在于为游戏开发者、运营者以及社区平台提供具备操作性的洞见。例如，识别出具有高情感负载的术语可辅助优化游戏内聊天监管机制；对术语演变趋势的把握有助于预判玩家兴趣迁移，为内容更新与活动策划提供参考；而对不同玩家圈层用语差异的分析，则可推动个性化推荐与精准社群运营的实现。透过数据的力量，我们不仅是在解读"游戏黑话"，更是在系统解构一个动态变化中的数字文化生态，为理解下一代玩家的行为逻辑与情感结构打开一扇新的窗口。</p>
+                            <p data-i18n="charts.intro3">接着回到不同游戏，比较它们的用词构成与情感分布，最后观察类别随时间的变化。同一个词放在不同语境里，可能承担完全不同的沟通任务。</p>
                         </div>
                     </div>
                     <div class="charts-container">
+                        <div class="chart-row">
+                            <section class="chart-item slang-chart-panel" id="slang-sunburst-panel" aria-labelledby="slang-sunburst-title">
+                                <div class="slang-chart-heading">
+                                    <h3 id="slang-sunburst-title" data-i18n="charts.sunburstTitle">游戏黑话，如何分门别类？</h3>
+                                    <p data-i18n="charts.sunburstIntro">从内向外阅读分类、细类与词条。点击分类展开，看看熟悉的黑话属于哪一支。</p>
+                                </div>
+                                <div class="slang-chart-toolbar">
+                                    <p class="slang-chart-status" id="slang-sunburst-status" role="status">图表将在进入视野后加载</p>
+                                    <div class="slang-chart-controls">
+                                        <label for="slang-sunburst-select" data-i18n="charts.categoryLabel">查看分类</label>
+                                        <select id="slang-sunburst-select" disabled></select>
+                                        <button type="button" id="slang-sunburst-reset" data-i18n="charts.reset">恢复全景</button>
+                                    </div>
+                                </div>
+                                <div class="slang-chart-canvas" id="slang-sunburst-chart" role="group" aria-labelledby="slang-sunburst-title" aria-describedby="slang-sunburst-detail"></div>
+                                <div class="slang-chart-legend" id="slang-sunburst-legend"></div>
+                                <div class="slang-chart-detail" id="slang-sunburst-detail" aria-live="polite" aria-atomic="true"></div>
+                                <div class="chart-conclusion">
+                                    <h3 data-i18n="charts.insightTitle">📊 数据解读</h3>
+                                    <p data-i18n="charts.sunburstConclusion">在这份分类数据中，“游戏玩法用语”的权重最大。继续展开，可以看到通用表达与不同游戏类型的具体用词。一个熟悉的词既有自己的位置，也与更大的玩法语境相连。</p>
+                                </div>
+                                <details class="slang-chart-method">
+                                    <summary data-i18n="charts.methodTitle">图表怎么看</summary>
+                                    <p data-i18n="charts.sunburstMethod">颜色区分一级分类，同一分支沿用相近色。扇区大小按源数据中的频次权重绘制；点击上级分类可展开小扇区，中心返回上一级。分类权重不等于收录词条数，也不代表玩家人数。</p>
+                                </details>
+                            </section>
+                            <section class="chart-item slang-chart-panel" id="slang-network-panel" aria-labelledby="slang-network-title">
+                                <div class="slang-chart-heading">
+                                    <h3 id="slang-network-title" data-i18n="charts.networkTitle">哪些词经常一起出现？</h3>
+                                    <p data-i18n="charts.networkIntro">沿着词语之间的微光，看看黑话如何在同一段交流里相遇。点击一个词，展开它的关联。</p>
+                                </div>
+                                <div class="slang-chart-toolbar">
+                                    <p class="slang-chart-status" id="slang-network-status" role="status">图表将在进入视野后加载</p>
+                                    <div class="slang-chart-controls">
+                                        <label for="slang-network-select" data-i18n="charts.nodeLabel">定位词条</label>
+                                        <select id="slang-network-select" disabled></select>
+                                        <button type="button" id="slang-network-reset" data-i18n="charts.reset">恢复全景</button>
+                                    </div>
+                                </div>
+                                <div class="slang-chart-canvas" id="slang-network-chart" role="img" aria-labelledby="slang-network-title" aria-describedby="slang-network-detail"></div>
+
+                                <div class="slang-chart-detail" id="slang-network-detail" aria-live="polite" aria-atomic="true"></div>
+                                <div class="chart-conclusion">
+                                    <h3 data-i18n="charts.insightTitle">📊 数据解读</h3>
+                                    <p data-i18n="charts.networkConclusion">“辅助”与“打野”、“氪金”与“肝”、“开荒”与“副本”——这些共现联系，让单个词回到玩家交流的语境中。试着从一个熟悉的词出发，看看它最常与哪些词一起出现。</p>
+                                </div>
+                                <details class="slang-chart-method">
+                                    <summary data-i18n="charts.methodTitle">图表怎么看</summary>
+                                    <p data-i18n="charts.networkMethod">概览保留参考图的 96 个词条与 90 条联系，再为非“游戏／玩家”的词，选取一条两端均非这两个泛词的最强联系，合并去重后共 149 条。全部连线来自源数据，权重至少 24。点击词条时，从这 96 个词之间的原始候选联系中展示最强的 12 条。颜色区分词性，点的大小随词频作对数变化；位置用于展开关系，不代表语义距离。共现不等于近义或因果。</p>
+                                </details>
+                            </section>
+                        </div>
                         <div class="chart-row">
                             <div class="chart-item">
                                 <div id="chart1" style="width: 100%; height: 600px;"></div>
@@ -2890,484 +3067,144 @@
                 </div>
 
                 <!-- 引入图表脚本 -->
-                <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-                <script src="assets/chart1.js"></script>
-                <script src="assets/chart2.js"></script>
-                <script src="assets/chart3.js"></script>
-                <script src="assets/chart4.js"></script>
-                <script>
-                    // 初始化图表
-                    document.addEventListener('DOMContentLoaded', function() {
-                        createTermDistributionChart();
-                        createGameSentimentCharts();
-                        createTermSentimentRadarChart();
-                        createMultiGameRadarCharts();
+                <script src="assets/chart-lifecycle.js"></script>
+                <script src="assets/slang-sunburst.js"></script>
+                <script src="assets/slang-network-layout.js"></script>
+                <script src="assets/slang-network.js"></script>
+                <script src="assets/chart1.js?v=20260619"></script>
+                <script src="assets/chart2.js?v=20260619"></script>
+                <script src="assets/chart3.js?v=20260619"></script>
+                <script src="assets/chart4.js?v=20260619"></script>
 
-                        // 初始化滚动动画
-                        initChartAnimations();
 
-                        // 确保所有动画都被初始化
-                        setTimeout(() => {
-                            initTimelineAnimations();
-                            initOtherSectionsAnimations();
-                        }, 100);
-                    });
 
-                    // 图表滚动动画功能
-                    function initChartAnimations() {
-                        const chartItems = document.querySelectorAll('.chart-item');
-
-                        // 创建Intersection Observer
-                        const observer = new IntersectionObserver((entries) => {
-                            entries.forEach(entry => {
-                                if (entry.isIntersecting) {
-                                    // 当元素进入视口中间时添加动画类
-                                    entry.target.classList.add('animate-in');
-                                }
-                            });
-                        }, {
-                            threshold: 0.1, // 当10%的元素可见时触发
-                            rootMargin: '0px 0px 0px 0px' // 当容器顶部到达屏幕中间时触发
-                        });
-
-                        // 观察所有图表项
-                        chartItems.forEach(item => {
-                            observer.observe(item);
-                        });
-
-                        // 初始化时间线动画
-                        initTimelineAnimations();
-                    }
-
-                    // 时间线滚动动画功能
-                    function initTimelineAnimations() {
-                        const timelineTitle = document.querySelector('.timeline-title');
-                        const timelineEras = document.querySelectorAll('.timeline-era');
-                        const timelineEvents = document.querySelectorAll('.timeline-event');
-
-                        // 创建时间线专用的Intersection Observer
-                        const timelineObserver = new IntersectionObserver((entries) => {
-                            entries.forEach(entry => {
-                                if (entry.isIntersecting) {
-                                    entry.target.classList.add('animate-in');
-
-                                    // 如果是时代容器，同时触发其内部事件的动画
-                                    if (entry.target.classList.contains('timeline-era')) {
-                                        const events = entry.target.querySelectorAll('.timeline-event');
-                                        events.forEach((event, index) => {
-                                            setTimeout(() => {
-                                                event.classList.add('animate-in');
-                                            }, (index + 1) * 200); // 事件依次出现
-                                        });
-                                    }
-                                }
-                            });
-                        }, {
-                            threshold: 0.1, // 当10%的元素可见时触发
-                            rootMargin: '0px 0px 0px 0px' // 当容器顶部到达屏幕中间时触发
-                        });
-
-                        // 观察时间线标题
-                        if (timelineTitle) {
-                            timelineObserver.observe(timelineTitle);
-                        }
-
-                        // 观察所有时代容器
-                        timelineEras.forEach(era => {
-                            timelineObserver.observe(era);
-                        });
-
-                        // 初始化其他部分动画
-                        initOtherSectionsAnimations();
-                    }
-
-                    // 其他部分滚动动画功能
-                    function initOtherSectionsAnimations() {
-                        const floatingSection = document.querySelector('.floating-words-section');
-                        const floatingContainer = document.querySelector('.floating-container');
-                        const searchSection = document.querySelector('.search-section');
-                        const searchInterface = document.querySelector('.search-interface');
-                        const searchContainer = document.querySelector('.search-container');
-                        const popularWords = document.querySelector('.popular-words');
-
-                        // 创建通用的Intersection Observer
-                        const sectionObserver = new IntersectionObserver((entries) => {
-                            entries.forEach(entry => {
-                                if (entry.isIntersecting) {
-                                    entry.target.classList.add('animate-in');
-
-                                    // 如果是漂流瓶部分，触发内部元素动画
-                                    if (entry.target.classList.contains('floating-words-section')) {
-                                        setTimeout(() => {
-                                            if (floatingContainer) {
-                                                floatingContainer.classList.add('animate-in');
-                                            }
-                                        }, 300);
-                                    }
-
-                                    // 如果是搜索部分，触发内部元素动画
-                                    if (entry.target.classList.contains('search-section')) {
-                                        setTimeout(() => {
-                                            if (searchInterface) {
-                                                searchInterface.classList.add('animate-in');
-                                            }
-                                        }, 200);
-                                        setTimeout(() => {
-                                            if (searchContainer) {
-                                                searchContainer.classList.add('animate-in');
-                                            }
-                                        }, 400);
-                                        setTimeout(() => {
-                                            if (popularWords) {
-                                                popularWords.classList.add('animate-in');
-                                            }
-                                        }, 600);
-                                    }
-                                }
-                            });
-                        }, {
-                            threshold: 0.1, // 当10%的元素可见时触发
-                            rootMargin: '0px 0px 0px 0px' // 当容器顶部到达屏幕中间时触发
-                        });
-
-                        // 观察各个部分
-                        if (floatingSection) {
-                            sectionObserver.observe(floatingSection);
-                        }
-                        if (searchSection) {
-                            sectionObserver.observe(searchSection);
-                        }
-                    }
-                </script>
-
-                <!-- 第三个Section: 演变时间轴 -->
+                <!-- HISTORY CHAPTER START: researched scenes and semantic change -->
                 <div class="timeline-wrapper">
-                <!-- Timeline Section -->
-                <div class="timeline-section">
-                    <h2 class="timeline-title" data-i18n="timeline.title">我们的“黑话”从何而来？</h2>
-                    <div class="timeline-container">
-                        <div class="timeline-line"></div>
-
-                        <!-- 街机时代 -->
-                        <div class="timeline-era" data-era="arcade">
-                            <div class="era-year">1980s-1990s</div>
-                            <div class="era-content">
-                                <div class="era-text">
-                                    <div class="era-header">
-                                        <span class="era-icon">🕹️</span>
-                                        <h3 class="era-title" data-i18n="timeline.arcade.title">街机时代</h3><span class="era-period" data-i18n="timeline.arcade.period">（1980-1990年代）</span>
-                                    </div>
-                                    <div class="era-description" data-i18n="timeline.arcade.description">游戏厅文化的黄金时代，黑话具有强烈的地域特色和社交属性，街机厅成为青少年社交中心，独特黑话是融入圈子的必备技能。</div>
-                                    <div class="timeline-events">
-                                        <div class="timeline-event" data-year="1983">
-                                            <div class="event-year">1983年</div>
-                                            <div class="event-title" data-i18n="timeline.arcade.event1983.title">术语地域化</div>
-                                            <div class="event-details">
-                                                <div class="detail-item" data-i18n="timeline.arcade.event1983.detail1">受方言影响，同一游戏概念在不同城市诞生了截然不同的叫法。这种地域差异强化了本地游戏圈子的认同感和排他性。</div>
-                                                <div class="detail-item" data-i18n="timeline.arcade.event1983.detail2">上海："老鬼"=BOSS，广东："大嘢"=BOSS，"打机"=玩游戏</div>
-                                            </div>
-                                        </div>
-                                        <div class="timeline-event" data-year="1987">
-                                            <div class="event-year">1987年</div>
-                                            <div class="event-title" data-i18n="timeline.arcade.event1987.title">暴力美学主导</div>
-                                            <div class="event-details">
-                                                <div class="detail-item" data-i18n="timeline.arcade.event1987.detail1">动作格斗游戏盛行，催生了描述击杀特效的简短有力词汇。术语往往直接模拟动作声音或描述视觉冲击。"放雷"、"勾死了"</div>
-                                                <div class="detail-item" data-i18n="timeline.arcade.event1987.detail2">黑话成为游戏厅社交准入证，能否听懂并使用本地“行话”是区分圈内人与新手的标志。</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="era-visual">
-                                    <div class="visual-container arcade-visual">
-                                        <div class="pixel-art">
-                                            <div class="arcade-machine">
-                                                <div class="screen">GAME OVER</div>
-                                                <div class="controls">
-                                                    <div class="joystick"></div>
-                                                    <div class="buttons">
-                                                        <span class="btn red"></span>
-                                                        <span class="btn blue"></span>
-                                                        <span class="btn yellow"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="era-stats">
-                                            <div class="stat-item">
-                                                <span class="stat-number">500+</span>
-                                                <span class="stat-label">游戏厅数量</span>
-                                            </div>
-                                            <div class="stat-item">
-                                                <span class="stat-number">50+</span>
-                                                <span class="stat-label">地域黑话</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- PC网游时代 -->
-                        <div class="timeline-era" data-era="pc">
-                            <div class="era-year">2000s-2009</div>
-                            <div class="era-content">
-                                <div class="era-text">
-                                    <div class="era-header">
-                                        <span class="era-icon">💻</span>
-                                        <h3 class="era-title" data-i18n="timeline.pc.title">PC网游时代</h3><span class="era-period" data-i18n="timeline.pc.period">（2000-2009年）</span>
-                                    </div>
-                                    <div class="era-description" data-i18n="timeline.pc.description">MMORPG兴起，黑话开始标准化和制度化，大规模破圈</div>
-
-                                    <div class="timeline-events">
-                                        <div class="timeline-event" data-year="2000">
-                                            <div class="event-year" data-i18n="timeline.year2000">2000年</div>
-                                            <div class="event-title" data-i18n="timeline.pc.event2000.title">MMORPG术语制度化</div>
-                                            <div class="event-details">
-                                                <div class="detail-item" data-i18n="timeline.pc.event2000.detail1">公会管理、副本挑战等核心玩法建立了标准化表达词汇。</div>
-                                                <div class="detail-item" data-i18n="timeline.pc.event2000.detail2">“工会”、“PK”、“刷图”、“开荒”、“Farm”、“OT”等词精确描述了团队协作中的复杂状态和策略。</div>
-                                            </div>
-                                        </div>
-                                        <div class="timeline-event" data-year="2005">
-                                            <div class="event-year" data-i18n="timeline.year2005">2005年</div>
-                                            <div class="event-title" data-i18n="timeline.pc.event2005.title">大规模破圈</div>
-                                            <div class="event-details">
-                                                <div class="detail-item" data-i18n="timeline.pc.event2005.detail1">游戏词汇因其形象生动，开始被选秀、电商等主流领域借用。</div>
-                                                <div class="detail-item" data-i18n="timeline.pc.event2005.detail2">《超级女声》引入"PK"为淘汰赛代称；"秒杀"进入电商</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 手游时代 -->
-                        <div class="timeline-era" data-era="mobile">
-                            <div class="era-year">2010s-2019</div>
-                            <div class="era-content">
-                                <div class="era-text">
-                                    <div class="era-header">
-                                        <span class="era-icon">📱</span>
-                                        <h3 class="era-title" data-i18n="timeline.mobile.title">手游时代</h3><span class="era-period" data-i18n="timeline.mobile.period">（2010-2019年）</span>
-                                    </div>
-                                    <div class="era-description" data-i18n="timeline.mobile.description">移动互联网普及，付费文化兴起，抽卡玄学体系形成</div>
-                                    <div class="timeline-events">
-                                        <div class="timeline-event" data-year="2012">
-                                            <div class="event-year" data-i18n="timeline.year2012">2012年</div>
-                                            <div class="event-title" data-i18n="timeline.mobile.event2012.title">付费文化兴起</div>
-                                            <div class="event-details">
-                                                <div class="detail-item" data-i18n="timeline.mobile.event2012.detail1">“氪金”（付费）与“肝”（投入大量时间）成为玩家状态的核心描述词。</div>
-                                                <div class="detail-item" data-i18n="timeline.mobile.event2012.detail2">这些术语成为移动游戏中投入与消费的日常表达。</div>
-                                            </div>
-                                        </div>
-                                        <div class="timeline-event" data-year="2016">
-                                            <div class="event-year" data-i18n="timeline.year2016">2016年</div>
-                                            <div class="event-title" data-i18n="timeline.mobile.event2016.title">抽卡玄学体系</div>
-                                            <div class="event-details">
-                                                <div class="detail-item" data-i18n="timeline.mobile.event2016.detail1">概率获取机制衍生出玩家自嘲和迷信性质的运气评价系统。形成了独特的“运气文化”，将随机结果戏剧化和社群化。</div>
-                                                <div class="detail-item" data-i18n="timeline.mobile.event2016.detail2">“欧皇/非酋”、“玄不救非，氪不改命”</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 泛娱乐时代 -->
-                        <div class="timeline-era" data-era="modern">
-                            <div class="era-year">2020s</div>
-                            <div class="era-content">
-                                <div class="era-text">
-                                    <div class="era-header">
-                                        <span class="era-icon">🌐</span>
-                                        <h3 class="era-title" data-i18n="timeline.modern.title">泛娱乐时代</h3><span class="era-period" data-i18n="timeline.modern.period">（2020年至今）</span>
-                                    </div>
-                                    <div class="era-description" data-i18n="timeline.eraDescription">
-                                        直播、短视频兴起，黑话全面破圈并反向影响主流文化
-                                    </div>
-
-                                    <div class="timeline-events">
-                                        <div class="timeline-event" data-year="2020">
-                                            <div class="event-year" data-i18n="timeline.year2020">2020年</div>
-                                            <div class="event-title" data-i18n="timeline.event2020.title">电竞造梗全网化</div>
-                                            <div class="event-details">
-                                                <div class="detail-item" data-i18n="timeline.event2020.detail1">电竞赛事和主播成为流行语的重要发源地，</div>
-                                                <div class="detail-item" data-i18n="timeline.event2020.detail2">"YYDS"、"毒奶"。这些梗往往源于某个高光或下饭操作的名场面解说，极具画面感和传播力。</div>
-                                            </div>
-                                        </div>
-                                        <div class="timeline-event" data-year="2021">
-                                            <div class="event-year" data-i18n="timeline.year2021">2021年</div>
-                                            <div class="event-title" data-i18n="timeline.event2021.title">情感符号迁移现实</div>
-                                            <div class="event-details">
-                                                <div class="detail-item" data-i18n="timeline.event2021.detail1">游戏中的情绪表达被广泛用于描述现实遭遇。</div>
-                                                <div class="detail-item" data-i18n="timeline.event2021.detail2">“破防”等词因其高度概括情绪爆点的能力，成为网络共情的高效表达。</div>
-                                            </div>
-                                        </div>
-                                        <div class="timeline-event" data-year="2023">
-                                            <div class="event-year" data-i18n="timeline.year2023">2023年</div>
-                                            <div class="event-title" data-i18n="timeline.event2023.title">职场术语游戏化</div>
-                                            <div class="event-details">
-                                                <div class="detail-item" data-i18n="timeline.event2023.detail1">游戏中的任务机制词汇被借用来调侃或描述枯燥重复的日常工作。年轻一代试图用熟悉的游戏框架解构现实压力。</div>
-                                                <div class="detail-item" data-i18n="timeline.event2023.detail2">"搬砖"=重复性工作、"副本"=专项任务</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <section class="timeline-section hx-history" id="slang-history" aria-labelledby="history-heading">
+                  <header class="hx-header">
+                    <p data-hx-zh="从数据，回到交流现场" data-hx-en="FROM THE CHARTS TO THE CONVERSATION" class="hx-eyebrow">从数据，回到交流现场</p>
+                    <h2 data-hx-zh="我们的“黑话”从何而来？" data-hx-en="Where does our gaming slang come from?" class="hx-title" id="history-heading">我们的“黑话”从何而来？</h2>
+                    <p data-hx-zh="图表呈现词语之间的联系。回到使用它们的场景，我们可以看到术语如何帮助交流，以及部分表达怎样走出游戏。下面沿着四种场景，观察这些变化。" data-hx-en="The charts show connections between words. Looking at where people use them helps explain how terms support communication and how some expressions travel beyond games. Four scenes trace these changes." class="hx-intro">图表呈现词语之间的联系。回到使用它们的场景，我们可以看到术语如何帮助交流，以及部分表达怎样走出游戏。下面沿着四种场景，观察这些变化。</p>
+                  </header>
+                  <div class="hx-layout">
+                    <aside class="hx-visual" aria-label="历史章节场景导航" data-hx-aria-zh="历史章节场景导航" data-hx-aria-en="History scenes and navigation">
+                      <div class="hx-stage"><div class="hx-scene" data-history-scene="arcade" ><img class="hx-illustration" src="assets/history/arcade.svg" width="480" height="440" alt="" loading="lazy" decoding="async"><p data-hx-zh="01 / 招式，有了可交流的名字" data-hx-en="01 / Giving moves a shared name" class="hx-scene-caption">01 / 招式，有了可交流的名字</p></div><div class="hx-scene" data-history-scene="party" hidden><img class="hx-illustration" src="assets/history/party.svg" width="480" height="440" alt="" loading="lazy" decoding="async"><p data-hx-zh="02 / 一个频道，分清彼此的位置" data-hx-en="02 / Finding your role in the party" class="hx-scene-caption">02 / 一个频道，分清彼此的位置</p></div><div class="hx-scene" data-history-scene="chance" hidden><img class="hx-illustration" src="assets/history/chance.svg" width="480" height="440" alt="" loading="lazy" decoding="async"><p data-hx-zh="03 / 投入与期待，都有自己的说法" data-hx-en="03 / Words for investment and expectations" class="hx-scene-caption">03 / 投入与期待，都有自己的说法</p></div><div class="hx-scene" data-history-scene="everyday" hidden><img class="hx-illustration" src="assets/history/everyday.svg" width="480" height="440" alt="" loading="lazy" decoding="async"><p data-hx-zh="04 / 同一个词，抵达新的语境" data-hx-en="04 / The same word, in a new context" class="hx-scene-caption">04 / 同一个词，抵达新的语境</p></div></div>
+                      <nav class="hx-era-nav" aria-label="选择交流场景" data-hx-aria-zh="选择交流场景" data-hx-aria-en="Choose a scene"><a href="#history-arcade" data-history-nav="arcade" aria-current="step"><span class="hx-nav-no">01</span><span data-hx-zh="街机" data-hx-en="Arcades" class="hx-nav-label">街机</span></a><a href="#history-party" data-history-nav="party" ><span class="hx-nav-no">02</span><span data-hx-zh="组队" data-hx-en="Teamwork" class="hx-nav-label">组队</span></a><a href="#history-chance" data-history-nav="chance" ><span class="hx-nav-no">03</span><span data-hx-zh="投入" data-hx-en="Investment" class="hx-nav-label">投入</span></a><a href="#history-everyday" data-history-nav="everyday" ><span class="hx-nav-no">04</span><span data-hx-zh="日常" data-hx-en="Everyday" class="hx-nav-label">日常</span></a></nav>
+                      <p data-hx-zh="年份标注具体记录，不代表词语的诞生时间；四种场景长期并存。插画与对话为场景示意。" data-hx-en="Years identify specific records, not when words were coined. These four settings coexist. Illustrations and dialogue are examples." class="hx-stage-note">年份标注具体记录，不代表词语的诞生时间；四种场景长期并存。插画与对话为场景示意。</p>
+                    </aside>
+                    <div class="hx-stories">
+                      <article class="hx-story" id="history-arcade" data-history-step="arcade">
+                        <p data-hx-zh="1991 · 街机游戏发行记录" data-hx-en="1991 · An arcade release" class="hx-period">1991 · 街机游戏发行记录</p>
+                        <div class="hx-mobile-scene" aria-hidden="true"><img class="hx-illustration" src="assets/history/arcade.svg" width="480" height="440" alt="" loading="lazy" decoding="async"></div>
+                        <h3 data-hx-zh="把动作叫出名字" data-hx-en="Giving moves a name" class="hx-story-title">把动作叫出名字</h3>
+                        <p data-hx-zh="给招式起个名字，交流打法就更方便。" data-hx-en="A name for a move makes it easier to discuss how to play." class="hx-lead">给招式起个名字，交流打法就更方便。</p>
+                        <blockquote class="hx-example"><p data-hx-zh="“这套连招怎么接？”" data-hx-en="“How do you string those moves together?”" >“这套连招怎么接？”</p><span data-hx-zh="使用情境示意" data-hx-en="ILLUSTRATIVE DIALOGUE" class="hx-example-label">使用情境示意</span></blockquote>
+                        <p class="hx-body"><span data-hx-zh="1991 年，《街头霸王 II》以街机游戏形式发行。" data-hx-en="Street Fighter II arrived in arcades in 1991." >1991 年，《街头霸王 II》以街机游戏形式发行。</span><a class="hx-cite" href="https://www.capcom.co.jp/ir/english/company/history.html" target="_blank" rel="noopener noreferrer" data-hx-aria-zh="来源 1：CAPCOM｜公司沿革：1991" data-hx-aria-en="Source 1: CAPCOM | Corporate history: 1991" aria-label="来源 1：CAPCOM｜公司沿革：1991">[1]</a> <span data-hx-zh="从辨认招式到讨论操作，玩家需要把屏幕上的情况说给别人听。简短的术语，让动作与对战结果有了便于交流的名称。" data-hx-en="Recognizing moves and discussing play require putting what happens on screen into words. Short terms give players names for actions and match outcomes." >从辨认招式到讨论操作，玩家需要把屏幕上的情况说给别人听。简短的术语，让动作与对战结果有了便于交流的名称。</span></p>
+                        <div class="hx-terms" aria-label="代表词语" data-hx-aria-zh="代表词语" data-hx-aria-en="Example expressions"><span lang="zh-CN">必杀技</span><span lang="zh-CN">连招</span><span lang="zh-CN">K.O.</span></div>
+                        <p data-hx-zh="从操作经验，形成共同词汇。" data-hx-en="From actions to a shared vocabulary." class="hx-takeaway">从操作经验，形成共同词汇。</p>
+                      </article>
+                      <article class="hx-story" id="history-party" data-history-step="party">
+                        <p data-hx-zh="在线游戏 · 团队协作" data-hx-en="Online games · Teamwork" class="hx-period">在线游戏 · 团队协作</p>
+                        <div class="hx-mobile-scene" aria-hidden="true"><img class="hx-illustration" src="assets/history/party.svg" width="480" height="440" alt="" loading="lazy" decoding="async"></div>
+                        <h3 data-hx-zh="一句话，分清各自的位置" data-hx-en="A few words, a shared plan" class="hx-story-title">一句话，分清各自的位置</h3>
+                        <p data-hx-zh="人不在同一个房间，也需要迅速达成默契。" data-hx-en="Even in different rooms, players need to understand one another." class="hx-lead">人不在同一个房间，也需要迅速达成默契。</p>
+                        <blockquote class="hx-example"><p data-hx-zh="“来个治疗，准备开本。”" data-hx-en="“We need a healer before we start.”" >“来个治疗，准备开本。”</p><span data-hx-zh="使用情境示意" data-hx-en="ILLUSTRATIVE DIALOGUE" class="hx-example-label">使用情境示意</span></blockquote>
+                        <p class="hx-body"><span data-hx-zh="以《最终幻想 XIV》为例，官方指南区分了坦克、治疗与 DPS 等职责：吸引敌人注意并承受攻击、恢复队友的生命值、造成伤害。" data-hx-en="In Final Fantasy XIV, for example, the official guide distinguishes tank, healer and DPS roles: drawing enemy attention and taking attacks, restoring teammates’ HP, and dealing damage." >以《最终幻想 XIV》为例，官方指南区分了坦克、治疗与 DPS 等职责：吸引敌人注意并承受攻击、恢复队友的生命值、造成伤害。</span><a class="hx-cite" href="https://na.finalfantasyxiv.com/jobguide/battle/" target="_blank" rel="noopener noreferrer" data-hx-aria-zh="来源 2：SQUARE ENIX｜《最终幻想 XIV》职业指南" data-hx-aria-en="Source 2: SQUARE ENIX | FINAL FANTASY XIV Job Guide" aria-label="来源 2：SQUARE ENIX｜《最终幻想 XIV》职业指南">[2]</a> <span data-hx-zh="这些分工进入队伍频道，便成为简短的角色称呼。读懂几个词，也就读懂了队友正在等待谁。" data-hx-en="In party chat, those roles become concise labels. Understanding a few words can be enough to know who the team is waiting for." >这些分工进入队伍频道，便成为简短的角色称呼。读懂几个词，也就读懂了队友正在等待谁。</span></p>
+                        <div class="hx-terms" aria-label="代表词语" data-hx-aria-zh="代表词语" data-hx-aria-en="Example expressions"><span lang="zh-CN">T / 坦克</span><span lang="zh-CN">治疗</span><span lang="zh-CN">DPS</span></div>
+                        <p data-hx-zh="把复杂分工，压缩成彼此听得懂的话。" data-hx-en="Complex roles, expressed in a few familiar words." class="hx-takeaway">把复杂分工，压缩成彼此听得懂的话。</p>
+                      </article>
+                      <article class="hx-story" id="history-chance" data-history-step="chance">
+                        <p data-hx-zh="移动游戏 · 投入与规则" data-hx-en="Mobile games · Investment and rules" class="hx-period">移动游戏 · 投入与规则</p>
+                        <div class="hx-mobile-scene" aria-hidden="true"><img class="hx-illustration" src="assets/history/chance.svg" width="480" height="440" alt="" loading="lazy" decoding="async"></div>
+                        <h3 data-hx-zh="投入，也有自己的说法" data-hx-en="Words for what we put in" class="hx-story-title">投入，也有自己的说法</h3>
+                        <p data-hx-zh="谈论游戏时，我们也在谈时间、金钱和期待。" data-hx-en="Talking about a game also means talking about time, money and expectations." class="hx-lead">谈论游戏时，我们也在谈时间、金钱和期待。</p>
+                        <blockquote class="hx-example"><p data-hx-zh="“这次又抽到保底了。”" data-hx-en="“I hit the guaranteed reward again this time.”" >“这次又抽到保底了。”</p><span data-hx-zh="使用情境示意" data-hx-en="ILLUSTRATIVE DIALOGUE" class="hx-example-label">使用情境示意</span></blockquote>
+                        <p class="hx-body"><span data-hx-zh="一项手游公会研究将“又肝又氪”与劳动和金钱两种投入联系起来。" data-hx-en="A study of mobile-game guilds connects gan and ke with labour and monetary investment." >一项手游公会研究将“又肝又氪”与劳动和金钱两种投入联系起来。</span><a class="hx-cite" href="https://cjournal.hep.com.cn/1008-7699/CN/PDF/10.16452/j.cnki.sdkjsk.2023.04.002#page=3" target="_blank" rel="noopener noreferrer" data-hx-aria-zh="来源 3：杨馨、李杭洋｜“液态监控”下数字游牧民的“灵工”研究" data-hx-aria-en="Source 3: Yang Xin &amp; Li Hangyang | A study of mobile-game guild labour" aria-label="来源 3：杨馨、李杭洋｜“液态监控”下数字游牧民的“灵工”研究">[3]</a> <span data-hx-zh="“保底”则描述抽取规则中的奖励保障。例如，《崩坏学园 2》规定了满足特定抽取条件后至少能获得的奖励；触发条件以各游戏规则为准。" data-hx-en="Baodi describes a guaranteed reward under a draw system. The Guns GirlZ rules, for example, specify minimum rewards after certain draw conditions are met. The conditions depend on the game." >“保底”则描述抽取规则中的奖励保障。例如，《崩坏学园 2》规定了满足特定抽取条件后至少能获得的奖励；触发条件以各游戏规则为准。</span><a class="hx-cite" href="https://cms.benghuai.com/mihoyo/hsod2_gacha_rules/gacha/high" target="_blank" rel="noopener noreferrer" data-hx-aria-zh="来源 4：米哈游｜《崩坏学园 2》公主祈愿规则" data-hx-aria-en="Source 4: miHoYo | Guns GirlZ draw rules" aria-label="来源 4：米哈游｜《崩坏学园 2》公主祈愿规则">[4]</a> <span data-hx-zh="这些词把投入、规则和期待，变成了玩家便于交流的话题。" data-hx-en="These expressions make investment, rules and expectations easier for players to discuss." >这些词把投入、规则和期待，变成了玩家便于交流的话题。</span></p>
+                        <div class="hx-terms" aria-label="代表词语" data-hx-aria-zh="代表词语" data-hx-aria-en="Example expressions"><span lang="zh-CN">肝</span><span lang="zh-CN">氪金</span><span lang="zh-CN">保底</span></div>
+                        <p data-hx-zh="从说明怎么玩，到描述自己怎么投入。" data-hx-en="From explaining play to describing personal investment." class="hx-takeaway">从说明怎么玩，到描述自己怎么投入。</p>
+                      </article>
+                      <article class="hx-story" id="history-everyday" data-history-step="everyday">
+                        <p data-hx-zh="2021 · 网络用语盘点" data-hx-en="2021 · A review of online language" class="hx-period">2021 · 网络用语盘点</p>
+                        <div class="hx-mobile-scene" aria-hidden="true"><img class="hx-illustration" src="assets/history/everyday.svg" width="480" height="440" alt="" loading="lazy" decoding="async"></div>
+                        <h3 data-hx-zh="离开游戏，词义继续生长" data-hx-en="Beyond the game, meanings grow" class="hx-story-title">离开游戏，词义继续生长</h3>
+                        <p data-hx-zh="同样两个字，换个场景就能说出不同的感受。" data-hx-en="The same expression can carry a different feeling in a new setting." class="hx-lead">同样两个字，换个场景就能说出不同的感受。</p>
+                        <blockquote class="hx-example"><p data-hx-zh="“看到这段告别，我破防了。”" data-hx-en="“That farewell really got to me.”" >“看到这段告别，我破防了。”</p><span data-hx-zh="使用情境示意" data-hx-en="ILLUSTRATIVE DIALOGUE" class="hx-example-label">使用情境示意</span></blockquote>
+                        <p class="hx-body"><span data-hx-zh="“破防”入选 2021 年度十大网络用语。发布说明既解释游戏中的突破防御，也记录了日常交流中内心受到强烈触动的用法。" data-hx-en="Pofang was included in the ten online expressions of 2021. The announcement describes both breaking a defense in a game and being deeply affected emotionally." >“破防”入选 2021 年度十大网络用语。发布说明既解释游戏中的突破防御，也记录了日常交流中内心受到强烈触动的用法。</span><a class="hx-cite" href="https://www.cp.com.cn/Content/2021/12-08/1508424782.html" target="_blank" rel="noopener noreferrer" data-hx-aria-zh="来源 5：商务印书馆｜“汉语盘点2021”之年度十大网络用语发布" data-hx-aria-en="Source 5: The Commercial Press | Ten online expressions of 2021" aria-label="来源 5：商务印书馆｜“汉语盘点2021”之年度十大网络用语发布">[5]</a> <span data-hx-zh="熟悉的游戏画面成为一种比喻，帮助人们表达屏幕之外的经验。语言的变化，也发生在每一次这样的借用里。" data-hx-en="Familiar game imagery can become a metaphor for experiences beyond the screen. Each such use gives the expression another context." >熟悉的游戏画面成为一种比喻，帮助人们表达屏幕之外的经验。语言的变化，也发生在每一次这样的借用里。</span></p>
+                        <div class="hx-terms" aria-label="代表词语" data-hx-aria-zh="代表词语" data-hx-aria-en="Example expressions"><span lang="zh-CN">破防</span></div>
+                        <p data-hx-zh="词语离开原来的场景，带着画面感进入生活。" data-hx-en="The setting changes; the imagery travels with the word." class="hx-takeaway">词语离开原来的场景，带着画面感进入生活。</p>
+                      </article>
                     </div>
+                  </div>
+                  <div class="hx-transfer" aria-labelledby="history-transfer-title">
+                    <p data-hx-zh="换一个场景，再读一遍" data-hx-en="A DIFFERENT SETTING, A DIFFERENT READING" class="hx-eyebrow">换一个场景，再读一遍</p>
+                    <h3 data-hx-zh="词没变，意思已经走远了" data-hx-en="The word stays. Its meaning travels." id="history-transfer-title">词没变，意思已经走远了</h3>
+                    <p data-hx-zh="点选词条，对照它在游戏里和日常生活中的用法。" data-hx-en="Choose an expression and compare its uses in games and everyday life." class="hx-transfer-intro">点选词条，对照它在游戏里和日常生活中的用法。</p>
+                    <div class="hx-word-tabs" role="group" aria-label="选择语境对照词" data-hx-aria-zh="选择语境对照词" data-hx-aria-en="Choose an expression to compare">
+                      <button type="button" data-history-word="pofang" aria-pressed="true">破防</button>
+                      <button type="button" data-history-word="miaosha" aria-pressed="false">秒杀</button>
+                    </div>
+                    <div class="hx-meaning-result" aria-live="polite" aria-atomic="true">
+                      <div class="hx-meaning-grid">
+                        <section class="hx-meaning"><p data-hx-zh="游戏里" data-hx-en="IN THE GAME" class="hx-context">游戏里</p><h4 class="hx-meaning-word" data-history-output="word">破防</h4><p class="hx-meaning-line" data-history-output="game">这一击让对手破防了。</p></section>
+                        <section class="hx-meaning"><p data-hx-zh="日常生活中" data-hx-en="IN EVERYDAY LIFE" class="hx-context">日常生活中</p><h4 class="hx-meaning-word" data-history-output="word">破防</h4><p class="hx-meaning-line" data-history-output="daily">看到这段告别，我破防了。</p></section>
+                      </div>
+                      <p class="hx-meaning-note"><span data-history-output="note">同一组字，从防御机制延伸到情绪体验；日常用法既可能是感动，也可能是受伤。</span> <a class="hx-cite" data-history-output="source" href="https://www.cp.com.cn/Content/2021/12-08/1508424782.html" target="_blank" rel="noopener noreferrer" aria-label="来源5：破防释义">[5]</a></p>
+                    </div>
+                    <p data-hx-zh="例句为用法示意；释义依据见相邻来源。" data-hx-en="Sentences illustrate usage; linked sources support the meanings." class="hx-stage-note">例句为用法示意；释义依据见相邻来源。</p>
+                  </div>
+                  <details class="hx-sources">
+                    <summary><span data-hx-zh="资料与出处 · 6 项" data-hx-en="Sources and notes · 6 references" >资料与出处 · 6 项</span></summary>
+                    <p data-hx-zh="发行记录、游戏规则与词义研究分别标注。场景排列用于说明不同的表达需求，不代表所有词语都经历了同一条演变路线；年份也不等同于词语诞生时间。" data-hx-en="Release records, game rules and language research are cited separately. The scenes illustrate different communication needs, not a single route followed by every expression. Dates do not establish when words were coined." class="hx-source-intro">发行记录、游戏规则与词义研究分别标注。场景排列用于说明不同的表达需求，不代表所有词语都经历了同一条演变路线；年份也不等同于词语诞生时间。</p>
+                    <ol class="hx-source-list"><li id="history-source-1"><a href="https://www.capcom.co.jp/ir/english/company/history.html" target="_blank" rel="noopener noreferrer"><span data-hx-zh="CAPCOM｜公司沿革：1991" data-hx-en="CAPCOM | Corporate history: 1991" >CAPCOM｜公司沿革：1991</span></a><p data-hx-zh="公司一手记录；确认《街头霸王 II》街机版于 1991 年发行。并非中文术语的起源记录。" data-hx-en="First-party release history for the arcade version of Street Fighter II; not a record of Chinese slang origins." >公司一手记录；确认《街头霸王 II》街机版于 1991 年发行。并非中文术语的起源记录。</p><p data-hx-zh="页面更新至 2025-03-31" data-hx-en="History current to 31 March 2025" class="hx-source-meta">页面更新至 2025-03-31</p></li><li id="history-source-2"><a href="https://na.finalfantasyxiv.com/jobguide/battle/" target="_blank" rel="noopener noreferrer"><span data-hx-zh="SQUARE ENIX｜《最终幻想 XIV》职业指南" data-hx-en="SQUARE ENIX | FINAL FANTASY XIV Job Guide" >SQUARE ENIX｜《最终幻想 XIV》职业指南</span></a><p data-hx-zh="官方机制说明；坦克、治疗与 DPS 的职责。持续更新页面，不用于判定中文叫法的诞生年。" data-hx-en="Official descriptions of tank, healer and DPS roles. A live guide, not evidence of when Chinese role names originated." >官方机制说明；坦克、治疗与 DPS 的职责。持续更新页面，不用于判定中文叫法的诞生年。</p><p data-hx-zh="访问：2026-10-07" data-hx-en="Accessed 7 October 2026" class="hx-source-meta">访问：2026-10-07</p></li><li id="history-source-3"><a href="https://cjournal.hep.com.cn/1008-7699/CN/PDF/10.16452/j.cnki.sdkjsk.2023.04.002#page=3" target="_blank" rel="noopener noreferrer"><span data-hx-zh="杨馨、李杭洋｜“液态监控”下数字游牧民的“灵工”研究" data-hx-en="Yang Xin &amp; Li Hangyang | A study of mobile-game guild labour" >杨馨、李杭洋｜“液态监控”下数字游牧民的“灵工”研究</span></a><p data-hx-zh="《山东科技大学学报（社会科学版）》25(4)，10–19，2023。第 12 页将“又肝又氪”与劳动、金钱投入相联系。" data-hx-en="Journal of Shandong University of Science and Technology (Social Sciences), 25(4), 10–19 (2023). Page 12 discusses labour and monetary investment." >《山东科技大学学报（社会科学版）》25(4)，10–19，2023。第 12 页将“又肝又氪”与劳动、金钱投入相联系。</p><p data-hx-zh="DOI：10.16452/j.cnki.sdkjsk.2023.04.002" data-hx-en="DOI: 10.16452/j.cnki.sdkjsk.2023.04.002" class="hx-source-meta">DOI：10.16452/j.cnki.sdkjsk.2023.04.002</p></li><li id="history-source-4"><a href="https://cms.benghuai.com/mihoyo/hsod2_gacha_rules/gacha/high" target="_blank" rel="noopener noreferrer"><span data-hx-zh="米哈游｜《崩坏学园 2》公主祈愿规则" data-hx-en="miHoYo | Guns GirlZ draw rules" >米哈游｜《崩坏学园 2》公主祈愿规则</span></a><p data-hx-zh="官方抽取规则；说明保底与抽取机制的关系。此处不将某款游戏的概率、抽数作为通则。" data-hx-en="Official rules explaining guarantees within a draw system. Probabilities and thresholds are game-specific." >官方抽取规则；说明保底与抽取机制的关系。此处不将某款游戏的概率、抽数作为通则。</p><p data-hx-zh="访问：2026-10-07" data-hx-en="Accessed 7 October 2026" class="hx-source-meta">访问：2026-10-07</p></li><li id="history-source-5"><a href="https://www.cp.com.cn/Content/2021/12-08/1508424782.html" target="_blank" rel="noopener noreferrer"><span data-hx-zh="商务印书馆｜“汉语盘点2021”之年度十大网络用语发布" data-hx-en="The Commercial Press | Ten online expressions of 2021" >商务印书馆｜“汉语盘点2021”之年度十大网络用语发布</span></a><p data-hx-zh="2021-12-08 发布。“破防”条解释游戏中的防御义与日常情感义；入选年份并非造词年份。" data-hx-en="Published 8 December 2021. The pofang entry describes its game and emotional meanings; inclusion is not a date of coinage." >2021-12-08 发布。“破防”条解释游戏中的防御义与日常情感义；入选年份并非造词年份。</p><p data-hx-zh="名单发布：2021-12-06" data-hx-en="List announced 6 December 2021" class="hx-source-meta">名单发布：2021-12-06</p></li><li id="history-source-6"><a href="https://pdf.hanspub.org/ml2024127_312913487.pdf#page=3" target="_blank" rel="noopener noreferrer"><span data-hx-zh="兰翊君｜“秒X”构式中“秒”意义的发展演变" data-hx-en="Lan Yijun | Semantic development of the “miao X” construction" >兰翊君｜“秒X”构式中“秒”意义的发展演变</span></a><p data-hx-zh="《现代语言学》12(7)，211–218，2024。第 213 页讨论“秒杀”的语义泛化；文中列出多种词源说法，本章不作唯一来源判断。" data-hx-en="Modern Linguistics, 12(7), 211–218 (2024). Page 213 discusses semantic extension; the paper reports differing origin accounts." >《现代语言学》12(7)，211–218，2024。第 213 页讨论“秒杀”的语义泛化；文中列出多种词源说法，本章不作唯一来源判断。</p><p data-hx-zh="DOI：10.12677/ml.2024.127546" data-hx-en="DOI: 10.12677/ml.2024.127546" class="hx-source-meta">DOI：10.12677/ml.2024.127546</p></li></ol>
+                  </details>
+                </section>
                 </div>
-
-                </div>
+                <!-- HISTORY CHAPTER END -->
                 </div>
             </div>
         </section>
 
+        <section class="hx-chapter-bridge" id="history-culture-bridge" aria-labelledby="history-culture-question">
+          <p data-hx-zh="当一个词离开熟悉的游戏，它的意思会随语境改变。" data-hx-en="A word’s meaning can shift when it leaves a familiar game." class="hx-bridge-context">当一个词离开熟悉的游戏，它的意思会随语境改变。</p>
+          <h2 data-hx-zh="跨越语言时，这种变化又会怎样发生？" data-hx-en="What happens when it crosses into another language?" class="hx-bridge-question" id="history-culture-question">跨越语言时，这种变化又会怎样发生？</h2>
+        </section>
+
         <!-- 《黑神话：悟空》文化出海 Section -->
-        <section class="wukong-culture-section">
+        <section class="wukong-culture-section" id="culture-chapter">
             <div class="container">
                 <div class="section-header">
                     <h2 class="section-title" data-i18n="wukong">《黑神话：悟空》中的"游戏黑话"与中华文化出海</h2>
 
                     <p class="section-description" data-i18n="wukongIntro">
-                        《黑神话：悟空》是中国游戏产业中具有标志性的现象级作品，其成功出口正体现了文化"走出去"战略的成效。国家十四五规划提出要"讲好中国故事"，数字游戏作为语言、影像与互动的综合媒介，在实现中华文化全球传播中独具优势。黑神话融合了《西游记》经典元素和现代科技，通过寓言式叙事和本地化语言，使玩家在沉浸式体验中感受中国传统文化意蕴。游戏中丰富的"黑话"——比如角色昵称、神话典故、成语诗句等——经过巧妙的翻译处理，不仅保留了浓郁的本土色彩，还激发了国际玩家探索文化内核的兴趣。
+                        从玩家之间的黑话，到游戏里的名字、称谓与名物，词语的跨语言之旅仍在继续。《黑神话：悟空》提供了一个具体的观察入口：一个名字被怎样写成英文，它背后的故事又能被读懂多少？
                     </p>
                     <figure class="section-photo">
-                        <img src="assets/wukong.jpg" alt="Black Myth: Wukong title section image">
+                        <img src="assets/wukong.jpg" alt="《黑神话：悟空》章节配图" loading="lazy" decoding="async">
                     </figure>
                 </div>
 
                 <div class="culture-content">
-                    <!-- 中英关键词对比图表 -->
-                    <div class="culture-card keyword-comparison">
-                        <div class="card-header">
-                            <h3 class="card-title" data-i18n="wukongKeywordComparison.title">关键词对比</h3>
-                            <p class="card-subtitle" data-i18n="wukongKeywordComparison.subtitle">中文原文与英文字幕中的专用词汇翻译对比</p>
-                        </div>
-                        <div class="comparison-container">
-                            <div class="comparison-item" data-tooltip-key="wukongKeywordComparison.tooltips.wukong">
-                                <div class="chinese-term">悟空</div>
-                                <div class="arrow">→</div>
-                                <div class="english-term">Wukong</div>
-                            </div>
-                            <div class="comparison-item" data-tooltip-key="wukongKeywordComparison.tooltips.loong">
-                                <div class="chinese-term">龙</div>
-                                <div class="arrow">→</div>
-                                <div class="english-term">Loong</div>
-                            </div>
-                            <div class="comparison-item" data-tooltip-key="wukongKeywordComparison.tooltips.jingubang">
-                                <div class="chinese-term">金箍棒</div>
-                                <div class="arrow">→</div>
-                                <div class="english-term">Jin Gu Bang</div>
-                            </div>
-                            <div class="comparison-item" data-tooltip-key="wukongKeywordComparison.tooltips.pigsy">
-                                <div class="chinese-term">猪八戒</div>
-                                <div class="arrow">→</div>
-                                <div class="english-term">Pigsy</div>
-                            </div>
-                            <div class="comparison-item" data-tooltip-key="wukongKeywordComparison.tooltips.yaoguai">
-                                <div class="chinese-term">妖怪</div>
-                                <div class="arrow">→</div>
-                                <div class="english-term">Yaoguai</div>
-                            </div>
-                        </div>
+                    <div class="culture-card">
+                        <h3 class="card-title">名字如何跨越语言</h3>
+                        <p>悟空 / Wukong · 天命人 / the Destined One · 猪八戒 / Zhu Bajie</p>
+                        <p>名字、人物称谓与器物名称各有不同的语境。可从官方介绍核对用词，再回到故事中理解它们。</p>
+                        <a href="https://store.steampowered.com/app/2358720/Black_Myth_Wukong/?l=english" target="_blank" rel="noopener noreferrer">官方游戏介绍 ↗</a>
                     </div>
-
-                    <!-- 翻译风格切换按钮 -->
-                    <div class="culture-card translation-style">
-                        <div class="card-header">
-                            <h3 class="card-title" data-i18n="wukongTranslationStyle.title">翻译风格切换</h3>
-                            <p class="card-subtitle" data-i18n="wukongTranslationStyle.subtitle">体验"异化"与"归化"两种策略对文化信息传递的影响</p>
-                        </div>
-                        <div class="style-toggle-container">
-                            <div class="toggle-buttons">
-                                <button class="style-btn active" data-style="foreignization" data-i18n="wukongTranslationStyle.foreignization">异化翻译</button>
-                                <button class="style-btn" data-style="domestication" data-i18n="wukongTranslationStyle.domestication">归化翻译</button>
-                            </div>
-                            <div class="translation-examples">
-                                <div class="example-item">
-                                    <div class="original-text">定身法</div>
-                                    <div class="translation-text" id="immobilize-translation">Immobilize</div>
-                                </div>
-                                <div class="example-item">
-                                    <div class="original-text">七十二变</div>
-                                    <div class="translation-text" id="transform-translation">Seventy-Two Transformations</div>
-                                </div>
-                                <div class="example-item">
-                                    <div class="original-text">筋斗云</div>
-                                    <div class="translation-text" id="cloud-translation">Somersault Cloud</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <figure class="section-photo">
-                         <img src="assets/wukong2.jpg" alt="Black Myth: Wukong keywords and translation style image">
-                     </figure>
-                     <figure class="section-photo">
-                         <img src="assets/wukong3.jpg" alt="Black Myth: Wukong metaphor map and character names image">
-                     </figure>
- 
-                     <!-- 文化隐喻地图区域 -->
-                    <div class="culture-card metaphor-map">
-                        <div class="card-header">
-                            <h3 class="card-title" data-i18n="wukongMetaphorMap.title">文化隐喻地图</h3>
-                            <p class="card-subtitle" data-i18n="wukongMetaphorMap.subtitle">游戏中文化隐喻、成语或诗句的来源标注</p>
-                        </div>
-                        <div class="map-container">
-                            <div class="metaphor-point" data-x="20%" data-y="30%" data-tooltip-key="wukongMetaphorMap.tooltips.buddhism">
-                                <div class="point-marker" data-i18n="wukongMetaphorMap.buddhism.marker">佛</div>
-                                <div class="point-label" data-i18n="wukongMetaphorMap.buddhism.label">佛教教义</div>
-                            </div>
-                            <div class="metaphor-point" data-x="60%" data-y="45%" data-tooltip-key="wukongMetaphorMap.tooltips.taoism">
-                                <div class="point-marker" data-i18n="wukongMetaphorMap.taoism.marker">道</div>
-                                <div class="point-label" data-i18n="wukongMetaphorMap.taoism.label">道教文化</div>
-                            </div>
-                            <div class="metaphor-point" data-x="80%" data-y="25%" data-tooltip-key="wukongMetaphorMap.tooltips.poetry">
-                                <div class="point-marker" data-i18n="wukongMetaphorMap.poetry.marker">诗</div>
-                                <div class="point-label" data-i18n="wukongMetaphorMap.poetry.label">古典诗词</div>
-                            </div>
-                            <div class="metaphor-point" data-x="40%" data-y="70%" data-tooltip-key="wukongMetaphorMap.tooltips.idioms">
-                                <div class="point-marker" data-i18n="wukongMetaphorMap.idioms.marker">语</div>
-                                <div class="point-label" data-i18n="wukongMetaphorMap.idioms.label">成语典故</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 角色名称点击弹出解释框 -->
-                    <div class="culture-card character-names">
-                        <div class="card-header">
-                            <h3 class="card-title" data-i18n="wukongCharacterNames.title">角色译名注解</h3>
-                            <p class="card-subtitle" data-i18n="wukongCharacterNames.subtitle">点击角色名称查看翻译缘由和文化背景</p>
-                        </div>
-                        <div class="characters-grid">
-                            <div class="character-item" data-character="wukong">
-                                <div class="character-name">悟空 / Wukong</div>
-                                <div class="character-preview" data-i18n="wukongCharacterNames.clickToView">点击查看译名缘由</div>
-                            </div>
-                            <div class="character-item" data-character="bajie">
-                                <div class="character-name">猪八戒 / Pigsy</div>
-                                <div class="character-preview" data-i18n="wukongCharacterNames.clickToView">点击查看译名缘由</div>
-                            </div>
-                            <div class="character-item" data-character="jinguban">
-                                <div class="character-name">金箍棒 / Jin Gu Bang</div>
-                                <div class="character-preview" data-i18n="wukongCharacterNames.clickToView">点击查看译名缘由</div>
-                            </div>
-                            <div class="character-item" data-character="dragon">
-                                <div class="character-name">龙 / Loong</div>
-                                <div class="character-preview" data-i18n="wukongCharacterNames.clickToView">点击查看译名缘由</div>
-                            </div>
-                        </div>
+                    <div class="culture-card">
+                        <h3 class="card-title">沿着词语，读回原著</h3>
+                        <p>悟空之名见第一回，金箍棒铭文见第三回，悟能与八戒的命名关系见第十九回。</p>
+                        <a href="https://zh.wikisource.org/wiki/西遊記/第019回" target="_blank" rel="noopener noreferrer">《西游记》第十九回 ↗</a>
                     </div>
                 </div>
 
                 <!-- 文化传播总结 -->
                 <div class="culture-summary">
-                    <h3 class="summary-title" data-i18n="wukongSummary.title">文化传播与国家形象</h3>
+                    <h3 class="summary-title" data-i18n="wukongSummary.title">一个词，通向更远的故事</h3>
                     <p class="summary-text" data-i18n="wukongSummary.text">
-                        通过这些互动方式，玩家不仅能够直观比较不同翻译策略的传播效果，还能理解如何在忠实文化本质的基础上实现本地化。例如，通过切换"异化"和"归化"的翻译模式，玩家可以看到文化特色与易懂性之间的平衡。整体而言，《黑神话：悟空》以其深度本土化的翻译策略和创新叙事，成功将游戏黑话转化为传播中华文化的载体，在全球主流市场上塑造了鲜明的中国形象。
+                        一个词跨越语言时，改变的不只是写法。译名可以保留一种陌生的声音，也可以先解释它是什么；而名字背后的故事，还需要人物、情节和玩家的探索来补全。
                     </p>
                     <figure class="section-photo">
-                        <img src="assets/wukong4.jpg" alt="Black Myth: Wukong cultural communication and national image image">
+                        <img src="assets/wukong4.jpg" alt="云雾间，两名角色以长兵器交锋的插画" loading="lazy" decoding="async">
                     </figure>
                 </div>
             </div>
@@ -3375,51 +3212,17 @@
     </main>
 
     <script>
-      // 语言切换时，重建数据与图表
+      // Each original chart owns its language listener; only refresh the dictionary here.
       window.addEventListener('languagechange', async function() {
-        // 重新应用页面文案
-        if (window.i18n) {
-          i18n.applyTranslations();
+        const requestedLang = window.i18n.getLang();
+        if (window.reloadFocusedDictionary) {
+          await window.reloadFocusedDictionary();
+          if (window.i18n.getLang() !== requestedLang) return;
+          createFloatingWords();
+          displayPopularWords();
+          if (window.lastDictionaryQuery) aiSearchTerm(window.lastDictionaryQuery);
         }
-        // 重新加载词库与刷新展示
-        if (typeof loadAllGameData === 'function') {
-          // 清空游戏选择器，保留“所有游戏”
-          const selector = document.getElementById('game-select');
-          if (selector) {
-            const firstOption = selector.querySelector('option[value="all"]');
-            selector.innerHTML = '';
-            if (firstOption) selector.appendChild(firstOption);
-          }
-          // 语言切换时重新加载数据
-          try {
-            await loadAllGameData();
-            console.log('数据重新加载完成，开始重新渲染图表和组件');
-          } catch (error) {
-            console.error('语言切换时数据加载失败:', error);
-          }
-    }
-    // 重新渲染所有图表
-    if (typeof createTermDistributionChart === 'function') {
-      createTermDistributionChart();
-    }
-    if (typeof createGameSentimentCharts === 'function') {
-      createGameSentimentCharts();
-    }
-    if (typeof createRadarChart === 'function') {
-      try { createRadarChart(); } catch(e){}
-    }
-    if (typeof createItemCharts === 'function') {
-      try { createItemCharts(); } catch(e){}
-    }
-    // 语言切换时重新渲染热门词汇
-    if (typeof displayPopularWords === 'function') {
-      try { displayPopularWords(); } catch(e){}
-    }
-    // 重新创建漂浮词汇区域以使用最新语言的词库数据
-    if (typeof createFloatingWords === 'function') {
-      try { createFloatingWords(); } catch(e){}
-    }
-  });
+      });
     </script>
 
     <!-- Footer -->
@@ -3428,23 +3231,6 @@
     </footer>
 
     <script>
-        // Custom cursor
-        const cursor = document.querySelector('.custom-cursor');
-        let mouseX = 0, mouseY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            cursor.style.left = mouseX + 'px';
-            cursor.style.top = mouseY + 'px';
-        });
-
-        // Hover effects
-        document.querySelectorAll('a, button, .slang-card').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-        });
-
         // Binary background - 游戏黑话版本
         function createBinaryBackground() {
             const canvas = document.getElementById('binaryCanvas');
@@ -3480,7 +3266,28 @@
                 }
             }
 
-            setInterval(draw, 80);
+            // Preserve the original rain density, palette and cadence; pause in hidden tabs.
+            const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+            let timer;
+            function synchronizeRain() {
+                clearInterval(timer);
+                timer = null;
+                if (!document.hidden && !reduced.matches) timer = setInterval(draw, 80);
+            }
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                const length = Math.floor(canvas.width / (fontSize * 3));
+                drops.length = length;
+                for (let i = 0; i < length; i++) if (!Number.isFinite(drops[i])) drops[i] = 1;
+                draw();
+            });
+            document.addEventListener('visibilitychange', synchronizeRain);
+            reduced.addEventListener('change', synchronizeRain);
+            window.addEventListener('pagehide', () => clearInterval(timer));
+            window.addEventListener('pageshow', synchronizeRain);
+            draw();
+            synchronizeRain();
         }
 
         // 游戏配置常量
@@ -3646,7 +3453,7 @@
             'MOBA': {
                 name: 'MOBA',
                 color: '#c89b3c',
-                games: ['LOL', '王者荣耀.xlsx']
+                games: ['英雄联盟', '王者荣耀']
             },
             'FPS': {
                 name: 'FPS',
@@ -3697,7 +3504,7 @@
                 color: GAME_CONFIG.COLORS.games.deltaForce,
                 category: 'FPS'
             },
-            'LOL': {
+            '英雄联盟': {
                 name: '英雄联盟',
                 color: GAME_CONFIG.COLORS.games.lol,
                 category: 'MOBA'
@@ -3757,7 +3564,7 @@
                 color: GAME_CONFIG.COLORS.games.naraka,
                 category: 'Action'
             },
-            '王者荣耀.xlsx': {
+            '王者荣耀': {
                 name: '王者荣耀',
                 color: GAME_CONFIG.COLORS.games.wangzherongyao,
                 category: 'MOBA'
@@ -3785,23 +3592,37 @@
         let filteredData = [];
         let currentGame = 'all';
 
+        const gameKeyAliases = {
+            'Final Fantasy XIV': 'ff14',
+            'Delta Force': '三角洲行动',
+            'League of Legends': '英雄联盟',
+            'Honor of Kings': '王者荣耀',
+            'Genshin Impact': '原神',
+            'Valorant': '无畏契约',
+            'PUBG': '绝地求生',
+            'Monster Hunter': '怪物猎人',
+            'Naraka: Bladepoint': '永劫无间',
+            'Elden Ring': '艾尔登法环',
+            'Wuthering Waves': '鸣潮',
+            'Civilization VI': '文明6',
+            'World of Warcraft': '魔兽世界'
+        };
+
         // 新的数据格式已经是标准化的，不再需要normalizeSlangData函数
 
         async function loadAllGameData() {
             try {
                 console.log('开始加载游戏数据...');
                 // 清空全局数据，避免语言切换或重复初始化导致累加
-                allGameData = {};
-                slangData = [];
-                filteredData = [];
+                const revision = window.dictionaryLoadVersion();
                 const lang = window.i18n ? i18n.getLang() : 'zh';
                 const source = lang === 'en' ? 'assets/data_en.json' : 'assets/combined_game_data.json';
                 console.log('当前语言:', lang, '数据源:', source);
-                const response = await fetch(source);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const combinedData = await response.json();
+                const combinedData = await window.getDictionaryRows(lang);
+                if (!window.dictionaryLoadIsCurrent(revision)) return;
+                allGameData = {};
+                slangData = [];
+                filteredData = [];
                 console.log('数据加载成功，条目数:', combinedData.length);
 
                 // 按游戏分组数据
@@ -3812,7 +3633,8 @@
                 allGameData['general'] = [];
 
                 combinedData.forEach(item => {
-                    const key = item.game || 'general';
+                    const rawKey = item.game || 'general';
+                    const key = gameKeyAliases[rawKey] || rawKey;
                     const config = gameDataConfig[key] || {
                         name: (window.i18n ? (i18n.getLang() === 'zh' ? '通用' : 'General') : '通用'),
                         color: GAME_CONFIG.COLORS.primary,
@@ -3903,11 +3725,19 @@
                 selector.appendChild(optgroup);
             });
 
-            // 添加事件监听器
-            selector.addEventListener('change', (e) => {
+            const optionValues = Array.from(selector.options).map(option => option.value);
+            if (optionValues.includes(currentGame)) {
+                selector.value = currentGame;
+            } else {
+                currentGame = 'all';
+                selector.value = 'all';
+            }
+
+            // 添加事件监听器；重建选择器时覆盖旧处理器，避免重复绑定
+            selector.onchange = (e) => {
                 currentGame = e.target.value;
                 updateCurrentData();
-            });
+            };
         }
 
         function updateCurrentData() {
@@ -3925,7 +3755,7 @@
             filteredData = [...slangData];
 
             // Update total count
-            document.getElementById('totalSlangs').textContent = slangData.length + '+';
+            window.dispatchEvent(new CustomEvent('dictionary-updated', { detail: { count: slangData.length, game: currentGame } }));
 
             // Categorize data
             categorizeSlang();
@@ -4065,7 +3895,8 @@
         // Search functionality
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase();
-            const activeCategory = document.querySelector('.filter-btn.active').dataset.category;
+            const activeCategoryButton = document.querySelector('.filter-btn.active');
+            const activeCategory = activeCategoryButton ? activeCategoryButton.dataset.category : 'all';
 
             let baseData = activeCategory === 'all' ? slangData : slangData.filter(item => item.category === activeCategory);
 
@@ -4303,168 +4134,26 @@
         `;
         document.head.appendChild(style);
 
-        // 漂浮词汇功能
+        // 在原词条样式上叠加扫描交互。
         function createFloatingWords() {
-            const container = Utils.safeQuerySelector('#floatingWords');
-            if (!container) {
-                console.error('floatingWords container not found');
-                return;
-            }
-            // 清空旧的词汇节点，避免重复叠加
-            try { container.innerHTML = ''; } catch(_) {}
-
-            // 确保容器有足够的尺寸
-            container.style.position = 'relative';
-            container.style.width = '100%';
-            container.style.height = GAME_CONFIG.LAYOUT.container.minHeight + 'px';
-
-            const containerRect = container.getBoundingClientRect();
-            const words = [];
-
-            // 随机选择配置数量的游戏黑话
-            const shuffledData = [...slangData].sort(() => Math.random() - 0.5);
-            const selectedSlangs = shuffledData.slice(0, GAME_CONFIG.ANIMATION.floatingWords.count).map((item, index) => {
-                // 使用网格布局加随机偏移，创造自然但不混乱的分布
-                const { cols, rows } = GAME_CONFIG.LAYOUT.grid;
-                const gridX = (index % cols) * (containerRect.width / cols);
-                const gridY = Math.floor(index / cols) * (containerRect.height / rows);
-
-                // 添加随机偏移，但保持在网格范围内
-                const offsetX = (Math.random() - 0.5) * 80;
-                const offsetY = (Math.random() - 0.5) * 60;
-
-                // 使用配置的颜色
-                const colors = Object.values(GAME_CONFIG.COLORS.games);
-
-                const padding = GAME_CONFIG.LAYOUT.container.padding;
-                const initialX = Utils.clamp(
-                    gridX + offsetX + padding,
-                    padding,
-                    containerRect.width - padding * 2
-                );
-                const initialY = Utils.clamp(
-                    gridY + offsetY + padding,
-                    padding / 2,
-                    containerRect.height - padding
-                );
-
-                const config = GAME_CONFIG.ANIMATION.floatingWords;
-                return {
-                    text: item.slang,
-                    definition: item.definition,
-                    game: item.game,
-                    gameKey: item.gameKey,
-                    color: colors[index % colors.length],
-                    x: initialX,
-                    y: initialY,
-                    anchorX: initialX,
-                    anchorY: initialY,
-                    vx: (Math.random() - 0.5) * config.speedMultiplier,
-                    vy: (Math.random() - 0.5) * config.speedMultiplier,
-                    maxDistance: config.maxDistance
-                };
-        // 重新创建背景漂浮词以使用最新词库
-        if (typeof createFloatingWords === 'function') {
-          try { createFloatingWords(); } catch(e){}
-        }
-      });
-
-            selectedSlangs.forEach((slang, index) => {
-                const wordElement = document.createElement('div');
-                wordElement.className = 'floating-word';
-                wordElement.textContent = slang.text;
-                wordElement.style.left = slang.x + 'px';
-                wordElement.style.top = slang.y + 'px';
-
-                // 应用随机颜色（使用工具函数）
-                wordElement.style.color = slang.color;
-                wordElement.style.borderColor = Utils.addAlpha(slang.color, 0.3);
-                wordElement.style.background = Utils.addAlpha(slang.color, 0.1);
-                wordElement.style.textShadow = `0 0 10px ${Utils.addAlpha(slang.color, 0.5)}`;
-                wordElement.style.boxShadow = `0 4px 15px ${Utils.addAlpha(slang.color, 0.25)}`;
-
-                // 创建工具提示
-                const tooltip = document.createElement('div');
-                tooltip.className = 'word-tooltip';
-                tooltip.innerHTML = `
-                    <strong>${slang.text}</strong><br>
-                    <span style="color: ${GAME_CONFIG.COLORS.text.secondary};">${slang.definition}</span><br>
-                    <span style="color: ${GAME_CONFIG.COLORS.text.muted}; font-size: 12px;">来源: ${(() => {
-                        const gameConfig = gameDataConfig[slang.gameKey];
-                        return gameConfig && gameConfig.category ? gameCategories[gameConfig.category]?.name || gameConfig.category : '未知类型';
-                    })()}</span>
-                `;
-
-                // 鼠标悬停事件
-                wordElement.addEventListener('mouseenter', (e) => {
-                    tooltip.style.left = (e.pageX + 10) + 'px';
-                    tooltip.style.top = (e.pageY - 10) + 'px';
-                    tooltip.classList.add('show');
-                    document.body.appendChild(tooltip);
-                });
-
-                wordElement.addEventListener('mouseleave', () => {
-                    tooltip.classList.remove('show');
-                    if (tooltip.parentNode) {
-                        tooltip.parentNode.removeChild(tooltip);
-                    }
-                });
-
-                wordElement.addEventListener('mousemove', (e) => {
-                    tooltip.style.left = (e.pageX + 10) + 'px';
-                    tooltip.style.top = (e.pageY - 10) + 'px';
-                });
-
-                container.appendChild(wordElement);
-                words.push({ element: wordElement, data: slang });
+            const container = document.getElementById('floatingWords');
+            if (!container || !window.WordScanner) return;
+            window.WordScanner.mount(container, slangData, {
+                lang: window.i18n?.getLang() === 'en' ? 'en' : 'zh',
+                colors: Object.values(GAME_CONFIG.COLORS.games),
+                getGame(entry) {
+                    const key = entry.gameKey || entry.game;
+                    const name = gameDataConfig[key]?.name || entry.game || key;
+                    return window.i18n?.tGame(name) || name;
+                },
+                getCategory(entry) {
+                    const category = gameDataConfig[entry.gameKey || entry.game]?.category;
+                    const name = gameCategories[category]?.name || category || '';
+                    return window.i18n?.tCategory(name) || name;
+                }
             });
-
-            // 动画循环
-            function animateWords() {
-                words.forEach(word => {
-                    const data = word.data;
-                    const element = word.element;
-                    const config = GAME_CONFIG.ANIMATION.floatingWords;
-
-                    // 更新位置
-                    data.x += data.vx;
-                    data.y += data.vy;
-
-                    // 计算与锚点的距离
-                    const distance = Utils.distance(data.x, data.y, data.anchorX, data.anchorY);
-
-                    // 如果超出最大距离，施加回拉力
-                    if (distance > data.maxDistance) {
-                        const distanceX = data.x - data.anchorX;
-                        const distanceY = data.y - data.anchorY;
-                        const pullX = -distanceX * config.pullStrength;
-                        const pullY = -distanceY * config.pullStrength;
-
-                        data.vx += pullX;
-                        data.vy += pullY;
-                    }
-
-                    // 添加轻微的阻尼，让运动更自然
-                    data.vx *= config.damping;
-                    data.vy *= config.damping;
-
-                    // 随机扰动，保持运动活力
-                    if (Math.random() < config.randomForce) {
-                        data.vx += (Math.random() - 0.5) * 0.2;
-                        data.vy += (Math.random() - 0.5) * 0.2;
-                    }
-
-                    // 应用位置
-                    element.style.left = data.x + 'px';
-                    element.style.top = data.y + 'px';
-                });
-
-                requestAnimationFrame(animateWords);
-            }
-
-            animateWords();
         }
-
+        window.addEventListener('dictionary-updated', createFloatingWords);
         // 显示热门词汇（根据语言选择数据源，固定展示12个）
         async function displayPopularWords() {
             const popularGrid = Utils.safeQuerySelector('#popularGrid');
@@ -4533,296 +4222,191 @@
         // 热门词汇点击直接使用AI搜索
         // searchPopularWord函数已被aiSearchTerm替代
 
-        // AI智能查询功能
-        const AI_API_KEY = 'sk-c19e575e2b8045e5932bcce9f2e5e538';
-        const AI_API_URL = 'https://api.deepseek.com/v1/chat/completions';
+        // 智能词典查询：只使用本地词库，避免在前端暴露外部 API 密钥。
+        function escapeHTML(value) {
+            return String(value ?? '').replace(/[&<>"']/g, char => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            }[char]));
+        }
 
         function initAISearchFunction() {
             const searchInput = Utils.safeQuerySelector('#searchInput');
             const searchBtn = Utils.safeQuerySelector('#searchBtn');
-            const aiLoading = Utils.safeQuerySelector('#aiLoading');
-            const aiResults = Utils.safeQuerySelector('#aiResults');
-            const popularWords = Utils.safeQuerySelector('#popularWords');
-            const progressBar = Utils.safeQuerySelector('#progressBar');
 
-            if (!searchInput || !searchBtn || !aiLoading || !aiResults) {
-                console.warn('AI search elements not found');
+            if (!searchInput || !searchBtn) {
+                console.warn('Search elements not found');
                 return;
             }
 
-            // 回车搜索
             searchInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     aiSearchTerm();
                 }
             });
 
-            // 搜索按钮点击
-            searchBtn.addEventListener('click', aiSearchTerm);
-
-            function showAILoading(show) {
-                if (show) {
-                    aiLoading.style.display = 'block';
-                    aiResults.innerHTML = '';
-                    if (popularWords) popularWords.style.display = 'none';
-
-                    // 进度条动画
-                    let progress = 0;
-                    const progressInterval = setInterval(() => {
-                        progress += Math.random() * 15;
-                        if (progress > 90) progress = 90;
-                        if (progressBar) progressBar.style.width = progress + '%';
-                    }, 200);
-
-                    // 存储interval以便清除
-                    aiLoading.progressInterval = progressInterval;
-                } else {
-                    aiLoading.style.display = 'none';
-                    if (popularWords) popularWords.style.display = 'block';
-
-                    // 清除进度条动画
-                    if (aiLoading.progressInterval) {
-                        clearInterval(aiLoading.progressInterval);
-                        if (progressBar) progressBar.style.width = '100%';
-                        setTimeout(() => {
-                            if (progressBar) progressBar.style.width = '0%';
-                        }, 500);
-                    }
-                }
-            }
-
-            function displayAIResult(data) {
-                const synonymsText = data.synonyms && data.synonyms.length > 0
-                    ? data.synonyms.join('、')
-                    : '暂无';
-
-                const html = `
-                    <div class="ai-result-container">
-                        <div class="ai-term-title">
-                            <div class="ai-term-icon">🎯</div>
-                            ${data.term}
-                        </div>
-
-                        <div class="ai-definition">
-                            <div class="ai-definition-title">📝 含义解释</div>
-                            <div class="ai-definition-text">${data.definition}</div>
-                        </div>
-
-                        <div class="ai-section">
-                            <div class="ai-section-title">
-                                <span class="ai-section-icon">💡</span>
-                                使用场景
-                            </div>
-                            <div class="ai-section-content">${data.usage}</div>
-                        </div>
-
-                        <div class="ai-section">
-                            <div class="ai-section-title">
-                                <span class="ai-section-icon">💬</span>
-                                使用例句
-                            </div>
-                            <div class="ai-section-content ai-examples">
-                                ${data.examples.map((example, index) =>
-                                    `${index + 1}. ${example}`
-                                ).join('<br>')}
-                            </div>
-                        </div>
-
-                        <div class="ai-section">
-                            <div class="ai-section-title">
-                                <span class="ai-section-icon">🎮</span>
-                                游戏背景
-                            </div>
-                            <div class="ai-section-content">${data.context}</div>
-                        </div>
-
-                        <div style="display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap;">
-                            <div style="background: rgba(117, 42, 238, 0.1); padding: 10px 15px; border-radius: 8px; flex: 1; min-width: 120px; border: 1px solid rgba(117, 42, 238, 0.3);">
-                                <strong style="color: var(--primary-green);">流行程度:</strong> <span style="color: rgba(255, 255, 255, 0.9);">${data.level}</span>
-                            </div>
-                            <div style="background: rgba(117, 42, 238, 0.1); padding: 10px 15px; border-radius: 8px; flex: 1; min-width: 120px; border: 1px solid rgba(117, 42, 238, 0.3);">
-                                <strong style="color: var(--primary-green);">同义词:</strong> <span style="color: rgba(255, 255, 255, 0.9);">${synonymsText}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                aiResults.innerHTML = html;
-
-                // 添加显示动画
-                setTimeout(() => {
-                    const container = aiResults.querySelector('.ai-result-container');
-                    if (container) {
-                        container.classList.add('show');
-                    }
-                }, 100);
-            }
-
-            function displayAIError(message) {
-                const html = `
-                    <div class="ai-result-container show">
-                        <div class="ai-error">
-                            ❌ ${message}
-                        </div>
-                    </div>
-                `;
-                aiResults.innerHTML = html;
-            }
+            searchBtn.addEventListener('click', () => aiSearchTerm());
         }
 
-        // 根据语言构建 AI 搜索提示词
-        function buildAISearchPrompt(query) {
-            const isEnglish = (typeof i18n !== 'undefined' && i18n.getLang && i18n.getLang() === 'en');
-            if (isEnglish) {
-                return `You are an expert in gaming terminology. Explain the gaming slang "${query}" in English.
-Reply with ONLY a valid JSON object (no extra text) using the exact schema below:
-
-{
-  "term": "${query}",
-  "definition": "50–100 words, precise meaning",
-  "usage": "30–60 words describing how and when it is used",
-  "examples": [
-    "Example sentence 1",
-    "Example sentence 2",
-    "Example sentence 3"
-  ],
-  "context": "20–40 words about game genres or communities",
-  "level": "Common / Niche / Specific game",
-  "synonyms": ["synonym1", "synonym2"]
-}
-
-Requirements:
-- Answer strictly in English.
-- Return only JSON with the above fields.
-- If it is not gaming slang, clearly state this in "definition".
-- Provide at least 2 example sentences.`;
-            }
-
-            // 中文提示词（保持原有结构与约束）
-            return `请详细解释游戏黑话"${query}"的含义和使用场景。请按照以下JSON格式回复，确保回复是有效的JSON格式：
-
-{
-  "term": "${query}",
-  "definition": "详细定义（50-100字）",
-  "usage": "使用场景和方式（30-60字）",
-  "examples": [
-    "使用例句1",
-    "使用例句2",
-    "使用例句3"
-  ],
-  "context": "出现的游戏类型或社区背景（20-40字）",
-  "level": "流行程度：通用/小众/特定游戏",
-  "synonyms": ["同义词1", "同义词2"]
-}
-
-请确保：
-1. 回复必须是有效的JSON格式
-2. 所有字段都必须填写
-3. 如果该词不是游戏黑话，请在definition中说明
-4. examples数组至少包含2个例句`;
-        }
-
-        // AI搜索函数
-        function aiSearchTerm(term = null) {
-            const searchInput = Utils.safeQuerySelector('#searchInput');
-            const searchBtn = Utils.safeQuerySelector('#searchBtn');
+        function setSearchLoading(show) {
             const aiLoading = Utils.safeQuerySelector('#aiLoading');
             const aiResults = Utils.safeQuerySelector('#aiResults');
+            const popularWords = Utils.safeQuerySelector('#popularWords');
+            const progressBar = Utils.safeQuerySelector('#progressBar');
+
+            if (!aiLoading) return;
+
+            if (show) {
+                aiLoading.style.display = 'block';
+                if (aiResults) aiResults.innerHTML = '';
+                if (popularWords) popularWords.style.display = 'none';
+
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += Math.random() * 25;
+                    if (progress > 90) progress = 90;
+                    if (progressBar) progressBar.style.width = progress + '%';
+                }, 120);
+
+                aiLoading.progressInterval = progressInterval;
+                return;
+            }
+
+            aiLoading.style.display = 'none';
+            if (aiLoading.progressInterval) {
+                clearInterval(aiLoading.progressInterval);
+                aiLoading.progressInterval = null;
+            }
+            if (progressBar) {
+                progressBar.style.width = '100%';
+                setTimeout(() => {
+                    progressBar.style.width = '0%';
+                }, 250);
+            }
+        }
+
+        function getSearchCorpus() {
+            if (currentGame !== 'all' && allGameData[currentGame] && allGameData[currentGame].length) {
+                return allGameData[currentGame];
+            }
+            if (slangData && slangData.length) {
+                return slangData;
+            }
+            return Object.values(allGameData).flat();
+        }
+
+        function findSlangMatches(query) {
+            const normalizedQuery = String(query).trim().toLowerCase();
+            if (!normalizedQuery) return [];
+
+            const featured = window.getFeaturedSlangMatches?.(query) || [];
+            const seen = new Set();
+            return [...featured, ...getSearchCorpus()]
+                .filter(item => {
+                    const key = `${item.gameKey}::${item.slang}`;
+                    if (seen.has(key)) return false;
+                    seen.add(key);
+                    return true;
+                })
+                .filter(item => {
+                    const term = String(item.slang || '').toLowerCase();
+                    const definition = String(item.definition || '').toLowerCase();
+                    const game = String(item.game || item.gameKey || '').toLowerCase();
+                    return term.includes(normalizedQuery) ||
+                        definition.includes(normalizedQuery) ||
+                        game.includes(normalizedQuery);
+                })
+                .sort((a, b) => {
+                    const aTerm = String(a.slang || '').toLowerCase();
+                    const bTerm = String(b.slang || '').toLowerCase();
+                    const aExact = aTerm === normalizedQuery ? 0 : 1;
+                    const bExact = bTerm === normalizedQuery ? 0 : 1;
+                    return aExact - bExact || aTerm.length - bTerm.length;
+                })
+                .slice(0, 6);
+        }
+
+        function buildLocalSearchResult(query) {
+            const isEnglish = (typeof i18n !== 'undefined' && i18n.getLang && i18n.getLang() === 'en');
+            const matches = findSlangMatches(query);
+            if (!matches.length) return null;
+
+            const main = matches[0];
+            const term = main.slang || query;
+            const gameName = window.i18n ? i18n.tGame(main.gameKey || main.game || '') : (main.game || main.gameKey || '');
+            const categoryRaw = gameDataConfig[main.gameKey]?.category || (isEnglish ? 'General' : '通用');
+            const categoryName = window.i18n && i18n.tCategory ? i18n.tCategory(categoryRaw) : categoryRaw;
+            const relatedTerms = [...new Set(matches.slice(1).map(item => item.slang).filter(value => value && value !== term))].slice(0, 4);
+
+            if (isEnglish) {
+                return {
+                    term,
+                    definition: main.definition || 'No definition is available in the local dictionary.',
+                    usage: `This entry is matched from the local gaming slang dictionary. It is most relevant to ${gameName || 'the selected game'} and helps explain how players shorten communication in context.`,
+                    examples: [
+                        `Players may use "${term}" when describing this situation in chat.`,
+                        `In ${gameName || 'a game community'}, "${term}" can quickly signal the related action, item, role, or meme.`
+                    ],
+                    context: `${gameName || 'General'} · ${categoryName}`,
+                    level: matches.length > 1 ? 'Common in matching entries' : 'Specific dictionary entry',
+                    synonyms: relatedTerms
+                };
+            }
+
+            return {
+                term,
+                definition: main.definition || '本地词库暂未提供详细释义。',
+                usage: `该结果来自本地游戏黑话词库，主要关联${gameName || '当前游戏'}语境，可用于快速理解玩家交流中的缩写、梗、操作或道具含义。`,
+                examples: [
+                    `玩家在聊天或弹幕中可能会用“${term}”描述对应情境。`,
+                    `在${gameName || '游戏社群'}语境里，“${term}”可以帮助玩家快速对齐信息。`
+                ],
+                context: `${gameName || '通用'} · ${categoryName}`,
+                level: matches.length > 1 ? '词库中存在多个相关结果' : '特定词条',
+                synonyms: relatedTerms
+            };
+        }
+
+        let activeSearchTimer = 0;
+        function aiSearchTerm(term = null) {
+            clearTimeout(activeSearchTimer);
+            const searchInput = Utils.safeQuerySelector('#searchInput');
+            const searchBtn = Utils.safeQuerySelector('#searchBtn');
+            const popularWords = Utils.safeQuerySelector('#popularWords');
             const isEnglish = (typeof i18n !== 'undefined' && i18n.getLang && i18n.getLang() === 'en');
 
-            const query = term || searchInput.value.trim();
+            const query = term || (searchInput ? searchInput.value.trim() : '');
             if (!query) {
                 alert(isEnglish ? 'Please enter a gaming term' : '请输入要查询的游戏黑话');
                 return;
             }
 
-            if (term) {
+            window.lastDictionaryQuery = query;
+            if (term && searchInput) {
                 searchInput.value = term;
             }
 
-            // 显示加载动画
-            if (aiLoading) {
-                aiLoading.style.display = 'block';
-                aiResults.innerHTML = '';
-
-                // 进度条动画
-                const progressBar = Utils.safeQuerySelector('#progressBar');
-                let progress = 0;
-                const progressInterval = setInterval(() => {
-                    progress += Math.random() * 15;
-                    if (progress > 90) progress = 90;
-                    if (progressBar) progressBar.style.width = progress + '%';
-                }, 200);
-
-                aiLoading.progressInterval = progressInterval;
-            }
-
             if (searchBtn) searchBtn.disabled = true;
+            setSearchLoading(true);
 
-            const prompt = buildAISearchPrompt(query);
+            activeSearchTimer = setTimeout(() => {
+                const result = buildLocalSearchResult(query);
+                setSearchLoading(false);
 
-            fetch(AI_API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${AI_API_KEY}`
-                },
-                body: JSON.stringify({
-                    model: 'deepseek-chat',
-                    messages: [
-                        {
-                            role: 'user',
-                            content: prompt
-                        }
-                    ],
-                    temperature: 0.7,
-                    max_tokens: 1000
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.choices && data.choices[0]) {
-                    try {
-                        const content = data.choices[0].message.content;
-                        const jsonMatch = content.match(/\{[\s\S]*\}/);
-                        if (jsonMatch) {
-                            const result = JSON.parse(jsonMatch[0]);
-                            displayAIResult(result);
-                        } else {
-                            throw new Error(isEnglish ? 'Unable to parse returned JSON' : '无法解析返回的JSON数据');
-                        }
-                    } catch (e) {
-                        console.error('解析错误:', e);
-                        displayAIError(isEnglish ? 'Failed to parse response. Please retry.' : '解析返回数据时出错，请重试');
-                    }
+                if (result) {
+                    displayAIResult(result);
                 } else {
-                    displayAIError(isEnglish ? 'Invalid API response format' : 'API返回数据格式错误');
-                }
-            })
-            .catch(error => {
-                console.error('请求错误:', error);
-                displayAIError(isEnglish ? 'Request failed. Check network or try again later.' : '查询失败，请检查网络连接或稍后重试');
-            })
-            .finally(() => {
-                // 隐藏加载动画
-                if (aiLoading) {
-                    aiLoading.style.display = 'none';
-
-                    // 清除进度条动画
-                    if (aiLoading.progressInterval) {
-                        clearInterval(aiLoading.progressInterval);
-                        const progressBar = Utils.safeQuerySelector('#progressBar');
-                        if (progressBar) {
-                            progressBar.style.width = '100%';
-                            setTimeout(() => {
-                                progressBar.style.width = '0%';
-                            }, 500);
-                        }
-                    }
+                    if (popularWords) popularWords.style.display = 'block';
+                    displayAIError(isEnglish
+                        ? 'No matching term was found in the local dictionary. Try another slang or game name.'
+                        : '本地词库中暂未找到匹配词条，可以尝试输入其他黑话或游戏名称。');
                 }
 
                 if (searchBtn) searchBtn.disabled = false;
-            });
+            }, 180);
         }
 
         function displayAIResult(data) {
@@ -4830,69 +4414,76 @@ Requirements:
             if (!aiResults) return;
             const isEnglish = (typeof i18n !== 'undefined' && i18n.getLang && i18n.getLang() === 'en');
 
-            const synonymsText = data.synonyms && data.synonyms.length > 0
-                ? data.synonyms.join(isEnglish ? ', ' : '、')
+            const examples = Array.isArray(data.examples) ? data.examples : [];
+            const synonyms = Array.isArray(data.synonyms) ? data.synonyms : [];
+            const synonymsText = synonyms.length > 0
+                ? synonyms.map(escapeHTML).join(isEnglish ? ', ' : '、')
                 : (isEnglish ? 'None' : '暂无');
+            const safeTerm = escapeHTML(data.term);
+            const safeDefinition = escapeHTML(data.definition);
+            const safeUsage = escapeHTML(data.usage);
+            const safeContext = escapeHTML(data.context);
+            const safeLevel = escapeHTML(data.level);
 
             const labels = isEnglish ? {
                 definition: '📝 Definition',
                 usage: 'Usage',
                 examples: 'Examples',
                 context: 'Game Context',
-                level: 'Popularity',
-                synonyms: 'Synonyms'
+                level: 'Match status',
+                synonyms: 'Related matches'
             } : {
                 definition: '📝 含义解释',
                 usage: '使用场景',
                 examples: '使用例句',
                 context: '游戏背景',
-                level: '流行程度:',
-                synonyms: '同义词:'
+                level: '匹配情况:',
+                synonyms: '相关词条:'
             };
 
             const html = `
-                <div class="ai-result-container">
-                    <div class="ai-term-title">
-                        <div class="ai-term-icon">🎯</div>
-                        ${data.term}
-                    </div>
+                    <div class="ai-result-container">
+                        <div class="ai-term-title">
+                            <div class="ai-term-icon">🎯</div>
+                            ${safeTerm}
+                        </div>
 
-                    <div class="ai-definition">
-                        <div class="ai-definition-title">${labels.definition}</div>
-                        <div class="ai-definition-text">${data.definition}</div>
-                    </div>
+                        <div class="ai-definition">
+                            <div class="ai-definition-title">${labels.definition}</div>
+                            <div class="ai-definition-text">${safeDefinition}</div>
+                        </div>
 
                     <div class="ai-section">
                         <div class="ai-section-title">
                             <span class="ai-section-icon">💡</span>
-                            ${labels.usage}
+                                ${labels.usage}
+                            </div>
+                            <div class="ai-section-content">${safeUsage}</div>
                         </div>
-                        <div class="ai-section-content">${data.usage}</div>
-                    </div>
 
                     <div class="ai-section">
                         <div class="ai-section-title">
                             <span class="ai-section-icon">💬</span>
                             ${labels.examples}
+                            </div>
+                            <div class="ai-section-content ai-examples">
+                                ${examples.map((example, index) =>
+                                    `${index + 1}. ${escapeHTML(example)}`
+                                ).join('<br>')}
+                            </div>
                         </div>
-                        <div class="ai-section-content ai-examples">
-                            ${data.examples.map((example, index) =>
-                                `${index + 1}. ${example}`
-                            ).join('<br>')}
-                        </div>
-                    </div>
 
                     <div class="ai-section">
                         <div class="ai-section-title">
                             <span class="ai-section-icon">🎮</span>
-                            ${labels.context}
+                                ${labels.context}
+                            </div>
+                            <div class="ai-section-content">${safeContext}</div>
                         </div>
-                        <div class="ai-section-content">${data.context}</div>
-                    </div>
 
                     <div style="display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap;">
                         <div style="background: rgba(117, 42, 238, 0.1); padding: 10px 15px; border-radius: 8px; flex: 1; min-width: 120px; border: 1px solid rgba(117, 42, 238, 0.3);">
-                            <strong style="color: var(--primary-green);">${labels.level}</strong> <span style="color: rgba(255, 255, 255, 0.9);">${data.level}</span>
+                            <strong style="color: var(--primary-green);">${labels.level}</strong> <span style="color: rgba(255, 255, 255, 0.9);">${safeLevel}</span>
                         </div>
                         <div style="background: rgba(117, 42, 238, 0.1); padding: 10px 15px; border-radius: 8px; flex: 1; min-width: 120px; border: 1px solid rgba(117, 42, 238, 0.3);">
                             <strong style="color: var(--primary-green);">${labels.synonyms}</strong> <span style="color: rgba(255, 255, 255, 0.9);">${synonymsText}</span>
@@ -4900,9 +4491,9 @@ Requirements:
                     </div>
                 </div>
             `;
-            
+
             aiResults.innerHTML = html;
-            
+
             // 添加显示动画
             setTimeout(() => {
                 const container = aiResults.querySelector('.ai-result-container');
@@ -4911,11 +4502,11 @@ Requirements:
                 }
             }, 100);
         }
-        
+
         function displayAIError(message) {
             const aiResults = Utils.safeQuerySelector('#aiResults');
             if (!aiResults) return;
-            
+
             const html = `
                 <div class="ai-result-container show">
                     <div class="ai-error">
@@ -4926,311 +4517,18 @@ Requirements:
             aiResults.innerHTML = html;
         }
 
-        // Initialize
-        createGamingStickers();
-        createParticles();
-        loadAllGameData().then(() => {
-            createBinaryBackground(); // 在数据加载完成后创建背景
-            createFloatingWords(); // 创建漂浮词汇
-            displayPopularWords(); // 显示热门词汇（异步加载）
-            initAISearchFunction(); // 初始化搜索功能
-        });
-        
-        // Initialize timeline animations after a short delay to ensure DOM is ready
-        setTimeout(initTimelineAnimations, 500);
-
         // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        document.querySelectorAll('a[href^="#"]:not([data-history-nav])').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
+                const href = this.getAttribute('href');
+                const target = href === '#' ? document.getElementById('home') : document.querySelector(href);
                 if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
+                    target.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
                 }
             });
         });
 
-        // 《黑神话：悟空》文化出海交互功能
-        document.addEventListener('DOMContentLoaded', function() {
-            initWukongCultureInteractions();
-        });
-
-        /**
-         * 初始化《黑神话：悟空》文化出海section的所有交互功能
-         */
-        function initWukongCultureInteractions() {
-            initTooltips();
-            initTranslationStyleToggle();
-            initMetaphorMapInteractions();
-            initCharacterModals();
-        }
-
-        /**
-         * 初始化工具提示功能
-         */
-        function initTooltips() {
-            const tooltip = document.createElement('div');
-            tooltip.className = 'tooltip';
-            document.body.appendChild(tooltip);
-
-            // 为关键词对比项添加悬停提示
-            document.querySelectorAll('.comparison-item[data-tooltip-key]').forEach(item => {
-                item.addEventListener('mouseenter', function(e) {
-                    const tooltipKey = this.getAttribute('data-tooltip-key');
-                    const tooltipText = (window.i18n && i18n.t) ? i18n.t(tooltipKey) : tooltipKey;
-                    tooltip.textContent = tooltipText;
-                    tooltip.classList.add('show');
-                    updateTooltipPosition(e, tooltip);
-                });
-
-                item.addEventListener('mousemove', function(e) {
-                    updateTooltipPosition(e, tooltip);
-                });
-
-                item.addEventListener('mouseleave', function() {
-                    tooltip.classList.remove('show');
-                });
-            });
-
-            // 为文化隐喻地图点添加悬停提示
-            document.querySelectorAll('.metaphor-point[data-tooltip-key]').forEach(point => {
-                point.addEventListener('mouseenter', function(e) {
-                    const tooltipKey = this.getAttribute('data-tooltip-key');
-                    const tooltipText = (window.i18n && i18n.t) ? i18n.t(tooltipKey) : tooltipKey;
-                    tooltip.textContent = tooltipText;
-                    tooltip.classList.add('show');
-                    updateTooltipPosition(e, tooltip);
-                });
-
-                point.addEventListener('mousemove', function(e) {
-                    updateTooltipPosition(e, tooltip);
-                });
-
-                point.addEventListener('mouseleave', function() {
-                    tooltip.classList.remove('show');
-                });
-            });
-
-            // 监听语言切换事件，更新工具提示内容
-            document.addEventListener('languagechange', function() {
-                // 工具提示会在下次悬停时自动更新
-            });
-        }
-
-        /**
-         * 更新工具提示位置
-         */
-        function updateTooltipPosition(e, tooltip) {
-            const x = e.clientX + 10;
-            const y = e.clientY - 10;
-            tooltip.style.left = x + 'px';
-            tooltip.style.top = y + 'px';
-        }
-
-        /**
-         * 初始化翻译风格切换功能
-         */
-        function initTranslationStyleToggle() {
-            const styleButtons = document.querySelectorAll('.style-btn');
-            const translationData = {
-                foreignization: {
-                    zh: {
-                        'immobilize-translation': 'Immobilize',
-                        'transform-translation': 'Seventy-Two Transformations',
-                        'cloud-translation': 'Somersault Cloud'
-                    },
-                    en: {
-                        'immobilize-translation': 'Immobilize',
-                        'transform-translation': 'Seventy-Two Transformations',
-                        'cloud-translation': 'Somersault Cloud'
-                    }
-                },
-                domestication: {
-                    zh: {
-                        'immobilize-translation': '让敌人动弹不得',
-                        'transform-translation': '七十二种变化形态',
-                        'cloud-translation': '翻筋斗的云朵'
-                    },
-                    en: {
-                        'immobilize-translation': 'Freeze enemies in place',
-                        'transform-translation': 'Seventy-two different forms',
-                        'cloud-translation': 'Flying cloud'
-                    }
-                }
-            };
-
-            styleButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // 移除所有按钮的active状态
-                    styleButtons.forEach(btn => btn.classList.remove('active'));
-                    // 添加当前按钮的active状态
-                    this.classList.add('active');
-
-                    const style = this.getAttribute('data-style');
-                    const currentLang = window.i18n ? window.i18n.getLang() : 'zh';
-                    const translations = translationData[style][currentLang];
-
-                    // 更新翻译文本
-                    Object.keys(translations).forEach(id => {
-                        const element = document.getElementById(id);
-                        if (element) {
-                            element.textContent = translations[id];
-                        }
-                    });
-                });
-            });
-
-            // 语言切换时更新翻译示例
-            window.addEventListener('languagechange', function() {
-                const activeButton = document.querySelector('.style-btn.active');
-                if (activeButton) {
-                    activeButton.click(); // 重新触发点击事件以更新翻译
-                }
-            });
-        }
-
-        /**
-         * 初始化文化隐喻地图交互
-         */
-        function initMetaphorMapInteractions() {
-            const metaphorPoints = document.querySelectorAll('.metaphor-point');
-            
-            metaphorPoints.forEach(point => {
-                // 设置点的位置
-                const x = point.getAttribute('data-x');
-                const y = point.getAttribute('data-y');
-                point.style.left = x;
-                point.style.top = y;
-
-                // 添加点击效果
-                point.addEventListener('click', function() {
-                    // 添加点击动画效果
-                    this.style.transform = 'scale(1.3)';
-                    setTimeout(() => {
-                        this.style.transform = '';
-                    }, 200);
-                });
-            });
-        }
-
-        /**
-         * 初始化角色模态框功能
-         */
-        function initCharacterModals() {
-            const characterItems = document.querySelectorAll('.character-item');
-            const characterData = {
-                wukong: {
-                    zh: {
-                        title: '悟空 / Wukong',
-                        subtitle: '音译保留策略',
-                        content: '开发团队选择保留"Wukong"音译，既保留了音韵美，又避免与其他文化背景中的"猴王"混淆。这种翻译策略强调了中国神话人物的独特性，让国际玩家能够直接感受到中文名字的原始魅力，同时建立了专属于中国文化的角色认知。'
-                    },
-                    en: {
-                        title: 'Wukong / 悟空',
-                        subtitle: 'Transliteration Strategy',
-                        content: 'The development team chose to retain the "Wukong" transliteration, preserving both phonetic beauty and avoiding confusion with "Monkey King" from other cultural backgrounds. This translation strategy emphasizes the uniqueness of Chinese mythological characters, allowing international players to directly experience the original charm of Chinese names while establishing character recognition exclusive to Chinese culture.'
-                    }
-                },
-                bajie: {
-                    zh: {
-                        title: '猪八戒 / Pigsy',
-                        subtitle: '意译与音译结合',
-                        content: '"猪八戒"译为"Pigsy"，采用了意译加昵称化的处理方式。"Pigsy"既保留了"猪"的含义，又通过"-sy"后缀增加了亲切感，符合西方文化中对角色昵称的习惯，让国际玩家更容易接受和记忆这个角色。'
-                    },
-                    en: {
-                        title: 'Pigsy / 猪八戒',
-                        subtitle: 'Semantic and Phonetic Combination',
-                        content: '"猪八戒" is translated as "Pigsy," using a combination of semantic translation and nickname formation. "Pigsy" retains the meaning of "pig" while adding intimacy through the "-sy" suffix, conforming to Western cultural habits for character nicknames and making it easier for international players to accept and remember this character.'
-                    }
-                },
-                jinguban: {
-                    zh: {
-                        title: '金箍棒 / Jin Gu Bang',
-                        subtitle: '完全音译策略',
-                        content: '"金箍棒"完全采用音译"Jin Gu Bang"，保留了中文的音韵特色。这种处理方式强调了这件神器的中国文化属性，让它区别于西方神话中的任何武器，建立了独特的文化标识。音译也便于国际玩家学习和传播中国文化元素。'
-                    },
-                    en: {
-                        title: 'Jin Gu Bang / 金箍棒',
-                        subtitle: 'Complete Transliteration Strategy',
-                        content: '"金箍棒" is completely transliterated as "Jin Gu Bang," preserving the phonetic characteristics of Chinese. This approach emphasizes the Chinese cultural attributes of this divine weapon, distinguishing it from any weapon in Western mythology and establishing a unique cultural identity. Transliteration also facilitates international players\' learning and spreading of Chinese cultural elements.'
-                    }
-                },
-                dragon: {
-                    zh: {
-                        title: '龙 / Loong',
-                        subtitle: '文化区分策略',
-                        content: '"龙"使用了特指东方龙的"Loong"而非西方的"Dragon"，这是一个重要的文化区分策略。东方龙象征着吉祥、力量和智慧，与西方龙的邪恶形象截然不同。使用"Loong"帮助国际玩家理解中国龙文化的独特内涵，避免文化误解。'
-                    },
-                    en: {
-                        title: 'Loong / 龙',
-                        subtitle: 'Cultural Distinction Strategy',
-                        content: '"龙" uses "Loong" specifically for Eastern dragons rather than the Western "Dragon," which is an important cultural distinction strategy. Eastern dragons symbolize auspiciousness, power, and wisdom, completely different from the evil image of Western dragons. Using "Loong" helps international players understand the unique connotations of Chinese dragon culture and avoid cultural misunderstandings.'
-                    }
-                }
-            };
-
-            // 创建模态框HTML
-            const modal = document.createElement('div');
-            modal.className = 'character-modal';
-            modal.innerHTML = `
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title"></h3>
-                        <p class="modal-subtitle"></p>
-                    </div>
-                    <div class="modal-body"></div>
-                    <button class="modal-close" data-i18n="wukongModal.close">关闭</button>
-                </div>
-            `;
-            document.body.appendChild(modal);
-
-            const modalTitle = modal.querySelector('.modal-title');
-            const modalSubtitle = modal.querySelector('.modal-subtitle');
-            const modalBody = modal.querySelector('.modal-body');
-            const modalClose = modal.querySelector('.modal-close');
-
-            // 为每个角色项添加点击事件
-            characterItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    const character = this.getAttribute('data-character');
-                    const currentLang = window.i18n ? window.i18n.getLang() : 'zh';
-                    const data = characterData[character][currentLang];
-                    
-                    if (data) {
-                        modalTitle.textContent = data.title;
-                        modalSubtitle.textContent = data.subtitle;
-                        modalBody.textContent = data.content;
-                        modal.classList.add('show');
-                    }
-                });
-            });
-
-            // 关闭模态框
-            modalClose.addEventListener('click', function() {
-                modal.classList.remove('show');
-            });
-
-            // 点击背景关闭模态框
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    modal.classList.remove('show');
-                }
-            });
-
-            // ESC键关闭模态框
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && modal.classList.contains('show')) {
-                    modal.classList.remove('show');
-                }
-            });
-
-            // 语言切换时更新模态框按钮文本
-            window.addEventListener('languagechange', function() {
-                if (window.i18n) {
-                    modalClose.textContent = window.i18n.t('wukongModal.close');
-                }
-            });
-        }
     </script>
 </body>
 </html>

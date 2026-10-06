@@ -1,0 +1,76 @@
+/* The imported charts share the site's original chart cards and type scale. */
+.chart-item.slang-chart-panel { scroll-margin-top: 12px; }
+.slang-chart-heading { text-align: center; margin: 10px auto 22px; max-width: 760px; }
+.slang-chart-heading h3 { color: #fff; font-size: 24px; font-weight: 700; line-height: 1.5; margin: 0 0 10px; }
+.slang-chart-heading p { color: #c5b9cc; font-size: 14px; line-height: 1.9; margin: 0; }
+.slang-chart-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; padding: 13px 0; border-top: 1px solid rgba(127,0,86,.25); }
+.slang-chart-status { color: #cdb8dd; font-size: 12px; line-height: 1.6; margin: 0; }
+.slang-chart-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.slang-chart-controls label { font-size: 12px; color: #c5b9cc; }
+.slang-chart-controls select, .slang-chart-controls button, .sunburst-node-button, .network-neighbor-button {
+  font: inherit; font-size: 13px; color: #eee5f5; background: rgba(65,17,72,.25);
+  border: 1px solid rgba(181,94,200,.32); border-radius: 7px; min-height: 40px; padding: 8px 12px;
+  transition: border-color .2s ease, background .2s ease; max-width: 100%;
+}
+.slang-chart-controls select { width: 164px; color-scheme: dark; }
+.slang-chart-controls option { background: #160a1d; color: #f3e9f8; }
+.slang-chart-controls button:hover, .sunburst-node-button:hover, .network-neighbor-button:hover { border-color: #b76bcc; background: rgba(127,0,86,.25); }
+.slang-chart-panel :is(button, select, summary):focus-visible { outline: 2px solid #df94ef; outline-offset: 4px; }
+.slang-chart-canvas { position: relative; width: 100%; height: 560px; min-width: 0; overflow: hidden; }
+.sunburst-center-button { width: 54px; height: 54px; border: 0; border-radius: 50%; background: transparent; color: #dec2f2; font: inherit; font-size: 11px; line-height: 1.4; padding: 5px; }
+.sunburst-center-button:hover { background: rgba(127,0,86,.2); }
+.sunburst-center-button:disabled { color: #b999cc; }
+.slang-chart-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 20px; margin: 2px 0 18px; color: #c5b9cc; font-size: 12px; }
+.sunburst-legend-item { display: inline-flex; align-items: center; gap: 7px; color: #cbb9d3; background: transparent; border: 1px solid transparent; border-radius: 5px; padding: 7px 8px; font: inherit; }
+.sunburst-legend-item:hover, .sunburst-legend-item[aria-pressed="true"] { color: #f4e9fa; background: rgba(127,0,86,.12); border-color: rgba(174,64,195,.3); }
+.sunburst-legend-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.slang-chart-detail { min-height: 66px; padding: 15px 18px; border-left: 2px solid rgba(174,64,195,.6); background: rgba(127,0,86,.06); color: #d2c6da; font-size: 13px; line-height: 1.9; overflow-wrap: anywhere; }
+.slang-chart-detail:empty { display: none; }
+.slang-chart-detail strong, .slang-chart-detail h4 { color: #f4e9fa; font-size: 14px; font-weight: 600; }
+.sunburst-detail-title { color: #f4e9fa; font-size: 14px; font-weight: 600; margin: 0 0 4px; }
+.sunburst-node-button { display: inline-flex; align-items: center; gap: 9px; }
+.slang-chart-detail p { margin: 0; }
+.sunburst-node-list, .network-neighbor-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.sunburst-node-list { max-height: 224px; overflow-y: auto; padding: 4px; scrollbar-width: thin; scrollbar-color: #703c88 transparent; }
+.network-detail-title { display: block; color: #f4e9fa; font-weight: 600; }
+.network-detail-metrics { color: #c5aed9; }
+.network-detail-neighbors { margin-top: 6px; }
+.network-detail-note { margin-top: 6px; font-size: 12px; color: #b7a8c1; }
+#slang-network-chart { height: 590px; background: radial-gradient(ellipse at 45% 48%, rgba(111,40,143,.085), transparent 65%); }
+#slang-network-detail { border-left-color: rgba(176,102,206,.55); }
+#slang-network-detail .network-detail-title { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
+#slang-network-detail .network-detail-metrics { font-size: 12px; color: #bda4cf; }
+.network-neighbor-list { max-height: 200px; overflow-y: auto; padding: 3px 2px; scrollbar-width: thin; scrollbar-color: #704382 transparent; }
+.network-neighbor-button { display: inline-flex; gap: 12px; align-items: center; background: rgba(98,37,118,.1); border-color: rgba(168,97,192,.25); }
+.network-neighbor-weight { color: #b49fc3; font-size: 10px; font-variant-numeric: tabular-nums; }
+.network-more-button { background: transparent; border: 0; color: #c99bdf; font: inherit; font-size: 12px; min-height: 36px; padding: 5px 0; }
+.network-more-button:hover { color: #f0d5fc; }
+.sunburst-node-button, .network-neighbor-button { font-size: 12px; padding: 5px 10px; min-height: 34px; text-align: left; }
+.slang-chart-panel .chart-conclusion { margin-top: 20px; }
+.slang-chart-panel .chart-conclusion p { line-height: 1.8; }
+.slang-chart-method { margin-top: 14px; font-size: 12px; color: #b7a8c1; line-height: 1.85; }
+.slang-chart-method summary { width: fit-content; color: #c6aed8; padding: 5px 0; }
+.slang-chart-method p { margin: 6px 0 0; }
+.slang-chart-panel[data-state="error"] .slang-chart-status { color: #f3aadf; }
+@media (max-width: 768px) {
+  .slang-chart-heading { margin: 8px auto 18px; }
+  .slang-chart-heading h3 { font-size: 20px; }
+  .slang-chart-heading p { font-size: 13px; }
+  .slang-chart-toolbar { align-items: flex-start; gap: 10px; }
+  .slang-chart-controls { width: 100%; gap: 8px; }
+  .slang-chart-controls label { flex: 0 0 auto; }
+  .slang-chart-controls select { flex: 1 1 100px; width: 100px; min-width: 0; }
+  .slang-chart-controls select, .slang-chart-controls button { min-height: 44px; }
+  .slang-chart-canvas { height: 400px; }
+  #slang-sunburst-chart { height: 320px; }
+  #slang-network-chart { height: 490px; }
+  .slang-chart-legend { gap: 8px 14px; font-size: 11px; }
+  .slang-chart-detail { padding: 12px; }
+  .sunburst-node-button, .network-neighbor-button { min-height: 44px; }
+  .slang-chart-panel .chart-conclusion { padding: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chart-item.slang-chart-panel { transition: none; }
+  .chart-item.slang-chart-panel:hover { transform: none; }
+  .slang-chart-panel :is(button, select) { transition: none; }
+}

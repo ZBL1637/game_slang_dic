@@ -1,519 +1,64 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>黑话DNA测试</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        *, *::before, *::after {
-            box-sizing: inherit;
-        }
-        
-        /* 黑话DNA测试模块样式 */
-        .blackspeak-dna-container {
-            max-width: 430px;
-            margin: 20px auto;
-            padding: 16px 14px 48px;
-            position: relative;
-            background: linear-gradient(135deg, #0b1222, #0e1c3a 60%, #183b8a);
-            border-radius: 20px;
-            color: #E8F1FF;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            box-sizing: border-box;
-        }
-
-        .dna-deco {
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            height: 200px;
-            pointer-events: none;
-            opacity: 0.6;
-        }
-
-        .dna-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 8px 8px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .dna-title {
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
-
-        .dna-accent {
-            color: #7F0056;
-        }
-
-        .dna-reset-btn {
-            background: none;
-            border: none;
-            color: #9fb5ff;
-            opacity: 0.9;
-            cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .dna-reset-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            opacity: 1;
-        }
-
-        .dna-card {
-            background: rgba(13, 17, 26, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            border-radius: 16px;
-            padding: 20px;
-            margin-top: 16px;
-            backdrop-filter: blur(6px);
-            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4);
-            position: relative;
-            z-index: 2;
-        }
-
-        .dna-big-text {
-            font-size: 22px;
-            line-height: 1.4;
-            font-weight: 800;
-            margin-bottom: 12px;
-        }
-
-        .dna-muted {
-            opacity: 0.8;
-            line-height: 1.6;
-            margin-bottom: 16px;
-        }
-
-        .dna-bullets {
-            opacity: 0.85;
-            line-height: 1.8;
-            margin: 8px 0 16px 18px;
-            padding-left: 0;
-        }
-
-        .dna-bullets li {
-            margin-bottom: 8px;
-        }
-
-        .dna-primary-btn {
-            background: #2b67ff;
-            border: none;
-            color: #fff;
-            padding: 14px 24px;
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            transition: all 0.3s ease;
-        }
-
-        .dna-primary-btn:hover {
-            background: #1e4fd9;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(43, 103, 255, 0.3);
-        }
-
-        .dna-step {
-            opacity: 0.8;
-            font-size: 12px;
-            margin-bottom: 8px;
-        }
-
-        .dna-qtitle {
-            font-size: 18px;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
-        .dna-qsub {
-            opacity: 0.7;
-            margin-bottom: 12px;
-        }
-
-        .dna-options {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-
-        .dna-option {
-            width: 100%;
-            text-align: left;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 12px;
-            padding: 12px 14px;
-            color: #e8f1ff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .dna-option:hover {
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        .dna-option.active {
-            outline: 2px solid #5cc3ff;
-            background: rgba(255, 255, 255, 0.14);
-        }
-
-        .dna-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: space-between;
-            margin-top: 14px;
-        }
-
-        .dna-ghost-btn {
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.22);
-            color: #dce7ff;
-            padding: 12px 16px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .dna-ghost-btn:hover {
-            background: rgba(255, 255, 255, 0.18);
-        }
-
-        .dna-ghost-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .dna-progress {
-            height: 6px;
-            background: rgba(255, 255, 255, 0.12);
-            border-radius: 99px;
-            margin-top: 10px;
-            overflow: hidden;
-        }
-
-        .dna-progress-bar {
-            height: 100%;
-            border-radius: 99px;
-            background: #5cc3ff;
-            transition: width 0.3s ease;
-        }
-
-        .dna-report-title {
-            font-weight: 900;
-            font-size: 18px;
-            margin-bottom: 16px;
-            letter-spacing: 0.5px;
-            text-align: center;
-        }
-
-        .dna-ring-wrap {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            margin: 20px auto;
-        }
-
-        .dna-ring-center {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .dna-center-label {
-            opacity: 0.6;
-            font-size: 12px;
-        }
-
-        .dna-center-genre {
-            font-size: 22px;
-            font-weight: 900;
-            margin-top: 2px;
-            color: #5cc3ff;
-        }
-
-        .dna-center-percent {
-            opacity: 0.9;
-            margin-top: 4px;
-        }
-
-        .dna-badges {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin: 16px 0;
-        }
-
-        .dna-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            padding: 6px 10px;
-            border-radius: 9999px;
-            font-size: 14px;
-        }
-
-        .dna-badge-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 6px;
-            background: #5cc3ff;
-        }
-
-        .dna-tag-cloud {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            margin: 16px 0;
-        }
-
-        .dna-chip {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            padding: 6px 10px;
-            border-radius: 999px;
-            font-size: 12px;
-        }
-
-        .dna-panel {
-            background: rgba(0, 0, 0, 0.26);
-            border: 1px dashed rgba(255, 255, 255, 0.26);
-            border-radius: 12px;
-            padding: 12px;
-            margin-top: 12px;
-        }
-
-        .dna-panel-title {
-            opacity: 0.7;
-            margin-bottom: 6px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .dna-jargon {
-            opacity: 0.95;
-            line-height: 1.7;
-        }
-
-        .dna-copy {
-            opacity: 0.9;
-            line-height: 1.6;
-        }
-
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .blackspeak-dna-container {
-                padding: 16px;
-                min-height: auto;
-            }
-            
-            .dna-card {
-                padding: 24px;
-                margin: 16px 0;
-            }
-            
-            .dna-title {
-                font-size: 24px;
-            }
-            
-            .dna-center-percent {
-                font-size: 36px;
-            }
-            
-            .dna-badges {
-                gap: 8px;
-            }
-            
-            .dna-badge {
-                font-size: 12px;
-                padding: 6px 12px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .blackspeak-dna-container {
-                margin: 10px;
-                padding: 12px 10px 32px;
-                min-height: auto;
-            }
-
-            .dna-title {
-                font-size: 20px;
-            }
-
-            .dna-big-text {
-                font-size: 20px;
-            }
-
-            .dna-card {
-                padding: 16px;
-            }
-            
-            .dna-center-percent {
-                font-size: 32px;
-            }
-            
-            .dna-button-group {
-                flex-direction: column;
-            }
-            
-            .dna-option {
-                padding: 14px 16px;
-                font-size: 15px;
-            }
-            
-            .dna-question-title {
-                font-size: 20px;
-            }
-        }
-
-        /* 隐藏类 */
-        .dna-hidden {
-            display: none;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>黑话 DNA 测试</title>
+  <link rel="stylesheet" href="quiz-refinements.css">
 </head>
 <body>
-    <div class="blackspeak-dna-container" id="dnaContainer">
-        <!-- 装饰背景 -->
-        <svg class="dna-deco" viewBox="0 0 375 200" preserveAspectRatio="none" aria-hidden="true">
-            <defs>
-                <linearGradient id="glow" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stop-color="#5cc3ff" stop-opacity="0.0" />
-                    <stop offset="50%" stop-color="#5cc3ff" stop-opacity="0.3" />
-                    <stop offset="100%" stop-color="#5cc3ff" stop-opacity="0" />
-                </linearGradient>
-            </defs>
-            <path d="M0 10 H 320 q 20 0 20 20 V 200" stroke="url(#glow)" stroke-width="1" fill="none" />
-            <path d="M0 24 H 320 q 20 0 20 20 V 200" stroke="url(#glow)" stroke-width="1" fill="none" />
-            <path d="M0 38 H 320 q 20 0 20 20 V 200" stroke="url(#glow)" stroke-width="1" fill="none" />
-            <path d="M0 52 H 320 q 20 0 20 20 V 200" stroke="url(#glow)" stroke-width="1" fill="none" />
-            <path d="M0 66 H 320 q 20 0 20 20 V 200" stroke="url(#glow)" stroke-width="1" fill="none" />
-            <path d="M0 80 H 320 q 20 0 20 20 V 200" stroke="url(#glow)" stroke-width="1" fill="none" />
-        </svg>
-
-        <!-- 头部 -->
-        <div class="dna-header">
-            <div class="dna-title">
-                <span class="dna-accent">黑话</span>DNA
-            </div>
-            <button class="dna-reset-btn" onclick="resetTest()">重新开始</button>
-        </div>
-
-        <!-- 介绍页面 -->
-        <div class="dna-card" id="introCard">
-            <div class="dna-big-text">
-                你的游戏<span class="dna-accent">"黑话"</span>基因，究竟来自哪里？
-            </div>
-            <p class="dna-muted">通过 8 个趣味问题，生成你的「黑话 DNA 报告」。支持一键生成海报，分享给好友一起对线（不，是对标 😎）。</p>
-            <ul class="dna-bullets">
-                <li>流派占比：MOBA / 二次元 / 沙盒 / FPS / 竞速 / 休闲</li>
-                <li>黑话关键词云 + 身份标签 + 分享文案</li>
-                <li>不涉及任何特定游戏 IP（放心使用）</li>
-            </ul>
-            <button class="dna-primary-btn" onclick="startTest()">开始测试</button>
-        </div>
-
-        <!-- 问题页面 -->
-        <div class="dna-card dna-hidden" id="quizCard">
-            <div class="dna-step" id="stepInfo">问题 1 / 8</div>
-            <div class="dna-qtitle" id="questionTitle">你最喜欢哪种游戏类型？</div>
-            <div class="dna-qsub dna-hidden" id="questionSubtitle"></div>
-            <div class="dna-options" id="optionsContainer">
-                <!-- 选项将通过JavaScript动态生成 -->
-            </div>
-            <div class="dna-actions">
-                <button class="dna-ghost-btn" onclick="prevQuestion()" id="prevBtn" disabled>上一步</button>
-                <button class="dna-primary-btn" onclick="nextQuestion()" id="nextBtn" disabled>下一步</button>
-            </div>
-            <div class="dna-progress">
-                <div class="dna-progress-bar" id="progressBar" style="width: 12.5%"></div>
-            </div>
-        </div>
-
-        <!-- 报告页面 -->
-        <div class="dna-card dna-hidden" id="reportCard">
-            <div class="dna-report-title">你的黑话 DNA 报告</div>
-            
-            <div class="dna-ring-wrap">
-                <svg width="200" height="200" viewBox="0 0 200 200" id="donutChart">
-                    <circle cx="100" cy="100" r="80" stroke="rgba(255,255,255,0.1)" stroke-width="20" fill="none" />
-                </svg>
-                <div class="dna-ring-center">
-                    <div class="dna-center-label">TOP</div>
-                    <div class="dna-center-genre" id="topGenre">MOBA</div>
-                    <div class="dna-center-percent" id="topPercent">0%</div>
-                </div>
-            </div>
-
-            <div class="dna-badges" id="badgesContainer">
-                <!-- 徽章将通过JavaScript动态生成 -->
-            </div>
-
-            <div class="dna-tag-cloud" id="tagCloud">
-                <!-- 标签将通过JavaScript动态生成 -->
-            </div>
-
-            <div class="dna-panel">
-                <div class="dna-panel-title">黑话片段 · 随机采样</div>
-                <p class="dna-jargon" id="jargonSample">别送！稳住节奏 · 抽卡玄学，今天必不歪 · 今晚继续开荒搭家</p>
-            </div>
-
-            <div class="dna-panel">
-                <div class="dna-panel-title">自动生成分享文案</div>
-                <p class="dna-copy" id="shareCopy">我是一个标准的 MOBA 玩家，节奏感拉满！测测你的游戏黑话基因吧~</p>
-            </div>
-
-            <div class="dna-actions">
-                <button class="dna-ghost-btn" onclick="resetTest()">重新测试</button>
-                <button class="dna-primary-btn" onclick="shareResult()">分享结果</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="i18n.js"></script>
-    <script>
-      // 同步父页面语言（通过 localStorage storage 事件）
-      document.addEventListener('DOMContentLoaded', function(){
-        try {
-          const cached = localStorage.getItem('site_lang');
-          if (cached && window.i18n) {
-            i18n.setLang(cached);
-          }
-        } catch (e) {}
-        window.addEventListener('storage', function(e){
-          if (e.key === 'site_lang' && window.i18n){
-            i18n.setLang(e.newValue);
-          }
-        });
-      });
-    </script>
-    <script src="blackspeak-dna.js"></script>
+  <main class="blackspeak-dna-container" id="dnaContainer">
+    <svg class="dna-deco" viewBox="0 0 540 200" preserveAspectRatio="none" aria-hidden="true">
+      <defs><linearGradient id="glow"><stop stop-color="#5cc3ff" stop-opacity="0"/><stop offset=".5" stop-color="#5cc3ff" stop-opacity=".3"/><stop offset="1" stop-color="#5cc3ff" stop-opacity="0"/></linearGradient></defs>
+      <path d="M0 18H480q30 0 30 30v152 M0 34H464q30 0 30 30v136 M0 50H448q30 0 30 30v120 M0 66H432q30 0 30 30v104" fill="none" stroke="url(#glow)"/>
+    </svg>
+    <header class="dna-header">
+      <div class="dna-title"><span class="dna-accent" id="brandLabel">黑话</span> DNA</div>
+      <button class="dna-reset-btn" id="headerReset" type="button">重新开始</button>
+    </header>
+    <section class="dna-card" id="introCard" aria-labelledby="introTitle">
+      <div class="dna-step" id="introEyebrow">8 个问题 · 一份游戏偏好速写</div>
+      <h1 class="dna-big-text" id="introTitle">你的游戏“黑话”基因，究竟来自哪里？</h1>
+      <p class="dna-muted" id="introDescription">回到你熟悉的游戏现场：怎样回复队友，把时间留给什么，能否听懂一条战术指令。</p>
+      <ul class="dna-bullets" id="introBullets"></ul>
+      <p class="dna-note" id="savedNote" hidden></p>
+      <button class="dna-primary-btn" id="startBtn" type="button">开始测试</button>
+    </section>
+    <section class="dna-card dna-hidden" id="quizCard" aria-labelledby="questionTitle">
+      <div class="dna-step-row"><span class="dna-step" id="stepInfo">问题 1 / 8</span><span class="dna-type" id="questionType"></span></div>
+      <div class="dna-progress" id="progressTrack" role="progressbar" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0"><div class="dna-progress-bar" id="progressBar"></div></div>
+      <h2 class="dna-qtitle" id="questionTitle" tabindex="-1"></h2>
+      <p class="dna-qsub" id="questionSubtitle"></p>
+      <blockquote class="dna-context" id="questionContext" hidden></blockquote>
+      <div class="dna-options" id="optionsContainer" aria-labelledby="questionTitle"></div>
+      <div class="dna-ranking" id="rankingContainer" hidden></div>
+      <p class="dna-answer-status" id="answerStatus" role="status" aria-live="polite"></p>
+      <div class="dna-actions">
+        <button class="dna-ghost-btn" id="prevBtn" type="button">上一步</button>
+        <button class="dna-primary-btn" id="nextBtn" type="button" disabled>下一步</button>
+      </div>
+    </section>
+    <section class="dna-card dna-hidden" id="reportCard" aria-labelledby="reportTitle">
+      <h2 class="dna-report-title" id="reportTitle" tabindex="-1">你的黑话 DNA 报告</h2>
+      <p class="dna-note dna-centered" id="reportCaption"></p>
+      <div class="dna-ring-wrap">
+        <svg viewBox="0 0 200 200" id="donutChart" aria-hidden="true"></svg>
+        <div class="dna-ring-center"><span class="dna-center-label" id="ringLabel"></span><strong class="dna-center-genre" id="topGenre"></strong><span class="dna-center-percent" id="topPercent"></span></div>
+      </div>
+      <div class="dna-badges" id="badgesContainer"></div>
+      <section class="dna-panel"><h3 class="dna-panel-title" id="evidenceTitle"></h3><div id="evidenceContainer"></div></section>
+      <section class="dna-panel"><h3 class="dna-panel-title" id="communicationTitle"></h3><p class="dna-result-lead" id="communicationSummary"></p><div id="communicationEvidence"></div></section>
+      <section class="dna-panel"><h3 class="dna-panel-title" id="gamesTitle"></h3><div id="gamesContainer"></div></section>
+      <section class="dna-panel"><h3 class="dna-panel-title" id="knowledgeTitle"></h3><p class="dna-result-lead" id="knowledgeSummary"></p><div id="knowledgeContainer"></div></section>
+      <section class="dna-panel"><h3 class="dna-panel-title" id="shareTitle"></h3><p class="dna-copy" id="shareCopy"></p></section>
+      <div class="dna-actions"><button class="dna-ghost-btn" id="reportReset" type="button">重新测试</button><button class="dna-primary-btn" id="shareBtn" type="button">复制结果</button></div>
+      <p class="dna-answer-status" id="shareStatus" role="status" aria-live="polite"></p>
+    </section>
+    <p class="dna-footer" id="quizFooter"></p>
+  </main>
+  <script src="i18n.js"></script>
+  <script src="quiz-content.js"></script>
+  <script src="quiz-model.js"></script>
+  <script src="blackspeak-dna.js"></script>
 </body>
 </html>

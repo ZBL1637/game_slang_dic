@@ -7,11 +7,13 @@ function createMultiGameRadarCharts() {
         return;
     }
     
+    const lifecycle = window.GameChartLifecycle.begin('chart4');
     // 清空容器并创建网格布局
     chartDom.innerHTML = '';
     chartDom.style.display = 'flex';
     chartDom.style.flexDirection = 'column';
     chartDom.style.padding = '20px';
+    chartDom.style.height = 'auto';
     
     // 添加说明文字（位于标题上方，支持中英文切换）
     const introElement = document.createElement('p');
@@ -46,7 +48,13 @@ function createMultiGameRadarCharts() {
     // 创建雷达图容器
     const radarContainer = document.createElement('div');
     radarContainer.style.display = 'grid';
-    radarContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
+    function updateRadarLayout() {
+        const columns = window.innerWidth < 640 ? 1 : window.innerWidth < 1024 ? 2 : 3;
+        radarContainer.style.gridTemplateColumns = 'repeat(' + columns + ', minmax(0, 1fr))';
+    }
+    updateRadarLayout();
+    lifecycle.beforeResize(updateRadarLayout);
+    radarContainer.style.minWidth = '0';
     radarContainer.style.gap = '20px';
     chartDom.appendChild(radarContainer);
     
@@ -217,7 +225,7 @@ function createMultiGameRadarCharts() {
     // 定义每个游戏的颜色 - 清华紫主题配色方案
     const gameColors = [
         '#7F0056', // CSGO - 清华紫主色
-        '#A6006B', // LOL - 清华紫亮色
+        '#A6006B', // 英雄联盟 - 清华紫亮色
         '#B5007A', // ff14 - 清华紫最亮色
         '#9A0070', // 三角洲行动 - 清华紫亮中色
         '#5A003D', // 原神 - 清华紫深色
@@ -245,6 +253,7 @@ function createMultiGameRadarCharts() {
         // 创建单独的容器
         const gameContainer = document.createElement('div');
         gameContainer.style.width = '100%';
+        gameContainer.style.minWidth = '0';
         gameContainer.style.height = '400px';
         gameContainer.style.backgroundColor = 'rgba(255,255,255,0.05)';
         gameContainer.style.borderRadius = '8px';
@@ -253,7 +262,7 @@ function createMultiGameRadarCharts() {
         radarContainer.appendChild(gameContainer);
         
         // 初始化ECharts实例
-        const gameChart = echarts.init(gameContainer);
+        const gameChart = lifecycle.track(echarts.init(gameContainer));
         
         // 准备当前游戏的数据（用原始中文键取值）
         const values = categoriesRaw.map(category => gameData[category] || 0);
@@ -356,10 +365,7 @@ function createMultiGameRadarCharts() {
         
         gameChart.setOption(option);
         
-        // 响应式调整
-        window.addEventListener('resize', function() {
-            gameChart.resize();
-        });
+        // Layout updates before the shared lifecycle resizes child charts.
     });
 }
 
@@ -372,7 +378,7 @@ window.addEventListener('languagechange', function(){
 function createRadarChartsContainer() {
     // 游戏列表
     const gameList = [
-        "CSGO", "LOL", "ff14", "三角洲行动", 
+        "CSGO", "英雄联盟", "ff14", "三角洲行动",
         "原神", "怪物猎人", "文明6", "无畏契约",
         "永劫", "王者荣耀", "绝地求生", "艾尔登法环"
     ];

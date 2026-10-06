@@ -1,0 +1,42 @@
+/* Keep the original title, composition, cloud artwork and three separate stat cards. */
+.word-cloud-img { animation: cloud-drift 9s ease-in-out infinite; }
+.word-cloud-right .word-cloud-img { animation-delay: -4.5s; }
+.word-cloud-container:hover .word-cloud-img { filter: blur(0); }
+@keyframes cloud-drift {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -4px; }
+}
+.stat-number { font-variant-numeric: tabular-nums; }
+body.page-effects-paused .particle,
+body.page-effects-paused .word-cloud-img { animation-play-state: paused; }
+@media (hover: none), (pointer: coarse) {
+  body { cursor: auto; }
+  .custom-cursor { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .word-cloud-img, .particle { animation: none; }
+}
+
+/* Managed pointer: one centered overlay shared with same-origin iframe documents. */
+body { cursor: auto; }
+html.gc-cursor-managed, html.gc-cursor-managed * { cursor: none !important; }
+html.gc-cursor-managed dialog[open], html.gc-cursor-managed dialog[open] * { cursor: auto !important; }
+.custom-cursor {
+  display: none;
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  z-index: 2147483647;
+  transform: translate(-50%, -50%) scale(1);
+  transform-origin: center;
+  transition: transform .1s ease;
+}
+html.gc-cursor-managed .custom-cursor.gc-visible { display: block; }
+.custom-cursor.hover { transform: translate(-50%, -50%) scale(.3); }
+@media (hover: none), (pointer: coarse) {
+  .custom-cursor, html.gc-cursor-managed .custom-cursor.gc-visible { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .custom-cursor { transition: none; } }

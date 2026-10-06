@@ -1,0 +1,109 @@
+/* Small, page-independent decorations in the original purple/pink palette. */
+.decorative-props {
+    position: fixed;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+    overflow: hidden;
+    --dp-purple: #ab278c;
+    --dp-pink: #d946ef;
+    --dp-scale: 1;
+    --dp-spacing: 1;
+}
+.decorative-props .dp-prop {
+    position: absolute;
+    width: calc(var(--dp-size, 60px) * var(--dp-scale));
+    height: calc(var(--dp-size, 60px) * var(--dp-scale));
+    color: var(--dp-purple);
+    opacity: .42;
+    pointer-events: none;
+    animation: dp-drift var(--dp-duration, 9s) ease-in-out var(--dp-delay, 0s) infinite;
+    transform-origin: 50% 60%;
+    transition: opacity 160ms ease-out;
+}
+.decorative-props .dp-left { left: calc(var(--dp-inset, 20px) * var(--dp-spacing)); }
+.decorative-props .dp-right { right: calc(var(--dp-inset, 20px) * var(--dp-spacing)); }
+.decorative-props .dp-glow::before {
+    content: ''; position: absolute; inset: -24%; border-radius: 50%;
+    background: radial-gradient(ellipse, #a6006b25, #7f00560e 42%, transparent 70%);
+    pointer-events: none; animation: dp-breathe 7.6s ease-in-out var(--dp-delay) infinite;
+}
+.decorative-props .dp-prop > svg { display: block; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.decorative-props .dp-model { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; display: none; }
+.decorative-props .dp-rendered { opacity: var(--dp-alpha, .86); }
+.decorative-props .dp-rendered > svg { visibility: hidden; }
+.decorative-props .dp-rendered > .dp-model { display: block; }
+.decorative-props .dp-shell { fill: #7f005617; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; }
+.decorative-props .dp-inset { fill: #7f005626; stroke: currentColor; stroke-width: 1.4; }
+.decorative-props .dp-detail { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.decorative-props .dp-edge { fill: none; stroke: #d946ef; stroke-opacity: .40; stroke-width: .8; stroke-linecap: round; }
+.decorative-props .dp-fill { fill: currentColor; stroke: none; }
+.decorative-props .dp-part { transform-box: fill-box; transform-origin: center; transition: transform 110ms ease-out, fill 110ms ease-out, stroke 110ms ease-out; }
+.decorative-props .dp-pad {
+    appearance: none;
+    position: absolute;
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    box-shadow: none;
+    color: inherit;
+    pointer-events: auto;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+.decorative-props .dp-pad:focus-visible { outline: 1.5px solid #ef9ff2; outline-offset: 3px; }
+.decorative-props .dp-prop:focus-within,
+.decorative-props .dp-prop:has(.dp-pad:hover) { opacity: .78; animation-play-state: paused; }
+.decorative-props .dp-rendered:focus-within,
+.decorative-props .dp-rendered:has(.dp-pad:hover) { opacity: 1; }
+.decorative-props .dp-mouse-left { left: 12%; top: 14%; width: 37%; height: 39%; }
+.decorative-props .dp-mouse-right { left: 51%; top: 14%; width: 37%; height: 39%; }
+.decorative-props .dp-controller-direction { left: 15%; top: 30%; width: 33%; height: 34%; }
+.decorative-props .dp-controller-action { left: 53%; top: 29%; width: 33%; height: 35%; }
+.decorative-props .dp-pressed-left .dp-part-left,
+.decorative-props .dp-pressed-right .dp-part-right {
+    transform: translateY(1.4px);
+    fill: #d946ef4d;
+    stroke: #e681df;
+}
+.decorative-props .dp-pressed-direction .dp-part-direction,
+.decorative-props .dp-pressed-action .dp-part-action {
+    transform: translateY(.9px);
+    fill: #d946ef;
+    stroke: #ef9ff2;
+}
+.decorative-props .dp-glyph { fill: currentColor; stroke: none; font: 500 10px 'Segoe UI', sans-serif; text-anchor: middle; }
+.decorative-props.dp-paused .dp-prop,
+.decorative-props.dp-paused .dp-glow::before,
+.decorative-props .dp-prop:focus-within::before,
+.decorative-props .dp-prop:has(.dp-pad:hover)::before { animation-play-state: paused; }
+@keyframes dp-drift {
+    0%, 100% { transform: translate3d(0, 0, 0) rotate(var(--dp-angle, 0deg)); }
+    32% { transform: translate3d(var(--dp-drift), calc(var(--dp-lift) * -1), 0) rotate(calc(var(--dp-angle) + var(--dp-sway))); }
+    69% { transform: translate3d(calc(var(--dp-drift) * -.65), calc(var(--dp-lift) * -.3), 0) rotate(calc(var(--dp-angle) - var(--dp-sway) * .55)); }
+}
+@keyframes dp-breathe { 0%, 100% { opacity: .38; transform: scale(.82); } 50% { opacity: .9; transform: scale(1.12); } }
+@media (min-width: 1600px) {
+    .decorative-props { --dp-spacing: 1.55; }
+}
+@media (min-width: 1024px) and (max-width: 1439px) {
+    .decorative-props { --dp-scale: .72; --dp-spacing: .42; }
+    .decorative-props .dp-extra { display: none; }
+    .decorative-props .dp-pad { width: 46%; min-width: 24px; min-height: 26px; }
+    .decorative-props .dp-mouse-left { left: 2%; top: 10%; height: 48%; }
+    .decorative-props .dp-mouse-right { left: 52%; top: 10%; height: 48%; }
+    .decorative-props .dp-controller-direction { left: 2%; top: 26%; height: 46%; }
+    .decorative-props .dp-controller-action { left: 52%; top: 26%; height: 46%; }
+}
+@media (max-width: 1023px), (pointer: coarse), (max-height: 500px) {
+    .decorative-props { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .decorative-props .dp-prop { animation: none; transform: rotate(var(--dp-angle, 0deg)); }
+    .decorative-props .dp-glow::before { animation: none; opacity: .45; }
+    .decorative-props .dp-part { transition: none; }
+}
