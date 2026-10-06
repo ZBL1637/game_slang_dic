@@ -2770,6 +2770,7 @@
     <script defer src="assets/history-chapter.js"></script>
     <script defer src="assets/word-scanner-core.js"></script>
     <script defer src="assets/word-scanner.js"></script>
+    <script defer src="assets/dictionary-api.js"></script>
     <script defer src="assets/focused-app.js"></script>
     <script defer src="assets/culture-exhibit.js"></script>
     <script defer src="assets/home-refinements.js"></script>
@@ -4222,7 +4223,7 @@
         // 热门词汇点击直接使用AI搜索
         // searchPopularWord函数已被aiSearchTerm替代
 
-        // 智能词典查询：只使用本地词库，避免在前端暴露外部 API 密钥。
+        // 默认检索本地词库；配置公开代理地址后，可获取外部辅助解释。
         function escapeHTML(value) {
             return String(value ?? '').replace(/[&<>"']/g, char => ({
                 '&': '&amp;',
@@ -4249,6 +4250,7 @@
             });
 
             searchBtn.addEventListener('click', () => aiSearchTerm());
+            document.getElementById('game-select')?.addEventListener('change', cancelActiveDictionarySearch);
         }
 
         function setSearchLoading(show) {
@@ -4259,7 +4261,13 @@
 
             if (!aiLoading) return;
 
+            if (aiLoading.progressInterval) clearInterval(aiLoading.progressInterval);
+            if (aiLoading.progressResetTimer) clearTimeout(aiLoading.progressResetTimer);
+            aiLoading.progressInterval = null;
+            aiLoading.progressResetTimer = null;
+
             if (show) {
+                if (progressBar) progressBar.style.width = '0%';
                 aiLoading.style.display = 'block';
                 if (aiResults) aiResults.innerHTML = '';
                 if (popularWords) popularWords.style.display = 'none';
@@ -4282,7 +4290,7 @@
             }
             if (progressBar) {
                 progressBar.style.width = '100%';
-                setTimeout(() => {
+                aiLoading.progressResetTimer = setTimeout(() => {
                     progressBar.style.width = '0%';
                 }, 250);
             }
@@ -4371,8 +4379,21 @@
         }
 
         let activeSearchTimer = 0;
-        function aiSearchTerm(term = null) {
+        let activeSearchRevision = 0;
+        let activeSearchRequest = null;
+        function cancelActiveDictionarySearch() {
             clearTimeout(activeSearchTimer);
+            activeSearchRevision += 1;
+            activeSearchRequest?.abort();
+            activeSearchRequest = null;
+            setSearchLoading(false);
+            const button = Utils.safeQuerySelector('#searchBtn');
+            if (button) button.disabled = false;
+        }
+        window.addEventListener('languagechange', cancelActiveDictionarySearch);
+        window.addEventListener('pagehide', cancelActiveDictionarySearch);
+        function aiSearchTerm(term = null) {
+            cancelActiveDictionarySearch();
             const searchInput = Utils.safeQuerySelector('#searchInput');
             const searchBtn = Utils.safeQuerySelector('#searchBtn');
             const popularWords = Utils.safeQuerySelector('#popularWords');
@@ -4391,16 +4412,29 @@
 
             if (searchBtn) searchBtn.disabled = true;
             setSearchLoading(true);
+            const revision = activeSearchRevision, gameId = currentGame;
+            const locale = isEnglish ? 'en' : 'zh';
+            activeSearchRequest = new AbortController();
+            const signal = activeSearchRequest.signal;
 
-            activeSearchTimer = setTimeout(() => {
-                const result = buildLocalSearchResult(query);
+            activeSearchTimer = setTimeout(async () => {
+                const local = buildLocalSearchResult(query);
+                let outcome = { result: local, source: 'local' };
+                try {
+                    if (window.gameDictionaryClient) outcome = await window.gameDictionaryClient.search({ query, gameId, locale }, local, { signal });
+                } catch (_) { outcome = { result: local, source: 'fallback' }; }
+                if (revision !== activeSearchRevision || signal.aborted || currentGame !== gameId || (window.i18n?.getLang() === 'en' ? 'en' : 'zh') !== locale) return;
+                const result = outcome.result;
+                activeSearchRequest = null;
                 setSearchLoading(false);
 
                 if (result) {
                     displayAIResult(result);
                 } else {
                     if (popularWords) popularWords.style.display = 'block';
-                    displayAIError(isEnglish
+                    displayAIError(outcome.source === 'fallback' ? (isEnglish
+                        ? 'The remote explanation is unavailable, and no local entry matches this term.'
+                        : '外部解释暂不可用，本地词库中也未找到匹配词条。') : isEnglish
                         ? 'No matching term was found in the local dictionary. Try another slang or game name.'
                         : '本地词库中暂未找到匹配词条，可以尝试输入其他黑话或游戏名称。');
                 }

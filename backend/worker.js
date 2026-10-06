@@ -1,0 +1,5 @@
+import zh from '../assets/combined_game_data.json';
+import en from '../assets/data_en.json';
+import { createWorker } from './core.mjs';
+
+export default createWorker({ dictionaries: { zh, en } });

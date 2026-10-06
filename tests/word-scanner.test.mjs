@@ -110,6 +110,11 @@ function harness({ width = 1000, fine = true, rng = Math.random } = {}) {
   };
 }
 
+function assertPixels(actual, expected) {
+  assert.match(actual, /^-?[0-9.e]+px$/);
+  assert.ok(Math.abs(parseFloat(actual) - expected) < 1e-8, 'coordinates agree within subpixel precision');
+}
+
 const center = button => ({ x: parseFloat(button.style.left) + button.offsetWidth / 2, y: parseFloat(button.style.top) + button.offsetHeight / 2 });
 
 test('scanning coalesces the latest pointer sample, locks a cached card and never opens a popup automatically', () => {
@@ -117,7 +122,7 @@ test('scanning coalesces the latest pointer sample, locks a cached card and neve
   h.move(p.x, p.y); h.move(q.x, q.y); assert.equal(h.frames.size, 1); h.flush();
   assert.equal(api.getState().scannedKey, b.dataset.key); assert.equal(h.detail().hidden, true);
   const atmosphere = h.field.querySelector('.ws-atmosphere');
-  assert.equal(atmosphere.style['--scan-x'], `${q.x}px`); assert.equal(atmosphere.style['--scan-y'], `${q.y}px`);
+  assertPixels(atmosphere.style['--scan-x'], q.x); assertPixels(atmosphere.style['--scan-y'], q.y);
   assert.deepEqual(atmosphere.style.writes.filter(([name]) => name.startsWith('--scan-')), [['--scan-x', `${q.x}px`], ['--scan-y', `${q.y}px`]], 'only the latest sample writes the two background coordinates');
   assert.equal(b.classList.contains('is-scanned'), true); assert.equal(h.field.querySelector('.ws-lock').hidden, false);
   assert.equal(h.board.querySelector('.ws-status').textContent, '等待扫描');
@@ -270,10 +275,10 @@ test('keyboard targeting uses the card center, cancels an old pointer sample and
   assert.equal(h.frames.size, 0); stale.forEach(callback => callback());
   assert.equal(api.getState().scannedKey, a.dataset.key); assert.equal(h.board.classList.contains('ws-targeted'), true);
   assert.equal(h.board.classList.contains('ws-pointer'), false);
-  assert.equal(atmosphere.style['--scan-x'], `${p.x}px`); assert.equal(atmosphere.style['--scan-y'], `${p.y}px`);
+  assertPixels(atmosphere.style['--scan-x'], p.x); assertPixels(atmosphere.style['--scan-y'], p.y);
   h.move(q.x, q.y); h.flush();
   assert.equal(h.board.classList.contains('ws-pointer'), true); assert.equal(h.board.classList.contains('ws-targeted'), false);
-  assert.equal(atmosphere.style['--scan-x'], `${q.x}px`); assert.equal(atmosphere.style['--scan-y'], `${q.y}px`);
+  assertPixels(atmosphere.style['--scan-x'], q.x); assertPixels(atmosphere.style['--scan-y'], q.y);
   h.field.emit('pointerleave');
   assert.equal(h.board.classList.contains('ws-pointer'), false); assert.equal(h.board.classList.contains('ws-targeted'), true, 'keyboard focus remains visible after pointer departure');
   h.doc.body.focus(); assert.equal(h.board.classList.contains('ws-targeted'), false); api.destroy();
@@ -285,11 +290,11 @@ test('touch and pinned targeting stay on the selected card through resize and ig
     h.dispatch(a, 'click', { detail: 1 }); h.flush();
     const selected = center(a);
     assert.equal(h.board.classList.contains('ws-targeted'), true); assert.equal(h.board.classList.contains('ws-pointer'), false);
-    assert.equal(atmosphere.style['--scan-x'], `${selected.x}px`); assert.equal(atmosphere.style['--scan-y'], `${selected.y}px`);
+    assertPixels(atmosphere.style['--scan-x'], selected.x); assertPixels(atmosphere.style['--scan-y'], selected.y);
     const other = center(b); h.move(other.x, other.y, fine ? 'mouse' : 'touch'); h.flush(); h.field.emit('pointerleave');
-    assert.equal(atmosphere.style['--scan-x'], `${selected.x}px`); assert.equal(h.board.classList.contains('ws-targeted'), true);
+    assertPixels(atmosphere.style['--scan-x'], selected.x); assert.equal(h.board.classList.contains('ws-targeted'), true);
     h.resize(1000); const moved = center(a);
-    assert.equal(api.getState().pinnedKey, a.dataset.key); assert.equal(atmosphere.style['--scan-x'], `${moved.x}px`); assert.equal(atmosphere.style['--scan-y'], `${moved.y}px`);
+    assert.equal(api.getState().pinnedKey, a.dataset.key); assertPixels(atmosphere.style['--scan-x'], moved.x); assertPixels(atmosphere.style['--scan-y'], moved.y);
     api.destroy();
   }
 });

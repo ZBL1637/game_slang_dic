@@ -1,0 +1,19 @@
+{
+  "$schema": "https://raw.githubusercontent.com/cloudflare/workers-sdk/main/packages/wrangler/config-schema.json",
+  "name": "game-slang-api",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-07",
+  "vars": {
+    "ALLOWED_ORIGIN": "https://zbl1637.github.io",
+    "LLM_BASE_URL": "",
+    "LLM_MODEL": ""
+  },
+  "ratelimits": [
+    {
+      "name": "IP_LIMITER",
+      "namespace_id": "1001",
+      "simple": { "limit": 10, "period": 60 }
+    }
+  ],
+  "observability": { "enabled": false }
+}
