@@ -112,3 +112,15 @@ test('remote text goes through the original HTML escaping for every visible resu
   const attack = '<img src=x onerror="throw 1">'; context.displayAIResult({ term: attack, definition: attack, usage: attack, context: attack, level: attack, examples: [attack], synonyms: [attack] });
   assert.equal(resultElement.innerHTML.includes('<img'), false); assert.equal((resultElement.innerHTML.match(/&lt;img/g) || []).length, 7);
 });
+
+test('the real result renderer displays an empty-example message in both supported languages', () => {
+  for (const [lang, placeholder] of [['zh', '暂无例句'], ['en', 'No examples available.']]) {
+    const resultElement = { innerHTML: '' }, context = { i18n: { getLang: () => lang }, Utils: { safeQuerySelector: () => resultElement }, setTimeout() {} };
+    vm.createContext(context);
+    vm.runInContext(html.slice(html.indexOf('        function escapeHTML'), html.indexOf('        function initAISearchFunction')), context);
+    vm.runInContext(html.slice(html.indexOf('        function displayAIResult'), html.indexOf('        function displayAIError')), context);
+    context.displayAIResult({ ...local, examples: [] });
+    assert.ok(resultElement.innerHTML.includes(placeholder));
+    assert.ok(resultElement.innerHTML.includes(local.definition));
+  }
+});
