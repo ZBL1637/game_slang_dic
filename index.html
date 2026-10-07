@@ -2913,7 +2913,7 @@
                         <h3 class="search-title" data-i18n="ai.title">🔎 智能词典查询</h3>
                         <p class="search-subtitle" data-i18n="ai.subtitle">AI 辅助解释，结合本地词库查询</p>
                         <div class="search-container">
-                            <input type="text" class="search-box" placeholder="请输入游戏黑话，如：躺平、卷王、开黑..." id="searchInput" maxlength="80" aria-label="查询黑话" data-i18n-attr="placeholder:ai.placeholder">
+                            <input type="text" class="search-box" placeholder="输入游戏黑话或问题，如：开黑是什么意思？" id="searchInput" maxlength="80" aria-label="查询黑话" data-i18n-attr="placeholder:ai.placeholder">
                             <button type="button" class="search-btn" id="searchBtn" aria-label="查询黑话" data-i18n-attr="aria-label:ai.searchAction">
                                 <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <circle cx="11" cy="11" r="8"></circle>
@@ -4357,7 +4357,7 @@
 
             const query = term || (searchInput ? searchInput.value.trim() : '');
             if (!query) {
-                displayAIError(isEnglish ? 'Please enter a gaming term.' : '请输入要查询的游戏黑话。');
+                displayAIError(isEnglish ? 'Please enter a gaming term or question.' : '请输入游戏黑话或相关问题。');
                 searchInput?.focus();
                 return;
             }

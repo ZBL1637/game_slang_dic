@@ -52,7 +52,7 @@
       searchAction: { zh: '查询黑话', en: 'Search gaming terms' },
       title: { zh: '🔎 智能词典查询', en: '🔎 Smart Dictionary Search' },
       subtitle: { zh: "AI 辅助解释，结合本地词库查询", en: "AI-assisted explanations with local dictionary lookup" },
-      placeholder: { zh: '请输入游戏黑话，如：躺平、卷王、开黑...', en: 'Type a gaming slang, e.g., AFK, carry, scrim...' },
+      placeholder: { zh: '输入游戏黑话或问题，如：开黑是什么意思？', en: 'Ask about gaming slang, e.g. What does AFK mean?' },
       loading: { zh: "正在查找词条与解释…", en: "Finding terms and explanations…" },
       popular: { zh: "✦ 随机发现", en: "✦ Explore terms" }
     },

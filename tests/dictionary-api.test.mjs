@@ -46,6 +46,29 @@ test('only a public HTTPS proxy is called, with bounded input and no client cred
     assert.equal(c.api.configValue({ endpoint }, 'https://site.example').endpoint, '');
   }
 });
+test('an unlisted term reaches the provider and its clarification is accepted without a local match', async () => {
+  for (const locale of ['zh', 'en']) {
+    const answer = { ...local, term: '蓝莲花', examples: [], synonyms: [],
+      definition: locale === 'zh' ? '这个词可能对应不同场景，暂时无法确定你指的是哪一种。' : 'This expression can mean different things depending on the game.',
+      usage: locale === 'zh' ? '你在哪款游戏或哪句话里看到这个词？' : 'Which game or conversation did you see it in?',
+      context: locale === 'zh' ? '请提供具体的游戏场景。' : 'The game context needs clarification.' };
+    let providerCalls = 0, requests = 0;
+    const worker = createWorker({ dictionaries: {}, fetch: async () => {
+      providerCalls++; return json({ choices: [{ finish_reason: 'stop', message: { content: JSON.stringify(answer) } }] });
+    } });
+    const c = client(async (url, options) => {
+      if (++requests === 1) return json({ endpoint: 'https://proxy.example.test/api/slang/explain' });
+      return worker.fetch(new Request(url, { ...options, headers: { ...options.headers, Origin: 'https://zbl1637.github.io', 'CF-Connecting-IP': '192.0.2.8' } }), {
+        ALLOWED_ORIGIN: 'https://zbl1637.github.io', LLM_BASE_URL: 'https://provider.example.test', LLM_MODEL: 'test-model', LLM_API_KEY: 'not-a-real-key', IP_LIMITER: { async limit() { return { success: true }; } }
+      });
+    });
+    const outcome = await c.instance.search({ query: '蓝莲花', gameId: 'all', locale }, null);
+    assert.equal(outcome.source, 'remote'); assert.equal(outcome.result.definition, answer.definition);
+    assert.equal(outcome.result.usage, answer.usage); assert.equal(outcome.result.term, '蓝莲花');
+    assert.equal(providerCalls, 1); assert.equal(requests, 2);
+  }
+});
+
 test('bad status, malformed or oversized output all preserve the local dictionary result', async () => {
   for (const response of [json({ error: 'rate_limited' }, 429), new Response('<html>error</html>', { headers: { 'Content-Type': 'text/html' } }), json({ source: 'ai', result: { ...local, definition: 5 } }), json({ source: 'ai', result: { ...local, examples: ['x'.repeat(33000)] } })]) {
     let calls = 0; const c = client(async () => ++calls === 1 ? json({ endpoint: 'https://proxy.example.test/api/slang/explain' }) : response);
@@ -54,7 +77,7 @@ test('bad status, malformed or oversized output all preserve the local dictionar
     assert.equal(calls, 2, 'failed paid requests are never retried');
   }
 });
-test('only the explicit no-evidence 404 is a normal not-found, retaining a local match without a failure label', async () => {
+test('legacy no-evidence responses remain compatible while real failures use the error fallback', async () => {
   for (const localResult of [null, local]) {
     let calls = 0;
     const c = client(async () => ++calls === 1 ? json({ endpoint: 'https://proxy.example.test/api/slang/explain' }) : json({ error: 'no_local_evidence' }, 404));
@@ -208,7 +231,19 @@ test('language changes and leaving the page cancel in-flight lookup and release 
     h.requests[0].resolve({ result: local, source: 'remote' }); await pending; assert.equal(h.rendered.length, 0);
   }
 });
-test('the real query renderer treats no-evidence as missing vocabulary instead of a service failure in either language', async () => {
+test('the real query entry submits questions with no local match and displays the AI answer', async () => {
+  const h = queryHarness();
+  h.context.buildLocalSearchResult = () => null;
+  h.context.aiSearchTerm('蓝莲花是什么意思？'); const pending = h.run();
+  assert.equal(h.requests.length, 1); assert.equal(h.requests[0].result, null);
+  assert.equal(h.requests[0].input.query, '蓝莲花是什么意思？');
+  const answer = { ...local, term: '蓝莲花', definition: '请确认你看到这个词的游戏或场景。' };
+  h.requests[0].resolve({ result: answer, source: 'remote' }); await pending;
+  assert.equal(h.rendered.length, 1); assert.equal(h.rendered[0].definition, answer.definition);
+  assert.equal(h.loading.at(-1), false); assert.equal(h.elements['#searchBtn'].disabled, false);
+});
+
+test('the real query renderer handles legacy no-evidence without claiming a service failure', async () => {
   for (const lang of ['zh', 'en']) {
     const h = queryHarness(); h.language(lang); h.context.aiSearchTerm('qa未收录词条x927'); const pending = h.run();
     h.requests[0].resolve({ result: null, source: 'not-found' }); await pending;

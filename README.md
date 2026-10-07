@@ -14,7 +14,7 @@
 
 ## 词典与 API
 
-线上智能词典已接入 DeepSeek 官方 API（`deepseek-flash`）。Cloudflare Worker 根据原词库证据生成解释，密钥保存为后端 Secret；`assets/api-config.json` 只保存公开代理地址。查询失败、超时或限流时自动回退到本地中英文词库，页面会注明回退状态。后端配置与维护见 [backend/README.md](backend/README.md)。
+线上智能词典已接入 DeepSeek 官方 API（`deepseek-flash`）。词库匹配结果作为补充参考；未收录的游戏词语或相关问题也会直接交给 DeepSeek，遇到歧义或不确定的信息会说明并询问具体游戏或场景。密钥保存为后端 Secret；`assets/api-config.json` 只保存公开代理地址。查询失败、超时或限流时自动回退到本地中英文词库，页面会注明回退状态。后端配置与维护见 [backend/README.md](backend/README.md)。
 
 线上代理只接受 `https://zbl1637.github.io` 来源。本地预览仍可使用本地词库；要在本地测试模型，请使用单独开发 Worker 并配置对应的本地来源。
 

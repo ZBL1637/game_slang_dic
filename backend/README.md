@@ -2,7 +2,7 @@
 
 本后端使用 DeepSeek 官方 API，模型为 `deepseek-flash`（当前对应 DeepSeek-V4.1-Flash），显式关闭思考模式。Cloudflare Worker 负责代理请求并保护 DeepSeek 密钥，GitHub Pages 托管前端。
 
-生产端点：`https://game-slang-api.zbl1637wddy.workers.dev/api/slang/explain`。2026-10-07 已配置 `LLM_API_KEY` Secret 并部署，真实云端“开黑”查询返回 200，预检、来源限制、非法输入与无证据回退验收通过。发布版 `assets/api-config.json` 已配置此地址；本地开发目录可保持 endpoint 为空以仅使用词库。
+生产端点：`https://game-slang-api.zbl1637wddy.workers.dev/api/slang/explain`。已配置 `LLM_API_KEY` Secret；词库记录仅作参考，未收录词语也会交给 DeepSeek。发布版 `assets/api-config.json` 已配置此地址；本地开发目录可保持 endpoint 为空以仅使用词库。
 
 ## 部署所需配置
 
@@ -21,7 +21,7 @@ DeepSeek 请求使用 `thinking: { type: "disabled" }`、`max_tokens: 700`、`st
 
 ## 接口与回退
 
-请求为 POST JSON：`{ "query": "开黑", "gameId": "all", "locale": "zh", "context": "" }`。`gameId` 可为 `all` 或原词库中的游戏名称，locale 仅接受 zh/en。前端不发送密钥、任意上游 URL、模型、系统提示或自定义证据。服务端打包原中英 JSON，根据词条匹配最多取六条证据；没有证据返回 404，不让模型无依据补写。
+请求为 POST JSON：`{ "query": "开黑", "gameId": "all", "locale": "zh", "context": "" }`。`query` 可以是游戏词语或相关问题，`gameId` 可为 `all` 或原词库中的游戏名称，locale 仅接受 zh/en。前端不发送密钥、任意上游 URL、模型、系统提示或自定义证据。服务端根据词条匹配最多取六条词库记录作为可选参考；没有匹配也照常请求 DeepSeek，允许使用模型知识回答。含糊词语应说明不确定并询问具体游戏或使用场景，不生造定义、出处或例句引文。无词库匹配的正常 AI 答复仍为 200，`sourceIds` 为空数组。
 
 成功响应为 `{ source: "ai", result: { term, definition, usage, examples, context, level, synonyms }, sourceIds: [] }`。来源 ID 指向此次提供给模型的词库记录（`zh:数组索引` / `en:数组索引`），表示检索证据，不是自动核实后的逐句引用。例句为辅助解释，不是评论原话。内容最终仍由原页面 HTML 转义后显示。
 

@@ -103,21 +103,87 @@ test('single-IP rate limiting rejects before paying for upstream and refuses a m
   const response = await worker.fetch(request(), config); assert.equal(response.status, 429); assert.equal(response.headers.get('Retry-After'), '60'); assert.equal(key, 'slang:192.0.2.8');
   delete config.IP_LIMITER; assert.equal((await worker.fetch(request(), config)).status, 503); assert.equal(calls, 0);
 });
-test('invalid input, unknown games, missing evidence and missing configuration never call the provider', async () => {
+test('invalid input, unknown games and missing configuration never call the provider', async () => {
   let calls = 0; const worker = createWorker({ dictionaries, fetch: async () => { calls++; return upstream(); } });
   for (const bad of [{ ...input, query: '' }, { ...input, query: 'x'.repeat(81) }, { ...input, locale: 'fr' }, { ...input, gameId: 'not-a-game' }, { ...input, context: 'x'.repeat(1001) }]) assert.equal((await worker.fetch(request(bad), env())).status, 400);
-  assert.equal((await worker.fetch(request({ ...input, query: '不在词库中的词' }), env())).status, 404);
   assert.equal((await worker.fetch(request('{bad'), env())).status, 400);
   assert.equal((await worker.fetch(request(input, { 'Content-Type': 'text/plain' }), env())).status, 415);
   const config = env(); delete config.LLM_API_KEY; assert.equal((await worker.fetch(request(), config)).status, 503);
   assert.equal(calls, 0);
 });
+test('a gaming question without a dictionary match reaches the model and returns AI with empty source IDs', async () => {
+  let calls = 0;
+  const answer = { term: 'wind-up', definition: 'A wind-up is the preparation before an action takes effect.', usage: 'A long wind-up can give an opponent time to react.', context: 'Action and fighting games.', level: 'AI', examples: [], synonyms: [] };
+  const query = 'What does wind-up mean in a fighting game?';
+  const worker = createWorker({ dictionaries, fetch: async (_, options) => {
+    calls++; const messages = JSON.parse(options.body).messages, data = JSON.parse(messages[1].content);
+    assert.equal(data.query, query); assert.deepEqual(data.evidence, []);
+    assert.match(messages[0].content, /Dictionary evidence is optional reference/);
+    assert.match(messages[0].content, /general gaming knowledge/);
+    return upstream({ ...answer, sourceIds: ['fabricated:1'] });
+  } });
+  const response = await worker.fetch(request({ query, locale: 'en', gameId: 'all', evidence: null }), env());
+  assert.equal(response.status, 200);
+  const data = await response.json(); assert.equal(data.source, 'ai'); assert.equal(data.result.term, query);
+  assert.equal(data.result.definition, answer.definition); assert.deepEqual(data.sourceIds, []); assert.equal(calls, 1);
+});
+test('ambiguous unmatched terms can ask for context in the existing result schema in Chinese or English', async () => {
+  const answers = {
+    zh: { term: '蓝莲花', definition: '这个名称可能指不同的事物，单凭名称还不能确定具体游戏含义。', usage: '你在哪款游戏、任务或聊天场景里看到它？', context: '请补充游戏名或前后句。', level: '待确认', examples: [], synonyms: [] },
+    en: { term: 'Blue Lotus', definition: 'This name may refer to different things; its gaming meaning is unclear without context.', usage: 'Which game or scene did you see it in?', context: 'Please share the game or the surrounding sentence.', level: 'Needs context', examples: [], synonyms: [] }
+  };
+  for (const locale of ['zh', 'en']) {
+    let calls = 0;
+    const worker = createWorker({ dictionaries, fetch: async (_, options) => {
+      calls++; const messages = JSON.parse(options.body).messages;
+      assert.deepEqual(JSON.parse(messages[1].content).evidence, []);
+      assert.match(messages[0].content, /ask for the specific game, scene or surrounding sentence/);
+      assert.match(messages[0].content, /Do not invent definitions, sources, citations/);
+      assert.ok(!messages[0].content.includes('蓝莲花'), 'no term-specific response is hardcoded');
+      return upstream(answers[locale]);
+    } });
+    const response = await worker.fetch(request({ query: '蓝莲花', gameId: 'all', locale }), env());
+    assert.equal(response.status, 200);
+    const data = await response.json(); assert.equal(data.source, 'ai'); assert.equal(data.result.term, '蓝莲花');
+    assert.equal(data.result.usage, answers[locale].usage); assert.deepEqual(data.result.examples, []); assert.deepEqual(data.result.synonyms, []);
+    assert.equal(data.result.level, locale === 'en' ? 'AI-assisted explanation' : 'AI 辅助解释'); assert.deepEqual(data.sourceIds, []); assert.equal(calls, 1);
+  }
+});
+test('empty evidence still enforces the output language while allowing the requested term and game as proper names', async () => {
+  const query = '未知游戏术语';
+  const english = { term: query, definition: 'The meaning is unclear without more context.', usage: 'Where did you encounter this expression?', context: '英雄联盟', level: 'AI', examples: [], synonyms: [] };
+  const worker = createWorker({ dictionaries, fetch: async () => upstream(english) });
+  const response = await worker.fetch(request({ query, gameId: '英雄联盟', locale: 'en' }), env());
+  assert.equal(response.status, 200); assert.deepEqual((await response.json()).sourceIds, []);
+  for (const [locale, answer] of [['zh', english], ['en', { ...result, definition: '这个名称的具体含义尚不明确。' }]]) {
+    let calls = 0;
+    const worker = createWorker({ dictionaries, fetch: async () => { calls++; return upstream(answer); } });
+    const response = await worker.fetch(request({ query, gameId: 'all', locale }), env());
+    assert.equal(response.status, 502); assert.deepEqual(await response.json(), { error: 'invalid_upstream_language' }); assert.equal(calls, 1);
+  }
+});
+test('unmatched queries still report provider configuration, rate-limit and upstream failures as service errors', async () => {
+  for (const [upstreamStatus, expectedStatus] of [[401, 502], [429, 429], [500, 502]]) {
+    let calls = 0;
+    const worker = createWorker({ dictionaries, fetch: async () => { calls++; return new Response('private provider diagnostic', { status: upstreamStatus }); } });
+    const response = await worker.fetch(request({ ...input, query: '未收录游戏词条' }), env());
+    assert.equal(response.status, expectedStatus); assert.deepEqual(await response.json(), { error: 'upstream_unavailable' }); assert.equal(calls, 1);
+  }
+  let calls = 0;
+  const worker = createWorker({ dictionaries, fetch: async () => { calls++; return upstream(); } });
+  const config = env(); delete config.LLM_API_KEY;
+  const response = await worker.fetch(request({ ...input, query: '未收录游戏词条' }), config);
+  assert.equal(response.status, 503); assert.deepEqual(await response.json(), { error: 'provider_unconfigured' }); assert.equal(calls, 0);
+});
 test('a non-gaming English phrase cannot use single-letter entries from the real dictionary as evidence', async () => {
   const [zh, en] = await Promise.all(['combined_game_data.json', 'data_en.json'].map(async name => JSON.parse(await readFile(new URL('../assets/' + name, import.meta.url), 'utf8'))));
   let calls = 0;
-  const worker = createWorker({ dictionaries: { zh, en }, fetch: async () => { calls++; return upstream(); } });
+  const worker = createWorker({ dictionaries: { zh, en }, fetch: async (_, options) => {
+    calls++; assert.deepEqual(JSON.parse(JSON.parse(options.body).messages[1].content).evidence, []);
+    return upstream({ term: 'quantum mechanics', definition: 'This helper covers gaming terms and related questions.', usage: 'Please ask a question about a game.', context: 'Gaming topics.', level: 'AI', examples: [], synonyms: [] });
+  } });
   const response = await worker.fetch(request({ query: 'quantum mechanics', gameId: 'all', locale: 'en', context: '' }), env());
-  assert.equal(response.status, 404); assert.deepEqual(await response.json(), { error: 'no_local_evidence' }); assert.equal(calls, 0);
+  assert.equal(response.status, 200); assert.deepEqual((await response.json()).sourceIds, []); assert.equal(calls, 1);
 });
 test('defined numeric terms from the real dictionaries remain searchable while empty numeric rows supply no evidence', async () => {
   const [zh, en] = await Promise.all(['combined_game_data.json', 'data_en.json'].map(async name => JSON.parse(await readFile(new URL('../assets/' + name, import.meta.url), 'utf8'))));
@@ -135,9 +201,13 @@ test('defined numeric terms from the real dictionaries remain searchable while e
   }
   assert.equal(calls, 3);
   const numericOnly = { zh: zh.filter(row => typeof row.term === 'number') };
-  const emptyWorker = createWorker({ dictionaries: numericOnly, fetch: async () => { throw new Error('empty rows must not reach the provider'); } });
+  let emptyCalls = 0;
+  const emptyWorker = createWorker({ dictionaries: numericOnly, fetch: async (_, options) => {
+    emptyCalls++; assert.deepEqual(JSON.parse(JSON.parse(options.body).messages[1].content).evidence, []);
+    return upstream({ term: '2', definition: '这个数字的含义需要结合具体场景判断。', usage: '你在哪个场景看到它？', context: '需要补充上下文。', level: 'AI', examples: [], synonyms: [] });
+  } });
   const response = await emptyWorker.fetch(request({ query: '2', gameId: '三角洲行动', locale: 'zh' }), env());
-  assert.equal(response.status, 404); assert.deepEqual(await response.json(), { error: 'no_local_evidence' });
+  assert.equal(response.status, 200); assert.deepEqual((await response.json()).sourceIds, []); assert.equal(emptyCalls, 1);
 });
 test('actual request bytes are bounded even when Content-Length is absent', async () => {
   let calls = 0; const worker = createWorker({ dictionaries, fetch: async () => { calls++; return upstream(); } });
