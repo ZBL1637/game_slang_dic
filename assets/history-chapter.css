@@ -266,6 +266,7 @@
 /* A full-screen reading pause, in the earlier understated bridge style. */
 #history-culture-bridge {
   position: relative;
+  isolation: isolate;
   z-index: 1;
   box-sizing: border-box;
   width: 100%;
@@ -296,8 +297,12 @@
   height: 1px;
   margin: 0 auto 28px;
   background: linear-gradient(90deg, transparent, #a53ea7, transparent);
+  position: relative;
+  z-index: 1;
 }
 #history-culture-bridge .hx-bridge-context {
+  position: relative;
+  z-index: 1;
   max-width: 800px;
   margin: 0 auto;
   color: var(--white);
@@ -306,6 +311,8 @@
   line-height: 1.9;
 }
 #history-culture-bridge .hx-bridge-question {
+  position: relative;
+  z-index: 1;
   max-width: 900px;
   margin: 12px 0 0;
   color: var(--white);
@@ -313,6 +320,144 @@
   font-weight: 600;
   line-height: 1.65;
 }
+
+/* Decorative language current. The original reading layout stays in normal flow. */
+#history-culture-bridge .hx-bridge-atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+#history-culture-bridge .hx-bridge-halo {
+  position: absolute;
+  inset: 12% 0;
+  background:
+    radial-gradient(ellipse at 43% 55%, rgba(127, 0, 86, .16), transparent 54%),
+    radial-gradient(ellipse at 68% 34%, rgba(115, 61, 167, .12), transparent 46%);
+  animation: hx-halo-breathe 14s ease-in-out infinite alternate;
+}
+#history-culture-bridge .hx-bridge-flow {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+#history-culture-bridge .hx-flow-thread { stroke-width: .85; }
+#history-culture-bridge .hx-flow-haze { stroke-width: 12; opacity: .3; filter: blur(8px); }
+#history-culture-bridge .hx-flow-echo { stroke-width: .65; opacity: .45; }
+#history-culture-bridge .hx-flow-echo-far { opacity: .24; }
+#history-culture-bridge .hx-flow-trace {
+  stroke: #d3a0e8;
+  stroke-width: 1.35;
+  stroke-linecap: round;
+  stroke-dasharray: 3 28 1 84 18 1400;
+  opacity: .52;
+  animation: hx-flow-travel 24s linear infinite;
+}
+#history-culture-bridge .hx-bridge-terms { position: absolute; inset: 0; }
+#history-culture-bridge .hx-bridge-term {
+  position: absolute;
+  isolation: isolate;
+  left: var(--x);
+  top: var(--y);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  max-width: 180px;
+  color: #c48bda;
+  text-align: left;
+  text-wrap: nowrap;
+  opacity: .76;
+  transform: translate(-50%, -50%) rotate(var(--turn));
+  animation: hx-term-drift var(--duration) ease-in-out var(--delay) infinite;
+}
+#history-culture-bridge .hx-term-motif {
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 34%;
+  width: 200px;
+  height: 160px;
+  max-width: none;
+  overflow: visible;
+  pointer-events: none;
+  color: #b678cf;
+  opacity: .45;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 0 5px rgba(165, 62, 167, .3));
+  animation: hx-motif-signal 21s ease-in-out var(--delay) infinite;
+}
+#history-culture-bridge .hx-term-word {
+  display: block;
+  font-size: var(--size);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: .08em;
+  text-shadow: 0 0 18px rgba(165, 62, 167, .24);
+  animation: hx-term-signal 21s ease-in-out var(--delay) infinite;
+}
+#history-culture-bridge .hx-term-reading {
+  display: block;
+  color: #b99ac9;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: .07em;
+}
+#history-culture-bridge .hx-bridge-term::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 105%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(198, 132, 222, .6), rgba(165, 62, 167, .1), transparent);
+  transform-origin: left;
+  animation: hx-term-underline 21s ease-in-out var(--delay) infinite;
+}
+#history-culture-bridge .hx-bridge-term::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 12px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #c78cdb;
+  box-shadow: 0 0 9px rgba(199, 140, 219, .6);
+}
+#history-culture-bridge .hx-term-secondary { opacity: .52; }
+#history-culture-bridge :is(.hx-bridge-halo, .hx-flow-trace, .hx-bridge-term, .hx-term-word, .hx-term-motif),
+#history-culture-bridge .hx-bridge-term::after { animation-play-state: paused; }
+#history-culture-bridge.hx-bridge-running :is(.hx-bridge-halo, .hx-flow-trace, .hx-bridge-term, .hx-term-word, .hx-term-motif),
+#history-culture-bridge.hx-bridge-running .hx-bridge-term::after { animation-play-state: running; }
+#history-culture-bridge.hx-bridge-entered .hx-bridge-context { animation: hx-bridge-arrive 1s ease-out both; }
+#history-culture-bridge.hx-bridge-entered .hx-bridge-question { animation: hx-bridge-arrive 1.15s .16s ease-out both; }
+#history-culture-bridge.hx-bridge-entered .hx-bridge-atmosphere { animation: hx-bridge-light 1.8s ease-out both; }
+@keyframes hx-term-drift {
+  0%, 100% { transform: translate(calc(-50% - 4px), calc(-50% + 5px)) rotate(var(--turn)); }
+  50% { transform: translate(calc(-50% + 4px), calc(-50% - 6px)) rotate(calc(var(--turn) + 2deg)); }
+}
+@keyframes hx-term-signal {
+  0%, 32%, 100% { opacity: .72; text-shadow: 0 0 15px rgba(165, 62, 167, .18); }
+  16% { opacity: 1; text-shadow: 0 0 18px rgba(203, 127, 229, .6), 0 0 40px rgba(165, 62, 167, .24); }
+}
+@keyframes hx-term-underline {
+  0%, 32%, 100% { opacity: .35; transform: scaleX(.55); }
+  16% { opacity: .85; transform: scaleX(1); }
+}
+@keyframes hx-motif-signal {
+  0%, 32%, 100% { opacity: .36; transform: translate(-50%, -50%) scale(.97); }
+  16% { opacity: .66; transform: translate(-50%, -50%) scale(1.02); }
+}
+@keyframes hx-flow-travel { to { stroke-dashoffset: -1534; } }
+@keyframes hx-halo-breathe { from { opacity: .65; transform: scale(.98); } to { opacity: 1; transform: scale(1.04); } }
+@keyframes hx-bridge-arrive { from { opacity: .15; transform: translateY(9px); } to { opacity: 1; transform: none; } }
+@keyframes hx-bridge-light { from { opacity: .1; } to { opacity: 1; } }
 
 @keyframes hx-scene-appear {
   from { opacity: .35; transform: translateY(5px); }
@@ -380,6 +525,19 @@
   #slang-history .hx-sources { margin-top: 30px; }
   #history-culture-bridge { margin: 0 auto; padding: 120px 12px; }
   #history-culture-bridge .hx-bridge-context { font-size: 14px; }
+  #history-culture-bridge .hx-bridge-term { left: var(--mx); top: var(--my); gap: 5px; max-width: 130px; }
+  #history-culture-bridge .hx-term-word { font-size: calc(var(--size) * .72); }
+  #history-culture-bridge .hx-term-motif { width: 126px; height: 101px; }
+  #history-culture-bridge .hx-term-reading { font-size: 10px; letter-spacing: .025em; }
+  #history-culture-bridge .hx-term-secondary { display: none; }
+  #history-culture-bridge .hx-bridge-flow { opacity: .75; }
+}
+@media (max-width: 760px) and (max-height: 700px) {
+  #history-culture-bridge .hx-bridge-term { top: 21%; }
+  #history-culture-bridge .hx-term-lower { top: 80%; }
+  #history-culture-bridge .hx-term-word { font-size: 21px; }
+  #history-culture-bridge .hx-term-motif { width: 112px; height: 90px; }
+  #history-culture-bridge .hx-term-lower .hx-term-motif { top: 66%; width: 86px; height: 69px; }
 }
 @media (max-width: 460px) {
   #slang-history.hx-history { padding: 26px 17px; }
@@ -390,6 +548,8 @@
   #slang-history .hx-mobile-scene .hx-illustration { max-height: 235px; }
 }
 @media (prefers-reduced-motion: reduce) {
+  #history-culture-bridge.hx-chapter-bridge :is(.hx-bridge-context, .hx-bridge-question, .hx-bridge-atmosphere, .hx-bridge-halo, .hx-flow-trace, .hx-bridge-term, .hx-term-word, .hx-term-motif),
+  #history-culture-bridge.hx-chapter-bridge .hx-bridge-term::after { animation: none; }
   #slang-history .hx-scene:not([hidden]) { animation: none; }
   #slang-history .hx-era-nav a, #slang-history .hx-word-tabs button { transition: none; }
   #slang-history .hx-story, #slang-history .hx-source-list > li { scroll-behavior: auto; }

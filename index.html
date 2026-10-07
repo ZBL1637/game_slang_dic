@@ -2768,6 +2768,7 @@
     <link rel="stylesheet" href="assets/legacy-charts.css">
     <link rel="stylesheet" href="assets/history-chapter.css">
     <script defer src="assets/history-chapter.js"></script>
+    <script defer src="assets/bridge-atmosphere.js"></script>
     <script defer src="assets/word-scanner-core.js"></script>
     <script defer src="assets/word-scanner.js"></script>
     <script defer src="assets/dictionary-api.js"></script>
@@ -3151,6 +3152,69 @@
         </section>
 
         <section class="hx-chapter-bridge" id="history-culture-bridge" aria-labelledby="history-culture-question">
+          <div class="hx-bridge-atmosphere" aria-hidden="true">
+            <div class="hx-bridge-halo"></div>
+            <svg class="hx-bridge-flow" viewBox="0 0 1200 640" preserveAspectRatio="none" focusable="false">
+              <defs>
+                <linearGradient id="hx-flow-ink" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0" stop-color="#7f0056" stop-opacity="0"/>
+                  <stop offset=".2" stop-color="#a53ea7" stop-opacity=".55"/>
+                  <stop offset=".46" stop-color="#aa75d4" stop-opacity=".55"/>
+                  <stop offset=".7" stop-color="#ba71d0" stop-opacity=".7"/>
+                  <stop offset="1" stop-color="#7f0056" stop-opacity="0"/>
+                </linearGradient>
+                <radialGradient id="hx-flow-clear" cx="50%" cy="50%" r="50%">
+                  <stop offset="0" stop-color="#000"/>
+                  <stop offset=".4" stop-color="#000" stop-opacity=".92"/>
+                  <stop offset="1" stop-color="#000" stop-opacity="0"/>
+                </radialGradient>
+                <mask id="hx-flow-mask">
+                  <rect width="1200" height="640" fill="#fff"/>
+                  <ellipse cx="600" cy="329" rx="470" ry="125" fill="url(#hx-flow-clear)"/>
+                </mask>
+                <path id="hx-flow-path" d="M-70 500 C170 505 260 425 475 361 S790 158 1270 154"/>
+              </defs>
+              <g mask="url(#hx-flow-mask)" fill="none" stroke="url(#hx-flow-ink)">
+                <use href="#hx-flow-path" class="hx-flow-haze"/>
+                <use href="#hx-flow-path" class="hx-flow-thread"/>
+                <path class="hx-flow-echo" d="M-70 519 C165 518 284 441 477 365 S806 181 1270 180"/>
+                <path class="hx-flow-echo hx-flow-echo-far" d="M-70 486 C192 486 262 407 473 357 S787 132 1270 127"/>
+                <use href="#hx-flow-path" class="hx-flow-trace"/>
+              </g>
+            </svg>
+            <div class="hx-bridge-terms">
+              <div class="hx-bridge-term" style="--x:25%;--y:25%;--mx:25%;--my:25%;--size:34px;--duration:19s;--delay:-2s;--turn:-4deg">
+                <svg class="hx-term-motif" viewBox="0 0 200 160" focusable="false"><use href="assets/bridge-motifs.svg#shield"/></svg>
+                <span class="hx-term-word">破防</span>
+                <span class="hx-term-reading" data-hx-zh="防御 → 情绪" data-hx-en="defense → emotion">防御 → 情绪</span>
+              </div>
+              <div class="hx-bridge-term" style="--x:72%;--y:23%;--mx:74%;--my:23%;--size:36px;--duration:22s;--delay:-5s;--turn:3deg">
+                <svg class="hx-term-motif" viewBox="0 0 200 160" focusable="false"><use href="assets/bridge-motifs.svg#wukong"/></svg>
+                <span class="hx-term-word">悟空</span><span class="hx-term-reading">Wukong</span>
+              </div>
+              <div class="hx-bridge-term hx-term-secondary" style="--x:11%;--y:48%;--size:25px;--duration:24s;--delay:-8s;--turn:-3deg">
+                <svg class="hx-term-motif" viewBox="0 0 200 160" focusable="false"><use href="assets/bridge-motifs.svg#squad"/></svg>
+                <span class="hx-term-word">开黑</span><span class="hx-term-reading">Squad up</span>
+              </div>
+              <div class="hx-bridge-term hx-term-secondary" style="--x:90%;--y:46%;--size:28px;--duration:20s;--delay:-11s;--turn:4deg">
+                <svg class="hx-term-motif" viewBox="0 0 200 160" focusable="false"><use href="assets/bridge-motifs.svg#yaoguai"/></svg>
+                <span class="hx-term-word">妖怪</span><span class="hx-term-reading">yaoguai</span>
+              </div>
+              <div class="hx-bridge-term hx-term-lower" style="--x:22%;--y:75%;--mx:28%;--my:79%;--size:32px;--duration:23s;--delay:-14s;--turn:3deg">
+                <svg class="hx-term-motif" viewBox="0 0 200 160" focusable="false"><use href="assets/bridge-motifs.svg#flash"/></svg>
+                <span class="hx-term-word">秒杀</span>
+                <span class="hx-term-reading" data-hx-zh="战斗 → 购物" data-hx-en="combat → shopping">战斗 → 购物</span>
+              </div>
+              <div class="hx-bridge-term hx-term-secondary" style="--x:49%;--y:84%;--size:23px;--duration:26s;--delay:-17s;--turn:-2deg">
+                <svg class="hx-term-motif" viewBox="0 0 200 160" focusable="false"><use href="assets/bridge-motifs.svg#destiny"/></svg>
+                <span class="hx-term-word">天命人</span><span class="hx-term-reading">the Destined One</span>
+              </div>
+              <div class="hx-bridge-term hx-term-lower" style="--x:78%;--y:73%;--mx:76%;--my:79%;--size:30px;--duration:21s;--delay:-20s;--turn:-3deg">
+                <svg class="hx-term-motif" viewBox="0 0 200 160" focusable="false"><use href="assets/bridge-motifs.svg#staff"/></svg>
+                <span class="hx-term-word">金箍棒</span><span class="hx-term-reading">Jingubang</span>
+              </div>
+            </div>
+          </div>
           <p data-hx-zh="当一个词离开熟悉的游戏，它的意思会随语境改变。" data-hx-en="A word’s meaning can shift when it leaves a familiar game." class="hx-bridge-context">当一个词离开熟悉的游戏，它的意思会随语境改变。</p>
           <h2 data-hx-zh="跨越语言时，这种变化又会怎样发生？" data-hx-en="What happens when it crosses into another language?" class="hx-bridge-question" id="history-culture-question">跨越语言时，这种变化又会怎样发生？</h2>
         </section>
