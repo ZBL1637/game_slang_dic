@@ -49,7 +49,6 @@
       }
     },
     ai: {
-      intro: { zh: "输入游戏术语，查看 AI 辅助解释与使用场景。解释以收录词条为基础；服务暂不可用时，会切换到本地词库的关键词匹配结果。也可以输入释义片段或游戏名称，寻找相关表达。", en: "Enter a gaming term for an AI-assisted explanation and usage context based on dictionary entries. If the service is unavailable, keyword matching in the local dictionary provides a fallback. You can also search a definition fragment or game name." },
       searchAction: { zh: '查询黑话', en: 'Search gaming terms' },
       title: { zh: '🔎 智能词典查询', en: '🔎 Smart Dictionary Search' },
       subtitle: { zh: "AI 辅助解释，结合本地词库查询", en: "AI-assisted explanations with local dictionary lookup" },
@@ -73,9 +72,6 @@
       networkConclusion: {"zh":"“辅助”与“打野”、“氪金”与“肝”、“开荒”与“副本”——这些共现联系，让单个词回到玩家交流的语境中。试着从一个熟悉的词出发，看看它最常与哪些词一起出现。","en":"Pairs such as 辅助–打野, 氪金–肝 and 开荒–副本 place individual terms back into the context of player conversations. Start with a familiar expression and explore the words that accompany it."},
       insightTitle: { zh: '📊 数据解读', en: '📊 Interpretation' },
       timeTitle: { zh: "游戏术语类别的动态分布", en: "Gaming term categories in motion" },
-      intro1: {"zh":"一句“开团”，既是游戏里的行动，也是一群玩家共同理解的信号。把散落在评论中的词语放到一起，我们可以从分类、共现、情感和时间四个角度，观察游戏黑话的使用方式。","en":"A call to “开团” is both an in-game action and a shared signal among players. Classification, co-occurrence, sentiment and time offer four ways to explore the language found in gaming comments."},
-      intro2: {"zh":"先从旭日图看黑话的分类层级，再沿节点之间的连线，看哪些词经常被一起提起。点击图中的分类或词条，可以展开细节；小扇区和不显眼的节点，也能通过选择菜单找到。","en":"Start with the sunburst to explore the classification hierarchy, then follow the network to discover terms mentioned together. Click a category or term for details, or use the menus to reach smaller sectors and nodes."},
-      intro3: {"zh":"接着回到不同游戏，比较它们的用词构成与情感分布，最后观察类别随时间的变化。同一个词放在不同语境里，可能承担完全不同的沟通任务。","en":"Continue with the original game-by-game comparisons of vocabulary and sentiment, followed by changes over time. The same term may serve very different purposes in different contexts."},
       sentiment: {
         neutral: { zh: '中性', en: 'Neutral' },
         positive: { zh: '正面', en: 'Positive' },
