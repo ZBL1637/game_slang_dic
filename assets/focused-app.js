@@ -26,6 +26,10 @@
   window.dictionaryLoadVersion = () => ++loadRevision;
   window.dictionaryLoadIsCurrent = revision => revision === loadRevision;
   window.reloadFocusedDictionary = () => dictionaryReady = loadAllGameData();
+  window.waitForFocusedDictionary = async () => {
+    let pending;
+    do { pending = dictionaryReady; await Promise.all([pending, featuredReady]); } while (pending !== dictionaryReady);
+  };
   window.heroSearchTerm = async (term, game = 'all') => {
     // A language switch may replace the in-flight promise; wait for its newest load.
     let pending;
@@ -154,7 +158,9 @@
       try { window[name]?.(); } catch (error) { console.error(name, error); }
     }
     document.querySelectorAll('.section-photo img').forEach(img => { img.loading = 'lazy'; img.decoding = 'async'; });
-    dictionaryReady = Promise.all([loadAllGameData(), featuredReady]).then(() => { createFloatingWords(); initAISearchFunction(); });
+    // Capture searches immediately; their work waits for the latest language's data.
+    initAISearchFunction();
+    dictionaryReady = Promise.all([loadAllGameData(), featuredReady]).then(() => { createFloatingWords(); });
     // The scanner owns its resize layout and preserves the selected term.
   });
 })();

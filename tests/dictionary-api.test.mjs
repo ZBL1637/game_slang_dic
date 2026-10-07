@@ -4,10 +4,11 @@ import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 import { createWorker } from '../backend/core.mjs';
 
-const [code, html, defaultConfig] = await Promise.all([
+const [code, html, defaultConfig, focusedCode] = await Promise.all([
   readFile(new URL('../assets/dictionary-api.js', import.meta.url), 'utf8'),
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
-  readFile(new URL('../assets/api-config.json', import.meta.url), 'utf8')
+  readFile(new URL('../assets/api-config.json', import.meta.url), 'utf8'),
+  readFile(new URL('../assets/focused-app.js', import.meta.url), 'utf8')
 ]);
 const local = { term: '开黑', definition: '组队游戏', usage: '与朋友组队', examples: ['一起开黑'], context: '游戏', level: '本地词库', synonyms: [] };
 const json = (value, status = 200) => new Response(JSON.stringify(value), { status, headers: { 'Content-Type': 'application/json' } });
@@ -112,15 +113,86 @@ function queryHarness() {
     displayAIResult(value) { rendered.push(value); }, displayAIError(value) { rendered.push({ error: value }); }, alert() {}
   };
   context.i18n = { getLang: () => lang };
-  context.window = { i18n: context.i18n, addEventListener(name, callback) { listeners.set(name, callback); },
+  context.window = { i18n: context.i18n, addEventListener(name, callback) { const list = listeners.get(name) || []; list.push(callback); listeners.set(name, list); },
     gameDictionaryClient: { search(input, result, options) { return new Promise(resolve => requests.push({ input, result, options, resolve })); } } };
   vm.createContext(context);
   vm.runInContext(html.slice(html.indexOf('        let activeSearchTimer'), html.indexOf('        function displayAIResult')), context);
   return { context, requests, rendered, elements, loading,
     run() { const [id, timer] = [...timers].find(([, timer]) => timer.ms === 180); timers.delete(id); return timer.fn(); },
-    language(value) { lang = value; listeners.get('languagechange')(); }, pagehide() { listeners.get('pagehide')(); }
+    language(value) { lang = value; return Promise.all((listeners.get('languagechange') || []).map(callback => callback())); },
+    pagehide() { (listeners.get('pagehide') || []).forEach(callback => callback()); }
   };
 }
+
+function coldDictionaryHarness() {
+  const h = queryHarness(), { context, elements } = h, pendingFetches = new Map(); let ready;
+  for (const element of Object.values(elements)) {
+    const events = new Map();
+    element.addEventListener = (name, handler) => { const list = events.get(name) || []; list.push(handler); events.set(name, list); };
+    element.click = () => { if (!element.disabled) (events.get('click') || []).forEach(handler => handler()); };
+  }
+  Object.assign(context, {
+    console: { log() {}, warn() {}, error(error) { throw error; } },
+    matchMedia: () => ({ matches: false }),
+    IntersectionObserver: class { observe() {} unobserve() {} disconnect() {} },
+    document: { querySelector: () => null, querySelectorAll: () => [], getElementById: id => elements['#' + id] || null,
+      addEventListener(name, callback) { if (name === 'DOMContentLoaded') ready = callback; } },
+    fetch: url => new Promise(resolve => pendingFetches.set(url, resolve)),
+    allGameData: {}, slangData: [], filteredData: [],
+    gameDataConfig: { '三角洲行动': { name: '三角洲行动', color: '#d946ef' } }, gameKeyAliases: {},
+    initGameSelector() {}, categorizeSlang() {}, renderSlangGrid() {}, createWordCloud() {}, displayPopularWords() {}, createFloatingWords() {},
+    CustomEvent: class { constructor(type, options) { this.type = type; this.detail = options.detail; } }
+  });
+  context.window.dispatchEvent = () => {};
+  context.buildLocalSearchResult = query => {
+    const row = context.slangData.find(row => row.slang === query);
+    return row ? { ...local, term: query, definition: row.definition } : null;
+  };
+  vm.runInContext(html.slice(html.indexOf('        async function loadAllGameData'), html.indexOf('        function initGameSelector')), context);
+  vm.runInContext(html.slice(html.indexOf('        function updateCurrentData'), html.indexOf('        // Categorize slang terms')), context);
+  vm.runInContext(html.slice(html.indexOf('        function initAISearchFunction'), html.indexOf('        function setSearchLoading')), context);
+  vm.runInContext(focusedCode, context);
+  // Use the actual language reload/replay handler, including its async completion.
+  const listener = html.slice(html.indexOf('      // Each original chart owns'), html.indexOf('    </script>', html.indexOf('      // Each original chart owns')));
+  vm.runInContext(listener, context);
+  ready();
+  return { ...h,
+    resolve(url, rows) { const done = pendingFetches.get(url); assert.ok(done, 'expected fetch for ' + url); done({ ok: true, json: async () => rows }); },
+    submit(term) { elements['#searchInput'].value = term; elements['#searchBtn'].click(); }
+  };
+}
+const settleMicrotasks = async () => { for (let i = 0; i < 20; i++) await Promise.resolve(); };
+
+test('cold-page search binds before data loads and an immediate language switch waits for the latest dictionary', async () => {
+  const h = coldDictionaryHarness();
+  const languageReady = h.language('en');
+  h.submit('开黑');
+  assert.equal(h.loading.at(-1), true, 'the first click is captured while all dictionary fetches are pending');
+  assert.equal(h.elements['#searchBtn'].disabled, true);
+  const earlySearch = h.run();
+  h.resolve('assets/combined_game_data.json', [{ term: '开黑', game: '三角洲行动', definition: '旧中文解释' }]);
+  h.resolve('assets/featured-terms.json', []);
+  await settleMicrotasks();
+  assert.equal(h.requests.length, 0, 'initial-language completion cannot start the new-language lookup');
+  h.resolve('assets/data_en.json', [{ term: '开黑', game: '三角洲行动', definition: 'Play together as a team.' }]);
+  await languageReady; await settleMicrotasks();
+  await earlySearch;
+  const currentSearch = h.run();
+  await settleMicrotasks();
+  assert.equal(h.requests.length, 1);
+  assert.equal(h.requests[0].input.locale, 'en'); assert.equal(h.requests[0].result.definition, 'Play together as a team.');
+  h.requests[0].resolve({ result: h.requests[0].result, source: 'local' }); await currentSearch;
+  assert.equal(h.rendered.length, 1); assert.equal(h.rendered[0].definition, 'Play together as a team.');
+  assert.equal(h.elements['#searchInput'].value, '开黑'); assert.equal(h.elements['#searchBtn'].disabled, false); assert.equal(h.loading.at(-1), false);
+});
+test('a search waiting for dictionary data is discarded when the page is left, without starting a remote request', async () => {
+  const h = coldDictionaryHarness(); h.submit('开黑'); const pending = h.run();
+  h.pagehide();
+  h.resolve('assets/combined_game_data.json', [{ term: '开黑', game: '三角洲行动', definition: '组队游戏。' }]);
+  h.resolve('assets/featured-terms.json', []);
+  await pending;
+  assert.equal(h.requests.length, 0); assert.equal(h.rendered.length, 0); assert.equal(h.loading.at(-1), false);
+});
 test('the real query entry cannot let an older remote response overwrite a newer query', async () => {
   const h = queryHarness(); h.context.aiSearchTerm('旧查询'); const first = h.run();
   h.context.aiSearchTerm('新查询'); const second = h.run();

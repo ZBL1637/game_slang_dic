@@ -4391,6 +4391,10 @@
             const signal = activeSearchRequest.signal;
 
             activeSearchTimer = setTimeout(async () => {
+                if (window.waitForFocusedDictionary) {
+                    try { await window.waitForFocusedDictionary(); } catch (_) { /* Keep the local/API fallback available after a load error. */ }
+                }
+                if (revision !== activeSearchRevision || signal.aborted || currentGame !== gameId || (window.i18n?.getLang() === 'en' ? 'en' : 'zh') !== locale) return;
                 const local = buildLocalSearchResult(query);
                 let outcome = { result: local, source: 'local' };
                 try {
