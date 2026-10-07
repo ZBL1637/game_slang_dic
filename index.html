@@ -4503,7 +4503,7 @@
                             <div class="ai-section-content ai-examples">
                                 ${examples.map((example, index) =>
                                     `${index + 1}. ${escapeHTML(example)}`
-                                ).join('<br>')}
+                                ).join('<br>') || (currentLanguage === 'en' ? 'No examples available.' : '暂无例句')}
                             </div>
                         </div>
 
