@@ -19,7 +19,7 @@ test('the Worker uses its fixed provider settings and server-side evidence, neve
   assert.equal(calls[0].url, 'https://provider.example.test/v1/chat/completions');
   const body = JSON.parse(calls[0].options.body); assert.equal(body.model, 'test-model'); assert.equal(body.max_tokens, 700);
   const content = JSON.parse(body.messages[1].content); assert.deepEqual(content.evidence.map(item => item.id), ['zh:0']); assert.ok(!JSON.stringify(content).includes('forged'));
-  assert.equal(calls[0].options.redirect, 'error'); assert.equal(calls[0].options.headers.Authorization, 'Bearer not-a-real-key');
+  assert.equal(calls[0].options.redirect, 'manual'); assert.equal(calls[0].options.headers.Authorization, 'Bearer not-a-real-key');
   assert.ok(!JSON.stringify(data).includes('not-a-real-key'));
 });
 test('only the exact allowed origin gets CORS, with a narrow POST preflight', async () => {
@@ -29,6 +29,27 @@ test('only the exact allowed origin gets CORS, with a narrow POST preflight', as
   }
   const preflight = new Request('https://worker.example.test/api/slang/explain', { method: 'OPTIONS', headers: { Origin: 'https://zbl1637.github.io', 'Access-Control-Request-Method': 'POST', 'Access-Control-Request-Headers': 'content-type' } });
   const response = await worker.fetch(preflight, env()); assert.equal(response.status, 204); assert.equal(response.headers.get('Access-Control-Allow-Methods'), 'POST, OPTIONS'); assert.equal(called, false);
+});
+test('the deployed DeepSeek defaults send non-thinking JSON requests while client overrides are ignored', async () => {
+  const config = JSON.parse(await readFile(new URL('../backend/wrangler.jsonc', import.meta.url), 'utf8'));
+  const calls = [], worker = createWorker({ dictionaries, fetch: async (url, options) => { calls.push({ url, options }); return upstream(); } });
+  const response = await worker.fetch(request({ ...input, thinking: { type: 'enabled' }, model: 'client-model', max_tokens: 999999 }), { ...env(), ...config.vars });
+  assert.equal(response.status, 200); assert.equal(calls.length, 1);
+  assert.equal(calls[0].url, 'https://api.deepseek.com/chat/completions');
+  const body = JSON.parse(calls[0].options.body);
+  assert.equal(body.model, 'deepseek-flash'); assert.deepEqual(body.thinking, { type: 'disabled' });
+  assert.equal(body.max_tokens, 700); assert.equal(body.stream, false); assert.deepEqual(body.response_format, { type: 'json_object' });
+  const example = JSON.parse(body.messages[0].content.slice(body.messages[0].content.indexOf('{"term"')));
+  assert.deepEqual(Object.keys(example).sort(), Object.keys(result).sort());
+  assert.equal((await response.json()).result.definition, result.definition);
+});
+test('DeepSeek empty JSON content and truncated content are rejected without retry', async () => {
+  for (const [content, finish_reason] of [['', 'stop'], ['{"term":"开黑"', 'length']]) {
+    let calls = 0;
+    const worker = createWorker({ dictionaries, fetch: async () => { calls++; return new Response(JSON.stringify({ choices: [{ finish_reason, message: { content } }] })); } });
+    const response = await worker.fetch(request(), { ...env(), LLM_BASE_URL: 'https://api.deepseek.com', LLM_MODEL: 'deepseek-flash' });
+    assert.equal(response.status, 502); assert.deepEqual(await response.json(), { error: 'invalid_upstream_result' }); assert.equal(calls, 1);
+  }
 });
 test('single-IP rate limiting rejects before paying for upstream and refuses a missing limiter', async () => {
   let calls = 0, key; const worker = createWorker({ dictionaries, fetch: async () => { calls++; return upstream(); } });
@@ -87,6 +108,17 @@ test('malformed, truncated and oversized provider results are rejected without e
 test('upstream timeout aborts and returns a bounded 504 without retry', async () => {
   let signal, calls = 0; const worker = createWorker({ dictionaries, timeoutMs: 20, fetch: async (_, options) => { calls++; signal = options.signal; return new Promise(() => {}); } });
   const response = await worker.fetch(request(), env()); assert.equal(response.status, 504); assert.equal(signal.aborted, true); assert.equal(calls, 1);
+});
+test('upstream redirects are never followed and their destination and body remain private', async () => {
+  let calls = 0, cancelled = false;
+  const worker = createWorker({ dictionaries, fetch: async (_, options) => {
+    calls++; assert.equal(options.redirect, 'manual');
+    const body = new ReadableStream({ start(controller) { controller.enqueue(new TextEncoder().encode('private upstream redirect body')); }, cancel() { cancelled = true; } });
+    return new Response(body, { status: 302, headers: { Location: 'https://other-provider.invalid/private' } });
+  } });
+  const response = await worker.fetch(request(), env());
+  assert.equal(response.status, 502); assert.deepEqual(await response.json(), { error: 'upstream_unavailable' });
+  assert.equal(response.headers.get('location'), null); assert.equal(calls, 1); assert.equal(cancelled, true);
 });
 test('caller cancellation reaches the upstream controller and does not return a successful explanation', async () => {
   const controller = new AbortController(); let signal, began;

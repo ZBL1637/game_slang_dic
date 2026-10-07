@@ -15,8 +15,15 @@ function client(fetcher, { fastTimeout = false } = {}) {
   vm.createContext(context); vm.runInContext(code, context);
   return { api: context.GameDictionaryAPI, instance: context.GameDictionaryAPI.createClient({ fetch: fetcher, baseURL: 'https://zbl1637.github.io/game_slang_dic/' }) };
 }
-test('the default published configuration performs local search without an external request', async () => {
-  const config = JSON.parse(defaultConfig); assert.equal(config.endpoint, ''); assert.deepEqual(Object.keys(config).sort(), ['endpoint', 'timeoutMs', 'version']);
+test('site configuration contains only the known public endpoint and client settings', () => {
+  const config = JSON.parse(defaultConfig);
+  assert.deepEqual(Object.keys(config).sort(), ['endpoint', 'timeoutMs', 'version']);
+  assert.ok(['', 'https://game-slang-api.zbl1637wddy.workers.dev/api/slang/explain'].includes(config.endpoint));
+  assert.equal(config.version, 1);
+  assert.ok(config.timeoutMs >= 2000 && config.timeoutMs <= 30000);
+});
+test('an empty endpoint performs local search without an external request', async () => {
+  const config = { version: 1, endpoint: '', timeoutMs: 18000 };
   const requests = [], c = client(async url => { requests.push(String(url)); return json(config); });
   const result = await c.instance.search({ query: '开黑', locale: 'zh' }, local);
   assert.equal(result.result, local); assert.equal(result.source, 'local');

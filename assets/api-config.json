@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "endpoint": "",
+  "endpoint": "https://game-slang-api.zbl1637wddy.workers.dev/api/slang/explain",
   "timeoutMs": 18000
 }

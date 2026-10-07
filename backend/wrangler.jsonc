@@ -3,10 +3,11 @@
   "name": "game-slang-api",
   "main": "worker.js",
   "compatibility_date": "2026-10-07",
+  "compatibility_flags": ["enable_request_signal"],
   "vars": {
     "ALLOWED_ORIGIN": "https://zbl1637.github.io",
-    "LLM_BASE_URL": "",
-    "LLM_MODEL": ""
+    "LLM_BASE_URL": "https://api.deepseek.com",
+    "LLM_MODEL": "deepseek-flash"
   },
   "ratelimits": [
     {
