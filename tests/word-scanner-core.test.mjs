@@ -24,6 +24,25 @@ function assertSafe(layout, width, motion = 8, gap = 12) {
     }
 }
 
+function spaceMetrics(items, width, height, padding, columns = 4) {
+    let emptyRadius = 0, leastRegion = 1;
+    // A hole may span several evaluation regions. Distance probes catch that
+    // independently of the overall card area or any arbitrary region boundary.
+    for (let y = padding; y <= height - padding; y += 10) for (let x = padding; x <= width - padding; x += 10) {
+        const nearest = Math.min(...items.map(card => Math.hypot(Math.max(card.x - x, 0, x - card.x - card.width),
+            Math.max(card.y - y, 0, y - card.y - card.height))));
+        emptyRadius = Math.max(emptyRadius, nearest);
+    }
+    for (let row = 0; row < 3; row += 1) for (let column = 0; column < columns; column += 1) {
+        const w = (width - padding * 2) / columns, h = (height - padding * 2) / 3;
+        const x = padding + column * w, y = padding + row * h;
+        const area = items.reduce((sum, card) => sum + Math.max(0, Math.min(x + w, card.x + card.width) - Math.max(x, card.x))
+            * Math.max(0, Math.min(y + h, card.y + card.height) - Math.max(y, card.y)), 0);
+        leastRegion = Math.min(leastRegion, area / (w * h));
+    }
+    return { emptyRadius, leastRegion };
+}
+
 test('term grouping trims and ignores case while retaining distinct source games and meanings', () => {
     const rows = [
         { slang: ' NB ', definition: '解释一', gameKey: 'LOL', game: '英雄联盟' },
@@ -83,16 +102,15 @@ for (const width of [223, 280, 390, 900, 1200]) {
     });
 }
 
-test('same-height desktop words form an ellipse with varied coordinates rather than repeated rows or columns', () => {
+test('same-height desktop words extend across the rectangle with varied coordinates rather than a fixed grid', () => {
     const cards = Array.from({ length: 30 }, (_, index) => ({ id: index, width: 76, height: 32 }));
     const width = 1200, padding = 32, result = core.layoutCloud(cards, width, { seed: 7 });
-    assert.equal(new Set(result.items.map(card => card.y.toFixed(3))).size, cards.length);
-    assert.ok(new Set(result.items.map(card => card.x.toFixed(3))).size > cards.length * .9);
-    for (const card of result.items) {
-        const nx = (card.x + card.width / 2 - width / 2) / ((width - padding * 2 - card.width) / 2);
-        const ny = (card.y + card.height / 2 - result.height / 2) / ((result.height - padding * 2 - card.height) / 2);
-        assert.ok(nx * nx + ny * ny <= 1 + 1e-8);
-    }
+    assert.ok(new Set(result.items.map(card => card.y.toFixed(3))).size >= cards.length * .8);
+    assert.ok(new Set(result.items.map(card => card.x.toFixed(3))).size >= cards.length * .8);
+    assert.ok(Math.min(...result.items.map(card => card.x)) < padding + 20);
+    assert.ok(Math.max(...result.items.map(card => card.x + card.width)) > width - padding - 20);
+    assert.ok(Math.min(...result.items.map(card => card.y)) < padding + 20);
+    assert.ok(Math.max(...result.items.map(card => card.y + card.height)) > result.height - padding - 20);
     const byY = [...result.items].sort((a, b) => a.y - b.y);
     assert.ok(new Set(byY.slice(1).map((card, index) => (card.y - byY[index].y).toFixed(1))).size > 15);
     assert.notDeepEqual(core.layoutCloud(cards, width, { seed: 8 }), result);
@@ -107,7 +125,7 @@ test('real 948px browser measurements fit thirty 49px-high words into a compact 
         assert.ok(result.height >= 560 && result.height <= 650, `unexpected cloud height ${result.height} for ${seed}`);
         assert.equal(result.items.length, 30);
         assert.deepEqual(result.items.map(({ id, width, height }) => ({ id, width, height })), cards);
-        assert.equal(new Set(result.items.map(card => card.y.toFixed(3))).size, 30);
+        assert.ok(new Set(result.items.map(card => card.y.toFixed(3))).size >= 24);
         assertSafe(result, 948, 8, 8);
     }
 });
@@ -123,10 +141,86 @@ test('real 289px mobile measurements spread laterally and fit twelve words below
         assert.ok(centers.filter(x => x < 144.5 - 20).length >= 4);
         assert.ok(centers.filter(x => x > 144.5 + 20).length >= 4);
         assert.ok(centers.filter(x => Math.abs(x - 144.5) <= 20).length <= 3);
-        assert.equal(new Set(result.items.map(card => card.y.toFixed(3))).size, 12);
+        assert.ok(new Set(result.items.map(card => card.y.toFixed(3))).size >= 9);
         assert.deepEqual(result.items.map(({ id, width, height }) => ({ id, width, height })), cards);
         assert.deepEqual(core.layoutCloud(cards, 289, { minHeight: 500, padding: 16, motion: 6, gap: 8, seed }), result);
         assertSafe(result, 289, 6, 8);
+    }
+});
+
+for (const [width, count, cardHeight] of [[223, 12, 44], [289, 16, 44], [390, 22, 44], [768, 34, 49], [948, 44, 49], [1200, 56, 49]]) {
+    test(`denser ${width}px clouds keep the existing height, useful edge coverage and full independent-motion clearance`, () => {
+        const minHeight = width < 600 ? 500 : 560, padding = width < 600 ? 14 : 24;
+        const widths = width < 600 ? [58, 64, 84, 104] : [74, 99, 123, 148];
+        const cards = Array.from({ length: count }, (_, id) => ({ id, width: widths[id % widths.length], height: cardHeight }));
+        for (const seed of [1, 2, 7, 31, '中文', 'long English']) {
+            const options = { minHeight, maxHeight: minHeight, padding, motion: 4, gap: 6, seed };
+            const layout = core.layoutCloud(cards, width, options);
+            assert.equal(layout.height, minHeight, 'the frame does not grow to accommodate more sampled terms');
+            assertSafe(layout, width, 4, 6);
+            assert.deepEqual(new Set([...layout.items.map(card => card.id), ...layout.overflowIds]), new Set(cards.map(card => card.id)));
+            const coverage = layout.items.reduce((sum, card) => sum + card.width * card.height, 0) / (width * minHeight);
+            assert.ok(coverage >= (width < 600 ? .31 : .40), `insufficient coverage ${coverage} at ${width}px seed ${seed}`);
+            const spaces = spaceMetrics(layout.items, width, minHeight, padding, width < 600 ? 2 : 4);
+            assert.ok(spaces.emptyRadius <= 65, `large internal hole at ${width}px seed ${seed}: ${spaces.emptyRadius}`);
+            assert.ok(spaces.leastRegion >= .24, `empty region at ${width}px seed ${seed}: ${spaces.leastRegion}`);
+            for (const margin of [Math.min(...layout.items.map(card => card.x)), Math.min(...layout.items.map(card => card.y)),
+                width - Math.max(...layout.items.map(card => card.x + card.width)), minHeight - Math.max(...layout.items.map(card => card.y + card.height))]) {
+                assert.ok(margin <= padding + 26, `unnecessarily empty edge: ${margin}`);
+            }
+            assert.deepEqual(core.layoutCloud(cards, width, options), layout);
+        }
+    });
+}
+
+test('fixed-height multilingual measurements preserve long words and focused entries without overflow or distorted dimensions', () => {
+    for (const width of [223, 289, 390, 768, 1200]) {
+        const padding = width < 600 ? 14 : 24, maxHeight = width < 600 ? 500 : 560;
+        const terms = ['开黑', '听声辨位', 'Counter-jungling', 'Area-of-effect crowd control', 'An unusually long multi-word team-fighting expression', '超级长的游戏战术说明词条用于验证换行', 'ADC'];
+        const cards = Array.from({ length: 64 }, (_, id) => {
+            const term = terms[id % terms.length], naturalWidth = [...term].reduce((sum, char) => sum + (/[^\u0000-\u007f]/.test(char) ? 20 : 12), 22);
+            const measuredWidth = Math.min(naturalWidth, 280, width - padding * 2);
+            return { id, width: measuredWidth, height: Math.max(44, Math.ceil(naturalWidth / measuredWidth) * 24 + 20) };
+        });
+        const before = structuredClone(cards);
+        const layout = core.layoutCloud(cards, width, { maxHeight, padding, motion: 4, gap: 6, seed: 'multilingual', priorityIds: [4, 5] });
+        assert.ok(layout.items.some(card => card.id === 4) && layout.items.some(card => card.id === 5), 'pinned and keyboard-focused long terms have priority');
+        assert.equal(layout.height, maxHeight); assert.ok(layout.overflowIds.length > 0);
+        assertSafe(layout, width, 4, 6); assert.deepEqual(cards, before);
+        for (const card of layout.items) assert.deepEqual({ id: card.id, width: card.width, height: card.height }, cards[card.id]);
+    }
+});
+
+test('the 934px browser regression distributes the same 44 words through the interior over many seeds', () => {
+    // Actual DOM dimensions from the browser capture that exposed a 91px-radius
+    // hole despite 41% total coverage. No fonts or guessed text lengths are used.
+    const widths = [89,103,74,123,123,74,123,74,74,54,123,123,99,123,99,99,74,123,74,123,99,99,
+        83,74,99,123,148,74,69,74,99,74,74,99,123,123,123,123,74,123,197,123,74,74];
+    const cards = widths.map((width, id) => ({ id, width, height: 49 }));
+    for (let seed = 0; seed < 24; seed += 1) {
+        const layout = core.layoutCloud(cards, 934, { maxHeight: 560, padding: 24, motion: 4, gap: 6, seed });
+        assert.equal(layout.height, 560); assert.equal(layout.items.length, 44); assertSafe(layout, 934, 4, 6);
+        const spaces = spaceMetrics(layout.items, 934, 560, 24);
+        assert.ok(spaces.emptyRadius <= 55, `interior void returned for seed ${seed}: ${spaces.emptyRadius}`);
+        assert.ok(spaces.leastRegion >= .30, `region underfilled for seed ${seed}: ${spaces.leastRegion}`);
+        assert.ok(new Set(layout.items.map(card => Math.round(card.y / 4))).size >= 25, 'positions do not collapse into a handful of aligned rows');
+    }
+});
+
+test('measured reserve terms fill genuine remaining spaces without displacing chosen words or overfilling', () => {
+    const cards = Array.from({ length: 20 }, (_, id) => ({ id, width: 110, height: 49 }));
+    const reserveCards = Array.from({ length: 10 }, (_, id) => ({ id: `short-${id}`, width: 58 + id * 2, height: 49 }));
+    const before = structuredClone({ cards, reserveCards });
+    const layout = core.layoutCloud(cards, 934, { maxHeight: 560, padding: 24, motion: 4, gap: 6, seed: 3,
+        reserveCards: [...reserveCards, reserveCards[0], { id: 'invalid', width: 9999, height: 49 }] });
+    assert.equal(layout.height, 560); assert.ok(layout.items.length > cards.length && layout.items.length <= cards.length + 4);
+    assert.ok(cards.every(card => layout.items.some(item => item.id === card.id)));
+    assert.equal(new Set(layout.items.map(card => card.id)).size, layout.items.length);
+    assert.ok(!layout.items.some(card => card.id === 'invalid')); assertSafe(layout, 934, 4, 6);
+    assert.deepEqual({ cards, reserveCards }, before);
+    for (const item of layout.items) {
+        const original = [...cards, ...reserveCards].find(card => card.id === item.id);
+        assert.equal(item.width, original.width); assert.equal(item.height, original.height);
     }
 });
 

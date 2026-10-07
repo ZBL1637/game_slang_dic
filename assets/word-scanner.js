@@ -183,7 +183,7 @@
         detailFrame = 0; positionDetail();
       });
     }
-    function countFor(width) { return width < 600 ? 12 : 30; }
+    function countFor(width) { return Math.max(12, Math.min(64, Math.round(width / 18))); }
     function colorFor(group, index) {
       const colors = options.colors || {};
       const palette = Array.isArray(colors) ? colors : Object.values(colors);
@@ -193,8 +193,11 @@
       const count = Math.min(groups.length, countFor(width));
       if (pool.length < count) pool.push(...core.sampleGroups(groups, count - pool.length, pool.map(item => item.key)));
       shown = pool.slice(0, count);
-      if (pinnedKey && !shown.some(item => item.key === pinnedKey) && shown.length) {
-        const fixed = pool.find(item => item.key === pinnedKey); if (fixed) shown[shown.length - 1] = fixed;
+      const retained = [...new Set([pinnedKey, buttonFor(doc.activeElement)?.dataset.key].filter(Boolean))];
+      for (const key of retained) if (!shown.some(item => item.key === key) && shown.length) {
+        const fixed = pool.find(item => item.key === key);
+        const replace = shown.findLastIndex(item => !retained.includes(item.key));
+        if (fixed && replace >= 0) shown[replace] = fixed;
       }
       const wanted = new Set(shown.map(item => item.key));
       for (const [key, button] of buttons) if (!wanted.has(key)) { button.remove(); buttons.delete(key); }
@@ -206,9 +209,9 @@
           button.appendChild(make('span', 'ws-word-face', group.term)); buttons.set(group.key, button);
         }
         button.style.setProperty('--word-color', colorFor(group, index));
-        button.style.setProperty('--drift-scale', width < 600 ? '.5' : '1');
-        button.style.setProperty('--drift-x', `${1.5 + (index % 4) * .5}px`);
-        button.style.setProperty('--drift-y', `${5 + index % 4}px`);
+        button.style.setProperty('--drift-scale', width < 600 ? '.75' : '1');
+        button.style.setProperty('--drift-x', `${1 + (index % 4) * .4}px`);
+        button.style.setProperty('--drift-y', `${2.5 + (index % 4) * .5}px`);
         button.style.setProperty('--drift-direction', index % 2 ? 'reverse' : 'normal');
         button.style.setProperty('--drift-duration', `${9 + index % 6}s`);
         button.style.setProperty('--drift-delay', `${(-index * 1.73 - .4).toFixed(2)}s`);
@@ -222,14 +225,34 @@
     }
     function layout() {
       if (destroyed || suspended || !field.clientWidth) return;
-      const width = field.clientWidth, padding = width < 600 ? 16 : 32;
+      const width = field.clientWidth, padding = width < 600 ? 14 : 24;
+      const minHeight = width < 600 ? 500 : 560, motion = 4, gap = 6, clearance = motion * 2 + gap;
       lastWidth = width; renderWords(width);
       hint.textContent = width < 600 ? text('点击词条解析，点空白处收起', 'Tap a term to read. Tap outside to close.') : text('移动扫描，点击解析', 'Move to scan. Click to read.');
-      const cards = shown.map(group => {
-        const button = buttons.get(group.key); button.style.maxWidth = `${Math.max(1, width - padding * 2)}px`;
+      const measured = shown.map(group => {
+        const button = buttons.get(group.key); button.style.maxWidth = `${Math.max(1, Math.min(280, width - padding * 2))}px`;
         return { id: group.key, width: button.offsetWidth, height: button.offsetHeight };
       });
-      const cloud = core.layoutCloud(cards, width, { minHeight: width < 600 ? 500 : 560, padding, motion: width < 600 ? 6 : 8, gap: 8, seed: pool.map(item => item.key).join('|') });
+      // Real font measurements determine capacity, so long English terms wrap
+      // without making a mobile field several screens tall. Never discard focus.
+      const retained = new Set([pinnedKey, buttonFor(doc.activeElement)?.dataset.key].filter(Boolean));
+      const areaOf = card => (card.width + clearance) * (card.height + clearance);
+      const budget = Math.max(0, width - padding * 2) * (minHeight - padding * 2) * .70;
+      const selected = new Set(measured.filter(card => retained.has(card.id)).map(card => card.id));
+      let area = measured.filter(card => selected.has(card.id)).reduce((sum, card) => sum + areaOf(card), 0);
+      for (const card of measured) if (!selected.has(card.id) && (area + areaOf(card) <= budget || !selected.size)) {
+        selected.add(card.id); area += areaOf(card);
+      }
+      const cards = measured.filter(card => selected.has(card.id));
+      const cloud = core.layoutCloud(cards, width, { minHeight, maxHeight: minHeight, padding, motion, gap,
+        reserveCards: measured.filter(card => !selected.has(card.id)),
+        priorityIds: [...retained], seed: pool.map(item => item.key).join('|') });
+      const fitted = new Set(cloud.items.map(card => card.id));
+      shown = shown.filter(group => fitted.has(group.key));
+      for (const [key, button] of buttons) if (!fitted.has(key)) { button.remove(); buttons.delete(key); }
+      if (scannedKey && !buttons.has(scannedKey)) scannedKey = null;
+      const stride = Math.max(1, Math.ceil(shown.length / (width < 600 ? 12 : 24)));
+      shown.forEach((group, index) => buttons.get(group.key).classList.toggle('ws-drifting', index % stride === 0));
       layoutItems = cloud.items;
       for (const item of layoutItems) { const button = buttons.get(item.id); button.style.left = `${item.x}px`; button.style.top = `${item.y}px`; }
       field.style.height = `${Math.max(120, cloud.height)}px`;
@@ -326,6 +349,8 @@
     }
     const api = { destroy, relayout: queueLayout, getState: () => ({ destroyed, suspended, scannedKey, pinnedKey,
       keys: shown.map(item => item.key), wordCount: buttons.size, pointerInside,
+      width: field.clientWidth, height: field.clientHeight, layout: layoutItems.map(item => ({ ...item })),
+      coverage: layoutItems.reduce((sum, item) => sum + item.width * item.height, 0) / Math.max(1, field.clientWidth * field.clientHeight),
       pendingFrames: Number(Boolean(scanFrame)) + Number(Boolean(layoutFrame)) + Number(Boolean(detailFrame)) }) };
     connect(); syncMotion(); return { update, api };
   }
@@ -339,6 +364,7 @@
     destroy(container) {
       if (container) instances.get(container)?.api.destroy();
       else [...instances.values()].forEach(instance => instance.api.destroy());
-    }
+    },
+    getState(container) { return instances.get(container)?.api.getState() || null; }
   };
 })();

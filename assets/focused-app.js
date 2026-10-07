@@ -16,7 +16,11 @@
     if (!cache.has(lang)) cache.set(lang, fetch(lang === 'en' ? 'assets/data_en.json' : 'assets/combined_game_data.json').then(r => {
       if (!r.ok) throw new Error(`Dictionary HTTP ${r.status}`);
       return r.json();
-    }).catch(error => { cache.delete(lang); throw error; }));
+    }).then(rows => rows.flatMap(row => {
+      // Numeric slang such as 666/233 is valid when it has a definition.
+      const term = typeof row.term === 'string' ? row.term.trim() : typeof row.term === 'number' && Number.isFinite(row.term) ? String(row.term) : '';
+      return term && typeof row.definition === 'string' && row.definition.trim() ? [{ ...row, term, definition: row.definition.trim() }] : [];
+    })).catch(error => { cache.delete(lang); throw error; }));
     return cache.get(lang);
   };
   window.dictionaryLoadVersion = () => ++loadRevision;
@@ -150,7 +154,7 @@
       try { window[name]?.(); } catch (error) { console.error(name, error); }
     }
     document.querySelectorAll('.section-photo img').forEach(img => { img.loading = 'lazy'; img.decoding = 'async'; });
-    dictionaryReady = Promise.all([loadAllGameData(), featuredReady]).then(() => { createFloatingWords(); displayPopularWords(); initAISearchFunction(); });
+    dictionaryReady = Promise.all([loadAllGameData(), featuredReady]).then(() => { createFloatingWords(); initAISearchFunction(); });
     // The scanner owns its resize layout and preserves the selected term.
   });
 })();

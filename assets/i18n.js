@@ -28,17 +28,14 @@
         zh: "主播的造梗能力与弹幕的即时玩梗，形成了'黑话'的狂欢广场。'芜湖起飞'、'肉蛋葱鸡'……一个操作，一个口误，都能在瞬间成为全网热词。“黑话”从游戏圈破壁，通过表情包和群聊入侵日常。'肝论文'、'今天又非了'——游戏词汇被赋予了全新的生活化内涵。",
         en: "Streamers' knack for coining memes, paired with viewers' real-time riffing in danmu (bullet chats), has turned the space into a carnival for gaming slang. 'Wuhu, take off!', 'meat-egg-scallion chicken' — a single move or a slip of the tongue can go viral in seconds. This slang has broken out of the gaming circle, infiltrating everyday life through memes and group chats. 'grind a thesis', 'got unlucky again today' — game vocabulary is being repurposed with fresh, everyday meanings."
       },
-      intro2: {
-        zh: "我们在国内最大的游戏玩家聚集地之一的Bilibili（B站）爬取了不同游戏tag的视频下超过10万条评论，结合大家自行添加的游戏“黑话”，整理出了一份实时产生、实时更新的游戏“黑话词典”。",
-        en: "On Bilibili, one of China's largest hubs for gamers, we scraped over 100,000 comments under videos across different game tags. Combined with user-submitted entries, we compiled a gaming slang dictionary that is generated and updated in real time."
-      }
+      intro2: { zh: "我们在 Bilibili（B站）不同游戏 tag 的视频下采集了超过10万条评论，并结合补充的游戏黑话，整理成这份游戏黑话词典。你可以按游戏浏览词条，也可以查询它们的含义与使用场景。", en: "We collected over 100,000 comments under videos with different game tags on Bilibili and combined them with additional gaming terms to build this dictionary. Browse by game or look up meanings and usage contexts." }
     },
     selector: {
       label: { zh: '选择游戏：', en: 'Select Game:' },
       all: { zh: '所有游戏', en: 'All Games' }
     },
     stats: {
-      slangs: { zh: '黑话词汇', en: 'Slang Terms' },
+      slangs: { zh: "当前收录条目", en: "Entries in this view" },
       gamers: { zh: '游戏玩家', en: 'Gamers' },
       gamersValue: { zh: '6亿+', en: '600M+' },
       years: { zh: '年演变', en: 'Years of Evolution' }
@@ -52,15 +49,13 @@
       }
     },
     ai: {
-      intro: {
-        zh: '我们基于整理后的游戏黑话词库，构建了本地语义检索系统。输入术语、解释片段或游戏名称后，系统会在词库中匹配相关词条，并展示释义、使用场景、关联游戏与相近词，帮助读者快速理解玩家社群的语言脉络。',
-        en: 'We built a local semantic lookup over the curated gaming slang dictionary. Enter a term, definition fragment, or game name to match relevant entries and review meanings, usage context, source games, and related terms.'
-      },
+      intro: { zh: "输入游戏术语，查看 AI 辅助解释与使用场景。解释以收录词条为基础；服务暂不可用时，会切换到本地词库的关键词匹配结果。也可以输入释义片段或游戏名称，寻找相关表达。", en: "Enter a gaming term for an AI-assisted explanation and usage context based on dictionary entries. If the service is unavailable, keyword matching in the local dictionary provides a fallback. You can also search a definition fragment or game name." },
+      searchAction: { zh: '查询黑话', en: 'Search gaming terms' },
       title: { zh: '🔎 智能词典查询', en: '🔎 Smart Dictionary Search' },
-      subtitle: { zh: '输入游戏术语，基于本地词库查看解释和使用场景', en: 'Enter a gaming term to search meanings and usage in the local dictionary.' },
+      subtitle: { zh: "AI 辅助解释，结合本地词库查询", en: "AI-assisted explanations with local dictionary lookup" },
       placeholder: { zh: '请输入游戏黑话，如：躺平、卷王、开黑...', en: 'Type a gaming slang, e.g., AFK, carry, scrim...' },
-      loading: { zh: '正在检索词库...', en: 'Searching dictionary...' },
-      popular: { zh: '🔥 热门推荐', en: '🔥 Trending Terms' }
+      loading: { zh: "正在查找词条与解释…", en: "Finding terms and explanations…" },
+      popular: { zh: "✦ 随机发现", en: "✦ Explore terms" }
     },
     charts: {
       sunburstTitle: {"zh":"游戏黑话，如何分门别类？","en":"How is gaming slang organized?"},
@@ -77,7 +72,7 @@
       sunburstConclusion: {"zh":"在这份分类数据中，“游戏玩法用语”的权重最大。继续展开，可以看到通用表达与不同游戏类型的具体用词。一个熟悉的词既有自己的位置，也与更大的玩法语境相连。","en":"Gameplay vocabulary has the largest weight in this classification dataset. Explore it to see general expressions alongside terms associated with different game types. Each familiar term sits within a broader gameplay context."},
       networkConclusion: {"zh":"“辅助”与“打野”、“氪金”与“肝”、“开荒”与“副本”——这些共现联系，让单个词回到玩家交流的语境中。试着从一个熟悉的词出发，看看它最常与哪些词一起出现。","en":"Pairs such as 辅助–打野, 氪金–肝 and 开荒–副本 place individual terms back into the context of player conversations. Start with a familiar expression and explore the words that accompany it."},
       insightTitle: { zh: '📊 数据解读', en: '📊 Interpretation' },
-      timeTitle: { zh: '游戏类别使用随时间怎么变化的呢？', en: 'How do category usages change over time?' },
+      timeTitle: { zh: "游戏术语类别的动态分布", en: "Gaming term categories in motion" },
       intro1: {"zh":"一句“开团”，既是游戏里的行动，也是一群玩家共同理解的信号。把散落在评论中的词语放到一起，我们可以从分类、共现、情感和时间四个角度，观察游戏黑话的使用方式。","en":"A call to “开团” is both an in-game action and a shared signal among players. Classification, co-occurrence, sentiment and time offer four ways to explore the language found in gaming comments."},
       intro2: {"zh":"先从旭日图看黑话的分类层级，再沿节点之间的连线，看哪些词经常被一起提起。点击图中的分类或词条，可以展开细节；小扇区和不显眼的节点，也能通过选择菜单找到。","en":"Start with the sunburst to explore the classification hierarchy, then follow the network to discover terms mentioned together. Click a category or term for details, or use the menus to reach smaller sectors and nodes."},
       intro3: {"zh":"接着回到不同游戏，比较它们的用词构成与情感分布，最后观察类别随时间的变化。同一个词放在不同语境里，可能承担完全不同的沟通任务。","en":"Continue with the original game-by-game comparisons of vocabulary and sentiment, followed by changes over time. The same term may serve very different purposes in different contexts."},
@@ -123,22 +118,10 @@
         '魔兽世界': { zh: '魔兽世界', en: 'World of Warcraft' },
         '文明6': { zh: '文明6', en: 'Civilization VI' }
       },
-      chart1Conclusion: {
-        zh: '从游戏黑话类型使用频率我们不难发现，行为类术语占据各大游戏的主要术语使用。但个别游戏如”原神“”鸣朝“之类的RPG游戏等职业类术语占据较大使用份额',
-        en: 'Usage frequency shows behavior terms dominate across games, while some RPGs (e.g., Genshin, Wuthering Waves) exhibit higher shares of class/profession terms.'
-      },
-      chart2Conclusion: {
-        zh: '从各游戏术语情感分布可以看出，中性术语占据主流，主要用于日常交流和行为描述。然而，正面和负面术语的分布比例与游戏类型和社区氛围密切相关，竞技类游戏往往呈现更强烈的情感极化现象。',
-        en: 'Sentiment distributions indicate neutral terms dominate routine communication, while the shares of positive/negative terms vary by genre and community—competitive titles often show stronger polarization.'
-      },
-      chart3Conclusion: {
-        zh: '从类别情感雷达图中我们发现，负面情绪主要集中在机制类术语上，这反映了玩家对游戏平衡性、bug修复和体验优化的强烈关注。这种现象揭示了玩家与游戏开发者之间的互动关系。',
-        en: 'The category sentiment radar shows negatives cluster around mechanics, reflecting players’ focus on balance, bug fixing and UX optimizations—highlighting dynamics between players and devs.'
-      },
-      chart4Conclusion: {
-        zh: '多游戏术语分布雷达图展现了不同游戏类型的语言特色：MOBA游戏注重团队协作术语，FPS游戏强调战术定位词汇，RPG游戏突出角色职业概念，体现了游戏机制对语言文化的深刻影响。',
-        en: 'The multi‑game radar highlights linguistic features by genre: MOBA emphasizes team‑coordination terms, FPS stresses tactical positioning, RPG foregrounds class concepts—showing how mechanics shape language.'
-      }
+      chart1Conclusion: { zh: "这份样本覆盖14款游戏。许多游戏的行为类词条占比较高，原神、鸣潮等游戏的职业类词条也较突出。图中比较的是各游戏样本内的词条构成比例，可以结合图例与数值明细逐类查看。", en: "This sample covers 14 games. Behavior terms make up a large share in many games, while class-related terms stand out in games such as Genshin Impact and Wuthering Waves. These percentages describe the composition of each game sample; use the legend and data table to compare categories." },
+      chart2Conclusion: { zh: "多数游戏样本中，中性词条占比较高，但不同游戏的分布并不相同。例如，CSGO 的中性比例为93.81%，原神的正面比例为67.63%。这些差异描述当前词条的情感标注分布，不能直接等同于整个玩家社区的情绪。", en: "Neutral entries make up a large share in most game samples, but the distributions differ: CSGO is 93.81% neutral, while Genshin Impact is 67.63% positive. These values describe sentiment labels in the current entries, rather than the mood of an entire player community." },
+      chart3Conclusion: { zh: "按类别分别比较情感比例，机制类词条的负面比例最高，为30.5%；地图/副本类的中性比例为94.7%。这些比例体现不同类别的标注差异，具体词语表达什么，仍要放回使用语境中理解。", en: "Comparing sentiment within each category, mechanics has the highest negative share at 30.5%, while maps/dungeons is 94.7% neutral. These are differences between labeled categories; individual meanings still depend on context." },
+      chart4Conclusion: { zh: "这组雷达图展示12款游戏的分类构成，与前面的14款游戏总览相比，未包含魔兽世界和鸣潮。沿同一条轴比较不同游戏，或打开数值明细，可以更清楚地看到行为、职业、装备等类别的占比差异。", en: "These radar charts cover 12 games, excluding World of Warcraft and Wuthering Waves from the earlier 14-game overview. Compare the same axis across games, or open the data table, to inspect differences in behavior, classes, equipment and other categories." }
     }
     ,
     timeline: {

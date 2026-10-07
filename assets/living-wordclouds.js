@@ -55,7 +55,10 @@
     const host = document.querySelector(config.selector);
     if (!host || host.classList.contains('wc-live')) continue;
     const svg = make('svg', { viewBox: '0 0 360 405', class: 'wc-art', role: 'img', 'aria-labelledby': `wc-${config.key}-title wc-${config.key}-desc` });
-    svg.append(make('title', { id: `wc-${config.key}-title` }, `${config.name}游戏黑话词云`));
+    const title = make('title', { id: `wc-${config.key}-title` });
+    const translateTitle = () => { title.textContent = window.i18n?.getLang() === 'en' ? `${config.key === 'delta' ? 'Delta Force' : 'League of Legends'} gaming slang word cloud` : `${config.name}游戏黑话词云`; };
+    translateTitle(); on(window, 'languagechange', translateTitle);
+    svg.append(title);
     svg.append(make('desc', { id: `wc-${config.key}-desc` }, config.words.map(word => word[0]).join('、')));
     const emblem = make('g', { class: 'wc-emblem', 'aria-hidden': 'true' });
     if (config.key === 'delta') {

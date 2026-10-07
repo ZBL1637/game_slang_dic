@@ -6,8 +6,7 @@
     <title>赛博词典：游戏场景如何塑造我们的"黑话DNA" | Chinese Gaming Slang Data Visualization</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23000000'/%3E%3Ctext x='50%25' y='56%25' text-anchor='middle' font-size='34' fill='%23d946ef' font-family='Arial,sans-serif'%3EG%3C/text%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="assets/vendor/echarts-5.4.3.min.js"></script>
-    <script src="assets/vendor/d3-7.9.0.min.js"></script>
+    <script defer src="assets/vendor/echarts-5.4.3.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -2766,6 +2765,7 @@
     <link rel="stylesheet" href="assets/focused-ui.css">
     <link rel="stylesheet" href="assets/word-scanner.css">
     <link rel="stylesheet" href="assets/slang-charts.css">
+    <link rel="stylesheet" href="assets/legacy-charts.css">
     <link rel="stylesheet" href="assets/history-chapter.css">
     <script defer src="assets/history-chapter.js"></script>
     <script defer src="assets/word-scanner-core.js"></script>
@@ -2774,6 +2774,7 @@
     <script defer src="assets/focused-app.js"></script>
     <script defer src="assets/culture-exhibit.js"></script>
     <script defer src="assets/home-refinements.js"></script>
+    <script defer src="assets/page-refinements.js"></script>
     <script defer src="assets/living-wordclouds.js"></script>
     <script defer src="assets/decorative-props.js"></script>
 </head>
@@ -2808,11 +2809,11 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <!-- 词云图装饰 -->
-        <div class="word-cloud-container word-cloud-left">
-            <img src="assets/三角洲词云.png" alt="三角洲词云" class="word-cloud-img">
+        <div class="word-cloud-container word-cloud-left" data-fallback-src="assets/三角洲词云.png" data-fallback-alt="三角洲词云">
+            <noscript><img src="assets/三角洲词云.png" alt="三角洲词云" class="word-cloud-img" loading="lazy" decoding="async"></noscript>
         </div>
-        <div class="word-cloud-container word-cloud-right">
-            <img src="assets/lol词云.png" alt="LOL词云" class="word-cloud-img">
+        <div class="word-cloud-container word-cloud-right" data-fallback-src="assets/lol词云.png" data-fallback-alt="LOL词云">
+            <noscript><img src="assets/lol词云.png" alt="LOL词云" class="word-cloud-img" loading="lazy" decoding="async"></noscript>
         </div>
 
         <h1 class="hero-title">
@@ -2825,9 +2826,7 @@
             <p class="hero-intro" data-i18n="hero.intro1">
                 主播的造梗能力与弹幕的即时玩梗，形成了'黑话'的狂欢广场。'芜湖起飞'、'肉蛋葱鸡'……一个操作，一个口误，都能在瞬间成为全网热词。“黑话”从游戏圈破壁，通过表情包和群聊入侵日常。'肝论文'、'今天又非了'——游戏词汇被赋予了全新的生活化内涵。
             </p>
-            <p class="hero-intro" data-i18n="hero.intro2">
-                我们在国内最大的游戏玩家聚集地之一的Bilibili（B站）爬取了不同游戏tag的视频下超过10万条评论，结合大家自行添加的游戏“黑话”，整理出了一份实时产生、实时更新的游戏“黑话词典”。
-            </p>
+            <p class="hero-intro" data-i18n="hero.intro2">我们在 Bilibili（B站）不同游戏 tag 的视频下采集了超过10万条评论，并结合补充的游戏黑话，整理成这份游戏黑话词典。你可以按游戏浏览词条，也可以查询它们的含义与使用场景。</p>
         </div>
 
         <!-- 游戏选择器 -->
@@ -2841,7 +2840,7 @@
         <div class="stats">
             <div class="stat">
                 <span class="stat-number" id="totalSlangs">0</span>
-                <span class="stat-label" data-i18n="stats.slangs">黑话词汇</span>
+                <span class="stat-label" data-i18n="stats.slangs">当前收录条目</span>
             </div>
             <div class="stat">
                 <span class="stat-number" data-i18n="stats.gamersValue">6亿+</span>
@@ -2911,15 +2910,15 @@
                 <!-- 第二个Section: AI智能查询 -->
                 <div class="search-section" id="search-section">
                     <div class="section-intro">
-                        <p data-i18n="ai.intro">我们基于整理后的游戏黑话词库，构建了本地语义检索系统。输入术语、解释片段或游戏名称后，系统会在词库中匹配相关词条，并展示释义、使用场景、关联游戏与相近词，帮助读者快速理解玩家社群的语言脉络。</p>
+                        <p data-i18n="ai.intro">输入游戏术语，查看 AI 辅助解释与使用场景。解释以收录词条为基础；服务暂不可用时，会切换到本地词库的关键词匹配结果。也可以输入释义片段或游戏名称，寻找相关表达。</p>
                     </div>
                     <div class="search-interface">
                         <h3 class="search-title" data-i18n="ai.title">🔎 智能词典查询</h3>
-                        <p class="search-subtitle" data-i18n="ai.subtitle">输入游戏术语，基于本地词库查看解释和使用场景</p>
+                        <p class="search-subtitle" data-i18n="ai.subtitle">AI 辅助解释，结合本地词库查询</p>
                         <div class="search-container">
-                            <input type="text" class="search-box" placeholder="请输入游戏黑话，如：躺平、卷王、开黑..." id="searchInput" data-i18n-attr="placeholder:ai.placeholder">
-                            <button class="search-btn" id="searchBtn">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <input type="text" class="search-box" placeholder="请输入游戏黑话，如：躺平、卷王、开黑..." id="searchInput" maxlength="80" aria-label="查询黑话" data-i18n-attr="placeholder:ai.placeholder">
+                            <button type="button" class="search-btn" id="searchBtn" aria-label="查询黑话" data-i18n-attr="aria-label:ai.searchAction">
+                                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <circle cx="11" cy="11" r="8"></circle>
                                     <path d="m21 21-4.35-4.35"></path>
                                 </svg>
@@ -2927,13 +2926,13 @@
                         </div>
 
                         <!-- AI加载动画 -->
-                        <div class="ai-loading" id="aiLoading">
+                        <div class="ai-loading" id="aiLoading" role="status" aria-live="polite">
                             <div class="ai-spinner">
                                 <div class="spinner-ring"></div>
                                 <div class="spinner-ring"></div>
                                 <div class="spinner-ring"></div>
                             </div>
-                            <p class="loading-text" data-i18n="ai.loading">正在检索词库...</p>
+                            <p class="loading-text" data-i18n="ai.loading">正在查找词条与解释…</p>
                             <div class="loading-progress">
                                 <div class="progress-bar" id="progressBar"></div>
                             </div>
@@ -2944,7 +2943,7 @@
 
                         <!-- 热门词汇推荐 -->
                         <div class="popular-words" id="popularWords">
-                            <h4 class="popular-title" data-i18n="ai.popular">🔥 热门推荐</h4>
+                            <h4 class="popular-title" data-i18n="ai.popular">✦ 随机发现</h4>
                             <div class="popular-grid" id="popularGrid">
                                 <!-- 动态生成的热门词汇将在这里显示 -->
                             </div>
@@ -3026,14 +3025,14 @@
                                 <div id="chart1" style="width: 100%; height: 600px;"></div>
                                 <div class="chart-conclusion">
                                     <h3 data-i18n="charts.insightTitle">📊 数据解读</h3>
-                                    <p data-i18n="charts.chart1Conclusion">从游戏黑话类型使用频率我们不难发现，行为类术语占据各大游戏的主要术语使用。但个别游戏如”原神“”鸣朝“之类的RPG游戏等职业类术语占据较大使用份额</p>
+                                    <p data-i18n="charts.chart1Conclusion">这份样本覆盖14款游戏。许多游戏的行为类词条占比较高，原神、鸣潮等游戏的职业类词条也较突出。图中比较的是各游戏样本内的词条构成比例，可以结合图例与数值明细逐类查看。</p>
                                 </div>
                             </div>
                             <div class="chart-item">
                                 <div id="chart2" style="width: 100%; height: 1800px;"></div>
                                 <div class="chart-conclusion">
                                     <h3 data-i18n="charts.insightTitle">📊 数据解读</h3>
-                                    <p data-i18n="charts.chart2Conclusion">从各游戏术语情感分布可以看出，中性术语占据主流，主要用于日常交流和行为描述。然而，正面和负面术语的分布比例与游戏类型和社区氛围密切相关，竞技类游戏往往呈现更强烈的情感极化现象。</p>
+                                    <p data-i18n="charts.chart2Conclusion">多数游戏样本中，中性词条占比较高，但不同游戏的分布并不相同。例如，CSGO 的中性比例为93.81%，原神的正面比例为67.63%。这些差异描述当前词条的情感标注分布，不能直接等同于整个玩家社区的情绪。</p>
                                 </div>
                             </div>
                         </div>
@@ -3042,26 +3041,27 @@
                                 <div id="chart3" style="width: 100%; height: 700px;"></div>
                                 <div class="chart-conclusion">
                                     <h3 data-i18n="charts.insightTitle">📊 数据解读</h3>
-                                    <p data-i18n="charts.chart3Conclusion">从类别情感雷达图中我们发现，负面情绪主要集中在机制类术语上，这反映了玩家对游戏平衡性、bug修复和体验优化的强烈关注。这种现象揭示了玩家与游戏开发者之间的互动关系。</p>
+                                    <p data-i18n="charts.chart3Conclusion">按类别分别比较情感比例，机制类词条的负面比例最高，为30.5%；地图/副本类的中性比例为94.7%。这些比例体现不同类别的标注差异，具体词语表达什么，仍要放回使用语境中理解。</p>
                                 </div>
                             </div>
                             <div class="chart-item">
                                 <div id="chart4" style="width: 100%; height: 1800px;"></div>
                                 <div class="chart-conclusion">
                                     <h3 data-i18n="charts.insightTitle">📊 数据解读</h3>
-                                    <p data-i18n="charts.chart4Conclusion">多游戏术语分布雷达图展现了不同游戏类型的语言特色：MOBA游戏注重团队协作术语，FPS游戏强调战术定位词汇，RPG游戏突出角色职业概念，体现了游戏机制对语言文化的深刻影响。</p>
+                                    <p data-i18n="charts.chart4Conclusion">这组雷达图展示12款游戏的分类构成，与前面的14款游戏总览相比，未包含魔兽世界和鸣潮。沿同一条轴比较不同游戏，或打开数值明细，可以更清楚地看到行为、职业、装备等类别的占比差异。</p>
                                 </div>
                             </div>
                         </div>
                         <div class="chart-row">
                             <div class="chart-item">
-                                <h2 style="color: #ffffff; text-align: center; font-size: 24px; font-weight: bold; margin-bottom: 30px; margin-top: 0;" data-i18n="charts.timeTitle">游戏类别使用随时间怎么变化的呢？</h2>
-                                <div class="flourish-embed flourish-bar-chart-race" data-src="visualisation/23800018">
-                                    <script src="https://public.flourish.studio/resources/embed.js"></script>
+                                <h2 style="color: #ffffff; text-align: center; font-size: 24px; font-weight: bold; margin-bottom: 30px; margin-top: 0;" data-i18n="charts.timeTitle">游戏术语类别的动态分布</h2>
+                                <div class="flourish-embed flourish-bar-chart-race" id="timeChartEmbed" data-src="visualisation/23800018">
+                                    <p class="time-chart-status" id="timeChartStatus" role="status">动态图将在进入视野后加载。</p>
                                     <noscript>
                                         <img src="https://public.flourish.studio/visualisation/23800018/thumbnail" width="100%" alt="bar-chart-race visualization" />
                                     </noscript>
                                 </div>
+                                <p class="time-chart-link"><a href="https://public.flourish.studio/visualisation/23800018/" target="_blank" rel="noopener noreferrer" id="timeChartLink">打开完整动态图 ↗</a></p>
                             </div>
                         </div>
                     </div>
@@ -3069,6 +3069,7 @@
 
                 <!-- 引入图表脚本 -->
                 <script src="assets/chart-lifecycle.js"></script>
+                <script src="assets/legacy-chart-ui.js"></script>
                 <script src="assets/slang-sunburst.js"></script>
                 <script src="assets/slang-network-layout.js"></script>
                 <script src="assets/slang-network.js"></script>
@@ -3762,6 +3763,7 @@
             categorizeSlang();
             renderSlangGrid();
             createWordCloud();
+            displayPopularWords();
         }
 
         // Categorize slang terms
@@ -4156,68 +4158,36 @@
         }
         window.addEventListener('dictionary-updated', createFloatingWords);
         // 显示热门词汇（根据语言选择数据源，固定展示12个）
+        let popularRevision = 0;
         async function displayPopularWords() {
             const popularGrid = Utils.safeQuerySelector('#popularGrid');
             if (!popularGrid) return;
-
-            try {
-                const isEnglish = (typeof i18n !== 'undefined' && i18n.getLang && i18n.getLang() === 'en');
-                const src = isEnglish ? 'assets/data_en.json' : 'assets/combined_game_data.json';
-                const response = await fetch(src);
-                const rawData = await response.json();
-
-                if (!rawData || rawData.length === 0) return;
-
-                // 统一数据结构
-                const normalized = rawData.map(item => ({
-                    term: item.term || item.slang,
-                    definition: item.definition,
-                    game: item.game
-                })).filter(x => x.term && x.definition);
-
-                // 固定选择12个词汇
-                const popularSlangs = normalized.slice().sort(() => 0.5 - Math.random()).slice(0, 12);
-
-                const sourceLabel = isEnglish ? 'Source:' : '来源:';
-
-                popularGrid.innerHTML = popularSlangs.map(item => {
-                    const gameLabel = item.game ? (() => {
-                        const gameConfig = gameDataConfig[item.game];
-                        const labelRaw = gameConfig && gameConfig.category ? (gameCategories[gameConfig.category]?.name || gameConfig.category) : item.game;
-                        return (window.i18n && i18n.tCategory) ? i18n.tCategory(labelRaw) : labelRaw;
-                    })() : (isEnglish ? 'General' : '综合');
-
-                    const safeTerm = String(item.term).replace(/'/g, "\\'");
-                    return `
-                        <div class="popular-item" onclick="aiSearchTerm('${safeTerm}')">
-                            <div class="popular-term">${item.term}</div>
-                            <div class="popular-definition">${item.definition}</div>
-                            <div class="popular-game">${sourceLabel} ${gameLabel}</div>
-                        </div>
-                    `;
-                }).join('');
-            } catch (error) {
-                console.error('加载热门词汇失败:', error);
-                // 降级到使用现有数据
-                if (slangData && slangData.length > 0) {
-                    const isEnglish = (typeof i18n !== 'undefined' && i18n.getLang && i18n.getLang() === 'en');
-                    const sourceLabel = isEnglish ? 'Source:' : '来源:';
-                    const popularSlangs = slangData.slice().sort(() => 0.5 - Math.random()).slice(0, 12);
-
-                    popularGrid.innerHTML = popularSlangs.map(item => {
-                        const term = item.slang || item.term;
-                        const gameLabel = item.game ? item.game : (isEnglish ? 'General' : '综合');
-                        const safeTerm = String(term).replace(/'/g, "\\'");
-                        return `
-                            <div class="popular-item" onclick="aiSearchTerm('${safeTerm}')">
-                                <div class="popular-term">${term}</div>
-                                <div class="popular-definition">${item.definition}</div>
-                                <div class="popular-game">${sourceLabel} ${gameLabel}</div>
-                            </div>
-                        `;
-                    }).join('');
-                }
+            const revision = ++popularRevision;
+            const lang = window.i18n?.getLang() || 'zh';
+            const game = currentGame;
+            let rows;
+            try { rows = await window.getDictionaryRows(lang); }
+            catch (_) { rows = slangData.map(row => ({ term: row.slang, definition: row.definition, game: row.gameKey })); }
+            if (revision !== popularRevision || lang !== (window.i18n?.getLang() || 'zh') || game !== currentGame) return;
+            const pool = rows.filter(row => typeof row.term === 'string' && row.term.trim() && typeof row.definition === 'string' && row.definition.trim() && (game === 'all' || (gameKeyAliases[row.game] || row.game) === game));
+            for (let i = pool.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [pool[i], pool[j]] = [pool[j], pool[i]];
             }
+            const cards = pool.slice(0, 12).map(row => {
+                const card = document.createElement('button');
+                card.type = 'button'; card.className = 'popular-item';
+                const key = gameKeyAliases[row.game] || row.game;
+                const gameName = gameDataConfig[key]?.name || key;
+                const gameLabel = window.i18n?.tGame(gameName) || gameName || (lang === 'en' ? 'General' : '通用');
+                for (const [className, text] of [['popular-term', row.term], ['popular-definition', row.definition], ['popular-game', `${lang === 'en' ? 'Game:' : '游戏：'} ${gameLabel}`]]) {
+                    const span = document.createElement('span');
+                    span.className = className; span.textContent = text; card.append(span);
+                }
+                card.addEventListener('click', () => aiSearchTerm(row.term));
+                return card;
+            });
+            popularGrid.replaceChildren(...cards);
         }
 
         // 热门词汇点击直接使用AI搜索
@@ -4344,7 +4314,9 @@
 
             const main = matches[0];
             const term = main.slang || query;
-            const gameName = window.i18n ? i18n.tGame(main.gameKey || main.game || '') : (main.game || main.gameKey || '');
+            const gameKey = gameKeyAliases[main.gameKey || main.game] || main.gameKey || main.game || '';
+            const rawGameName = gameDataConfig[gameKey]?.name || gameKey;
+            const gameName = window.i18n ? i18n.tGame(rawGameName) : rawGameName;
             const categoryRaw = gameDataConfig[main.gameKey]?.category || (isEnglish ? 'General' : '通用');
             const categoryName = window.i18n && i18n.tCategory ? i18n.tCategory(categoryRaw) : categoryRaw;
             const relatedTerms = [...new Set(matches.slice(1).map(item => item.slang).filter(value => value && value !== term))].slice(0, 4);
@@ -4401,7 +4373,8 @@
 
             const query = term || (searchInput ? searchInput.value.trim() : '');
             if (!query) {
-                alert(isEnglish ? 'Please enter a gaming term' : '请输入要查询的游戏黑话');
+                displayAIError(isEnglish ? 'Please enter a gaming term.' : '请输入要查询的游戏黑话。');
+                searchInput?.focus();
                 return;
             }
 

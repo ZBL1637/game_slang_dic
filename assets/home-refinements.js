@@ -11,7 +11,7 @@
     const began = performance.now();
     const tick = now => {
       const p = reduced.matches ? 1 : Math.max(0, Math.min(1, (now - began) / 600));
-      target.textContent = `${Math.round(start + (count - start) * (1 - (1 - p) ** 3))}+`;
+      target.textContent = `${Math.round(start + (count - start) * (1 - (1 - p) ** 3))}`;
       if (p < 1) counterFrame = requestAnimationFrame(tick);
     };
     counterFrame = requestAnimationFrame(tick);

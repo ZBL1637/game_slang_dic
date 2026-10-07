@@ -36,8 +36,8 @@
       return operation(controller.signal);
     })]).finally(() => { clearTimeout(timer); parentSignal?.removeEventListener('abort', cancel); });
   }
-  async function readJSON(response) {
-    if (!response.ok || !/application\/json/i.test(response.headers.get('content-type') || '')) throw new Error('Invalid response');
+  async function readJSON(response, allowNotFound = false) {
+    if ((!response.ok && !(allowNotFound && response.status === 404)) || !/application\/json/i.test(response.headers.get('content-type') || '')) throw new Error('Invalid response');
     const reader = response.body.getReader(), chunks = []; let bytes = 0;
     try {
       for (;;) {
@@ -59,9 +59,17 @@
       if (!config.endpoint || typeof input.query !== 'string' || input.query.length > 80) return { result: localResult, source: 'local' };
       try {
         const payload = { query: input.query, gameId: String(input.gameId || 'all'), locale: input.locale === 'en' ? 'en' : 'zh', context: String(input.context || '').slice(0, 1000) };
-        const data = await deadline(async requestSignal => readJSON(await fetcher(config.endpoint, {
-          method: 'POST', signal: requestSignal, credentials: 'omit', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
-        })), config.timeoutMs, signal);
+        const responseData = await deadline(async requestSignal => {
+          const response = await fetcher(config.endpoint, {
+            method: 'POST', signal: requestSignal, credentials: 'omit', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+          });
+          return { status: response.status, data: await readJSON(response, true) };
+        }, config.timeoutMs, signal);
+        const { status, data } = responseData;
+        if (status === 404) {
+          if (data?.error === 'no_local_evidence') return { result: localResult, source: localResult ? 'local' : 'not-found' };
+          throw new Error('Invalid endpoint');
+        }
         const result = validateResult(data.result);
         if (!result || data.source !== 'ai') throw new Error('Invalid result');
         result.level = input.locale === 'en' ? 'AI-assisted explanation' : 'AI 辅助解释';

@@ -7,6 +7,22 @@
   50% { translate: 0 -4px; }
 }
 .stat-number { font-variant-numeric: tabular-nums; }
+/* Let short desktop windows grow without pushing the title behind the header. */
+:root { --site-header-height: 84px; }
+html { scroll-padding-top: calc(var(--site-header-height) + 24px); }
+.hero {
+  height: auto;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-top: calc(var(--site-header-height) + 48px);
+  padding-bottom: 56px;
+}
+.hero > :not(.word-cloud-container) { flex-shrink: 0; }
+.particles { overflow: clip; }
+@media (max-width: 768px) {
+  :root { --site-header-height: 124px; }
+  .hero { padding-top: calc(var(--site-header-height) + 30px); padding-bottom: 36px; }
+}
 body.page-effects-paused .particle,
 body.page-effects-paused .word-cloud-img { animation-play-state: paused; }
 @media (hover: none), (pointer: coarse) {

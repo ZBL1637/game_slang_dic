@@ -103,16 +103,17 @@
   text-shadow: 0 0 10px color-mix(in srgb, var(--word-color, #a855f7) 50%, transparent);
   box-shadow: 0 4px 12px color-mix(in srgb, var(--word-color, #a855f7) 17%, transparent);
   backdrop-filter: blur(5px);
+  animation: none;
+  transition: border-color .18s ease, background .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+.ws-drifting .ws-word-face {
   animation: ws-float var(--drift-duration,12s) ease-in-out var(--drift-delay,0s) infinite;
   animation-direction:var(--drift-direction,normal);
-  transition: border-color .18s ease, background .18s ease, box-shadow .18s ease, filter .18s ease;
 }
 .ws-word-face::after {
   content:'';position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;
   box-shadow:0 0 20px color-mix(in srgb,var(--word-color,#a855f7) 32%,transparent);
   opacity:.25;
-  animation:ws-hover-glow var(--drift-duration,12s) ease-in-out var(--drift-delay,0s) infinite;
-  animation-direction:var(--drift-direction,normal);
 }
 #floatingWords .ws-word:is(.is-scanned, .is-pinned, :focus-visible) { z-index: 14; }
 .ws-word:is(.is-scanned, .is-pinned, :hover, :focus-visible) .ws-word-face {
@@ -216,7 +217,6 @@
   50% {transform:translate3d(var(--float-x),calc(var(--float-y) * -1),0);}
   75% {transform:translate3d(calc(var(--float-x) * -.25),calc(var(--float-y) * .25),0);}
 }
-@keyframes ws-hover-glow {0%,100% {opacity:.18;}50% {opacity:.6;}}
 @media (max-width: 780px) {
   #floatingContainer.ws-board { width: 100%; }
   .ws-header { padding: 16px 16px 4px; gap: 6px 12px; }
@@ -232,7 +232,7 @@
 }
 @media (hover: none), (pointer: coarse) { .ws-lens { display: none; } }
 @media (prefers-reduced-motion: reduce) {
-  .ws-word-face { animation: none; transform: none; transition: none; }
+  .ws-word-face,.ws-drifting .ws-word-face { animation: none; transform: none; transition: none; }
   .ws-word-face::after {animation:none;opacity:.25;}
   .ws-lens { transition: none; }
   .ws-holo-flow::before,.ws-holo-flow::after,.ws-holo-sparks span {animation:none;}

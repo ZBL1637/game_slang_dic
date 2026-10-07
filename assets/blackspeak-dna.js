@@ -156,7 +156,9 @@
   }
   function evidenceNode(item){
     const q=questions.find(question=>question.id===item.questionId),option=q.options.find(o=>o.id===item.optionId),p=el('p','dna-evidence');
-    p.append(el('strong','',tr('第 '+(questions.indexOf(q)+1)+' 题','Question '+(questions.indexOf(q)+1))),document.createTextNode(' · '+local(q.title)),el('br'),document.createTextNode(tr('你的选择：','Your choice: ')+local(option.label)));return p;
+    const rank=q.type==='rank'?(answers[q.id]||[]).indexOf(item.optionId)+1:0;
+    const prefix=rank>0?tr('你排在第 '+rank+' 位：','Ranked #'+rank+': '):tr('你的选择：','Your choice: ');
+    p.append(el('strong','',tr('第 '+(questions.indexOf(q)+1)+' 题','Question '+(questions.indexOf(q)+1))),document.createTextNode(' · '+local(q.title)),el('br'),document.createTextNode(prefix+local(option.label)));return p;
   }
   const percent=value=>new Intl.NumberFormat(lang(),{maximumFractionDigits:1}).format(value)+'%';
   function showReport(moveFocus=false){

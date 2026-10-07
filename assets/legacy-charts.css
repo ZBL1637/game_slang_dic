@@ -1,0 +1,52 @@
+/* Scoped to the original chart hosts; controls and exact values share their theme. */
+.lc-root { width:100%; box-sizing:border-box; min-width:0; padding:12px 0!important; color:#eee4f6; }
+#chart1.lc-root,#chart2.lc-root,#chart3.lc-root,#chart4.lc-root { height:auto!important; min-height:0!important; }
+.lc-root * { box-sizing:border-box; }
+.lc-root .lc-title { margin:0 0 8px; font:600 clamp(18px,2.1vw,24px)/1.4 Inter,sans-serif; text-align:center; color:#f3eafa; }
+.lc-root .lc-scope,.lc-root .lc-hint { margin:8px 0 16px; text-align:center; font:400 12px/1.6 Inter,sans-serif; color:#c9b8d7; }
+.lc-root .lc-legend { display:flex; flex-wrap:wrap; justify-content:center; gap:8px 18px; margin:14px 0; padding:0; list-style:none; }
+.lc-root .lc-legend li { display:flex; align-items:center; gap:6px; color:#ddd0e9; font:400 12px/1.5 Inter,sans-serif; }
+.lc-root .lc-swatch { width:10px; height:10px; border-radius:2px; flex:none; }
+.lc-root .lc-controls { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:8px 12px; margin:14px 0; }
+.lc-root .lc-controls label { font-size:13px; color:#ddcfe9; }
+.lc-root select { width:auto; max-width:100%; min-width:0; min-height:40px; padding:8px 28px 8px 12px; border:1px solid #79588f; border-radius:7px; background:#21142e; color:#f1e6f8; font:inherit; color-scheme:dark; }
+.lc-root select:focus-visible,.lc-root summary:focus-visible,.lc-root .lc-table-wrap:focus-visible { outline:2px solid #72c3cb; outline-offset:3px; }
+.lc-root .lc-canvas { width:100%; min-width:0; }
+.lc-root .lc-bar { height:400px; }
+.lc-root .lc-radar { height:310px; }
+.lc-root .lc-donut { height:220px; }
+.lc-root .lc-unavailable { min-height:0; padding:20px 10px; color:#d4c2e2; font:400 13px/1.6 Inter,sans-serif; text-align:center; }
+.lc-root .lc-game-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr)); gap:18px; width:100%; min-width:0; align-items:start; }
+.lc-root .lc-game-grid.lc-one { grid-template-columns:minmax(0,500px); justify-content:center; }
+.lc-root .lc-game-card { min-width:0; padding:16px 12px 12px; border:1px solid rgba(163,112,190,.24); border-radius:10px; background:rgba(67,37,86,.15); }
+.lc-root .lc-game-card h4 { margin:0; text-align:center; color:#e9dbf4; font:600 15px/1.4 Inter,sans-serif; overflow-wrap:anywhere; }
+.lc-root .lc-values { margin:0; display:grid; gap:7px; font:400 13px/1.45 Inter,sans-serif; }
+.lc-root .lc-values > div { display:flex; justify-content:space-between; gap:10px; }
+.lc-root .lc-values dt { margin:0; }
+.lc-root .lc-values dd { margin:0; color:#f0e8f7; font-variant-numeric:tabular-nums; }
+.lc-root .lc-axis-key { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:5px 22px; padding:0 0 0 24px; margin:0 8px 14px; color:#cfc0df; font:400 11px/1.5 Inter,sans-serif; }
+.lc-root .lc-axis-key[hidden] { display:none; }
+.lc-root .lc-axis-key li { padding-left:2px; overflow-wrap:anywhere; }
+.lc-root .lc-axis-key li::marker { color:#ca9ced; font-weight:600; }
+.lc-root .lc-details { margin:14px 0 0; border-top:1px solid rgba(172,132,200,.23); }
+.lc-root .lc-details summary { cursor:pointer; padding:12px 4px; color:#d4b9e8; font:500 13px/1.5 Inter,sans-serif; }
+.lc-root .lc-table-wrap { width:100%; overflow-x:auto; border:1px solid rgba(154,109,187,.25); border-radius:6px; }
+.lc-root .lc-table { width:100%; border-collapse:collapse; text-align:left; font:400 12px/1.5 Inter,sans-serif; color:#e4d7ee; }
+.lc-root .lc-table caption { padding:9px 10px; color:#c4abd8; text-align:left; font-weight:500; }
+.lc-root .lc-table th,.lc-root .lc-table td { padding:8px 10px; border-top:1px solid rgba(154,109,187,.18); }
+.lc-root .lc-table th { font-weight:500; }
+.lc-root .lc-table td { text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums; }
+.lc-root .lc-table thead { background:rgba(112,63,144,.15); }
+@media (max-width:699px) {
+ .lc-root .lc-game-grid { grid-template-columns:minmax(0,1fr); gap:14px; }
+ .lc-root .lc-game-card { padding:14px 8px 10px; }
+ .lc-root .lc-legend { gap:7px 12px; }
+ .lc-root .lc-bar { height:410px; }
+ .lc-root .lc-controls { display:block; }
+ .lc-root .lc-controls label { display:block; margin-bottom:6px; }
+ .lc-root select { width:100%; font-size:13px; }
+ .lc-root .lc-table th,.lc-root .lc-table td { padding:7px 8px; }
+}
+@media (max-width:360px) {
+ .lc-root .lc-axis-key { grid-template-columns:minmax(0,1fr); }
+}

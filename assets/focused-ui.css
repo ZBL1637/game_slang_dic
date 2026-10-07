@@ -1,5 +1,5 @@
 /* Integration only: retain the original page, section widths and chart styles. */
-html { scroll-padding-top: 110px; }
+html { scroll-padding-top: calc(var(--site-header-height, 84px) + 24px); }
 :where(a, button, select, input, summary):focus-visible { outline: 2px solid #D946EF; outline-offset: 5px; }
 .lang-toggle { min-height: 44px; }
 .dna-test-module { width: 100%; min-width: 0; }
@@ -7,6 +7,14 @@ html { scroll-padding-top: 110px; }
 .floating-word { will-change: transform; }
 #floatingWords { overflow: clip; }
 .section-photo img { height: auto; }
+.popular-item { color: inherit; font: inherit; min-width: 0; width: 100%; }
+.popular-item > span { display: block; overflow-wrap: anywhere; }
+.popular-term { color: #d39bde; }
+.popular-grid { grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); }
+.time-chart-status { padding: 36px 20px; text-align: center; color: #ccc1d3; }
+.time-chart-status[hidden] { display: none; }
+.time-chart-link { margin: 18px 0 4px; text-align: right; font-size: 13px; }
+.time-chart-link a { color: #d39bde; text-underline-offset: 4px; }
 @media (max-width: 780px) {
   .dna-test-module { margin: 24px 0 !important; }
   .floating-words-section { padding-left: 0; padding-right: 0; }
@@ -17,6 +25,10 @@ html { scroll-padding-top: 110px; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 @media (max-width: 600px) {
+  .conclusion-section { width: 100%; min-width: 0; }
+  .conclusion-content { grid-template-columns: minmax(0, 1fr); }
+  .conclusion-text, .conclusion-stats { min-width: 0; overflow-wrap: anywhere; }
+  .conclusion-stats { padding: 24px 14px; }
   /* Expand only the quiz inside the original page's 40px mobile margins. */
   .dna-test-module { width: calc(100% + 40px); margin-left: -20px !important; margin-right: -20px !important; }
   .viz-container { padding-left: 0; padding-right: 0; }

@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
+import { createWorker } from '../backend/core.mjs';
 
 const [code, html, defaultConfig] = await Promise.all([
   readFile(new URL('../assets/dictionary-api.js', import.meta.url), 'utf8'),
@@ -51,6 +52,37 @@ test('bad status, malformed or oversized output all preserve the local dictionar
     assert.equal(outcome.source, 'fallback'); assert.equal(outcome.result.definition, local.definition); assert.match(outcome.result.level, /本地/);
     assert.equal(calls, 2, 'failed paid requests are never retried');
   }
+});
+test('only the explicit no-evidence 404 is a normal not-found, retaining a local match without a failure label', async () => {
+  for (const localResult of [null, local]) {
+    let calls = 0;
+    const c = client(async () => ++calls === 1 ? json({ endpoint: 'https://proxy.example.test/api/slang/explain' }) : json({ error: 'no_local_evidence' }, 404));
+    const outcome = await c.instance.search({ query: localResult ? '开黑' : 'qa未收录词条x927', locale: 'zh' }, localResult);
+    assert.equal(outcome.source, localResult ? 'local' : 'not-found'); assert.equal(outcome.result, localResult); assert.equal(calls, 2);
+  }
+  for (const response of [json({ error: 'not_found' }, 404), json({ error: 'no_local_evidence' }, 429), json({ error: 'no_local_evidence' }, 500), json({ error: 'no_local_evidence' }), new Response('Not Found', { status: 404 })]) {
+    let calls = 0; const c = client(async () => ++calls === 1 ? json({ endpoint: 'https://proxy.example.test/api/slang/explain' }) : response);
+    const outcome = await c.instance.search({ query: '开黑', locale: 'en' }, null);
+    assert.equal(outcome.source, 'fallback'); assert.equal(outcome.result, null); assert.equal(calls, 2);
+  }
+});
+test('a rejected wrong-language provider answer falls back to the current English dictionary evidence with no paid retry', async () => {
+  const featured = JSON.parse(await readFile(new URL('../assets/featured-terms.json', import.meta.url), 'utf8'));
+  const definition = featured.find(row => row.term === '开黑').definition.en;
+  const englishLocal = { ...local, definition, usage: 'Used when forming a team.', examples: [], context: 'Delta Force', level: 'Local dictionary' };
+  let providerCalls = 0, clientCalls = 0;
+  const worker = createWorker({ dictionaries: {}, featured, fetch: async () => {
+    providerCalls++; return json({ choices: [{ finish_reason: 'stop', message: { content: JSON.stringify({ ...local, definition: '和朋友一起组队玩游戏。' }) } }] });
+  } });
+  const c = client(async (url, options) => {
+    if (++clientCalls === 1) return json({ endpoint: 'https://proxy.example.test/api/slang/explain' });
+    return worker.fetch(new Request(url, { ...options, headers: { ...options.headers, Origin: 'https://zbl1637.github.io', 'CF-Connecting-IP': '192.0.2.8' } }), {
+      ALLOWED_ORIGIN: 'https://zbl1637.github.io', LLM_BASE_URL: 'https://provider.example.test', LLM_MODEL: 'test-model', LLM_API_KEY: 'not-a-real-key', IP_LIMITER: { async limit() { return { success: true }; } }
+    });
+  });
+  const outcome = await c.instance.search({ query: '开黑', gameId: 'all', locale: 'en' }, englishLocal);
+  assert.equal(outcome.source, 'fallback'); assert.equal(outcome.result.definition, definition); assert.equal(outcome.result.term, '开黑');
+  assert.match(outcome.result.level, /^Local dictionary/); assert.equal(providerCalls, 1); assert.equal(clientCalls, 2);
 });
 test('remote timeout aborts the request and user cancellation never becomes a fallback render', async () => {
   let calls = 0, upstreamSignal;
@@ -102,6 +134,15 @@ test('language changes and leaving the page cancel in-flight lookup and release 
     const h = queryHarness(); h.context.aiSearchTerm('开黑'); const pending = h.run(); cancel(h);
     assert.equal(h.requests[0].options.signal.aborted, true); assert.equal(h.elements['#searchBtn'].disabled, false); assert.equal(h.loading.at(-1), false);
     h.requests[0].resolve({ result: local, source: 'remote' }); await pending; assert.equal(h.rendered.length, 0);
+  }
+});
+test('the real query renderer treats no-evidence as missing vocabulary instead of a service failure in either language', async () => {
+  for (const lang of ['zh', 'en']) {
+    const h = queryHarness(); h.language(lang); h.context.aiSearchTerm('qa未收录词条x927'); const pending = h.run();
+    h.requests[0].resolve({ result: null, source: 'not-found' }); await pending;
+    assert.equal(h.rendered.length, 1);
+    assert.doesNotMatch(h.rendered[0].error, /外部解释暂不可用|Remote explanation is currently unavailable/i);
+    assert.match(h.rendered[0].error, lang === 'en' ? /No matching term/i : /未找到/);
   }
 });
 test('remote text goes through the original HTML escaping for every visible result field', () => {

@@ -123,7 +123,9 @@ test('scanning coalesces the latest pointer sample, locks a cached card and neve
   assert.equal(api.getState().scannedKey, b.dataset.key); assert.equal(h.detail().hidden, true);
   const atmosphere = h.field.querySelector('.ws-atmosphere');
   assertPixels(atmosphere.style['--scan-x'], q.x); assertPixels(atmosphere.style['--scan-y'], q.y);
-  assert.deepEqual(atmosphere.style.writes.filter(([name]) => name.startsWith('--scan-')), [['--scan-x', `${q.x}px`], ['--scan-y', `${q.y}px`]], 'only the latest sample writes the two background coordinates');
+  const coordinateWrites = atmosphere.style.writes.filter(([name]) => name.startsWith('--scan-'));
+  assert.deepEqual(coordinateWrites.map(([name]) => name), ['--scan-x', '--scan-y'], 'only the latest sample writes exactly the two background coordinates');
+  assertPixels(coordinateWrites[0][1], q.x); assertPixels(coordinateWrites[1][1], q.y);
   assert.equal(b.classList.contains('is-scanned'), true); assert.equal(h.field.querySelector('.ws-lock').hidden, false);
   assert.equal(h.board.querySelector('.ws-status').textContent, '等待扫描');
   h.tickTimers(); assert.ok(h.board.querySelector('.ws-status').textContent.includes(b.textContent));
@@ -171,13 +173,40 @@ test('keyboard focus locks without a popup; Enter focuses close only after visib
   assert.equal(h.doc.activeElement, b); assert.equal(api.getState().pinnedKey, null); h.flush(); api.destroy();
 });
 
-test('mobile uses twelve stable words, ignores touch scanning, and supports direct tap and responsive pinned retention', () => {
+test('mobile fills its existing field, ignores touch scanning, and supports direct tap and responsive pinned retention', () => {
   const h = harness({ width: 390, fine: false }), api = h.mount();
-  assert.equal(h.buttons().length, 12); assert.equal(h.board.querySelector('.ws-hint').textContent, '点击词条解析，点空白处收起');
+  const mobileCount = h.buttons().length;
+  assert.ok(mobileCount > 12); assert.equal(h.field.clientHeight, 500); assert.equal(h.board.querySelector('.ws-hint').textContent, '点击词条解析，点空白处收起');
   h.move(100, 100, 'touch'); h.flush(); assert.equal(api.getState().scannedKey, null); assert.equal(h.field.querySelector('.ws-lens').hidden, true);
-  h.click(h.buttons()[0]); assert.ok(api.getState().pinnedKey); h.resize(1000); assert.equal(h.buttons().length, 30);
-  h.click(h.buttons()[29]); const fixed = api.getState().pinnedKey; h.resize(390);
-  assert.equal(h.buttons().length, 12); assert.ok(api.getState().keys.includes(fixed)); assert.equal(api.getState().pinnedKey, fixed); api.destroy();
+  h.click(h.buttons()[0]); assert.ok(api.getState().pinnedKey); h.resize(1000); assert.ok(h.buttons().length > 30); assert.equal(h.field.clientHeight, 560);
+  h.click(h.buttons().at(-1)); const fixed = api.getState().pinnedKey; h.resize(390);
+  assert.ok(h.buttons().length > 12); assert.equal(h.field.clientHeight, 500); assert.ok(api.getState().keys.includes(fixed)); assert.equal(api.getState().pinnedKey, fixed); api.destroy();
+});
+
+test('density adapts to measured long English words, preserves keyboard focus when shrinking and bounds animation work', () => {
+  const h = harness({ width: 1000, rng: () => .37 }), api = h.mount();
+  const desktopCount = h.buttons().length, focused = h.buttons().at(-1);
+  assert.ok(desktopCount > 30 && desktopCount <= 64);
+  assert.ok(h.buttons().filter(button => button.classList.contains('ws-drifting')).length <= 24);
+  focused.focus(); h.resize(223);
+  assert.equal(h.doc.activeElement, focused); assert.ok(api.getState().keys.includes(focused.dataset.key));
+  assert.equal(h.field.clientHeight, 500);
+  assert.ok(h.buttons().filter(button => button.classList.contains('ws-drifting')).length <= 12);
+  const longRows = Array.from({ length: 80 }, (_, i) => ({ slang: `Long range coordinated counter-jungling strategy number ${i}`, definition: `Meaning ${i}`, game: 'Game' }));
+  h.mount(longRows, { lang: 'en' });
+  assert.equal(api.getState().pinnedKey, null); assert.equal(h.field.clientHeight, 500);
+  assert.ok(h.buttons().length > 0 && h.buttons().length < desktopCount);
+  const state = h.win.WordScanner.getState(h.field);
+  for (const card of state.layout) {
+    assert.ok(card.x >= 4 && card.x + card.width + 4 <= 223);
+    assert.ok(card.y >= 4 && card.y + card.height + 4 <= 500);
+  }
+  state.layout[0].x = -999; assert.ok(api.getState().layout[0].x >= 4, 'inspection returns copies, not mutable controller positions');
+  assert.equal(h.frames.size, 0, 'denser content does not install a continuous JavaScript loop');
+  h.click(h.buttons()[0], 0); const source = api.getState().pinnedKey;
+  h.resize(390); h.doc.emit('keydown', { key: 'Escape' });
+  assert.equal(h.doc.activeElement.dataset.key, source);
+  api.destroy(); assert.equal(h.win.WordScanner.getState(h.field), null);
 });
 
 test('repeated mounts and font measurements preserve the selected pool, pin and single owned DOM tree', () => {
